@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "758306445638",
+    "project_id": "ssuchat-41130",
+    "storage_bucket": "ssuchat-41130.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758306445638:android:d4f90219acd2cc8f9cad47",
+        "android_client_info": {
+          "package_name": "com.example.ssuchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChZ0xltdZ66bCkgEeadTJAJ3bjVTertBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
