@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.ssuchat"
-    compileSdk = 33
+    compileSdk = 34
 
     viewBinding {
         enable = true;
