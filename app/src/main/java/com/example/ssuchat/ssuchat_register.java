@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.ssuchat.databinding.ActivitySsuchatRegisterBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.ktx.Firebase;
 
 public class ssuchat_register extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
