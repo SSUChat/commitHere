@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ssuchat_main_page.class);
                 startActivity(intent);
             }
-        }, 4000);
+        }, 2000);
 
     }
 }
