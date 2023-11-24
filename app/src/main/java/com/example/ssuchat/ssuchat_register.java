@@ -52,6 +52,14 @@ public class ssuchat_register extends AppCompatActivity {
             }
         });
 
+        binding.goLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ssuchat_register.this, ssuchat_login.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void onStart() {

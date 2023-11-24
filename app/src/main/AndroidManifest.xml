@@ -13,6 +13,12 @@
         android:theme="@style/Theme.SSUChat"
         tools:targetApi="31">
         <activity
+            android:name=".FindPassword"
+            android:exported="false" />
+        <activity
+            android:name=".ForgetPassword"
+            android:exported="false" />
+        <activity
             android:name=".ssuchat_main_page"
             android:exported="false" />
         <activity

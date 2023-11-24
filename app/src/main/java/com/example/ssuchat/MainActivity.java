@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, ssuchat_main_page.class);
+                Intent intent = new Intent(MainActivity.this, ssuchat_login.class);
                 startActivity(intent);
             }
         }, 2000);

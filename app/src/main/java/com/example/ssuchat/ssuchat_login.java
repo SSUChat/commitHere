@@ -51,6 +51,22 @@ public class ssuchat_login extends AppCompatActivity {
             }
         });
 
+        binding.goRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ssuchat_login.this, ssuchat_register.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.goFindPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ssuchat_login.this, ForgetPassword.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void onStart() {
@@ -86,10 +102,13 @@ public class ssuchat_login extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, ssuchat_main_page.class);
             intent.putExtra("USER_PROFILE", "email: " + user.getEmail() + "\n" + "uid: " + user.getUid());
 
             startActivity(intent);
+        }
+        else {
+            Toast.makeText(this, "아이디 또는 비밀번호가 틀렸거나 존재하지 않습니다!!", Toast.LENGTH_SHORT).show();
         }
     }
 }
