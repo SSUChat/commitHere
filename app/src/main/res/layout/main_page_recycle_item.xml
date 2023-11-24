@@ -6,9 +6,17 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/main_page_shape"/>
+        android:orientation="vertical"
+        android:background="@drawable/main_page_shape">
+
+        <TextView
+            android:id="@+id/main_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>
