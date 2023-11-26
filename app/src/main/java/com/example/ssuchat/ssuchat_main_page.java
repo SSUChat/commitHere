@@ -38,6 +38,7 @@ public class ssuchat_main_page extends AppCompatActivity {
         private MyViewHolder(MainPageRecycleItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
         }
 
         private void bind(String text) {
