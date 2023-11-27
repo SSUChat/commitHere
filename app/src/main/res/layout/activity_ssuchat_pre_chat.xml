@@ -22,7 +22,7 @@
             android:background="@mipmap/ic_back"/>
 
         <TextView
-            android:id="@+id/subject_name"
+            android:id="@+id/class_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -30,7 +30,8 @@
             android:textSize="20dp"
             android:gravity="center"
             android:layout_weight="10"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:text="사용자인터페이스및실습(나)"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -43,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal">
 
         <TextView
@@ -95,12 +97,42 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/live_member"
+            android:id="@+id/live_member_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:layout_margin="24dp">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/class_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="지금 수업이 진행중입니다!"
+                android:textSize="24dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/button_enter_class"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/button_shape"
+                android:text="실시간 채팅 입장!" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
