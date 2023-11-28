@@ -16,6 +16,7 @@
         android:weightSum="10">
 
         <TextView
+            android:id="@+id/logout_go_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/ic_back"/>

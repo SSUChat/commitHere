@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ssuchat.databinding.ActivitySsuchatMainPageBinding;
@@ -30,6 +32,14 @@ public class ssuchat_main_page extends AppCompatActivity {
 
         binding.recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerViewMainPage.setAdapter(new MyAdapter(list));
+
+        binding.logoutGoLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ssuchat_main_page.this, ssuchat_login.class);
+                startActivity(intent); // dialog 넣어서 정말 뒤로가시면 로그아웃 된다는 알림 넣어야 함
+            }
+        });
     }
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
