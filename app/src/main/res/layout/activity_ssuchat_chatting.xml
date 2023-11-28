@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
-        android:background="#078EAD"
+        android:background="#6FD1C5"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -44,19 +44,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:isScrollContainer="true"
-        android:layout_weight="9">
+        android:layout_weight="9"
+        android:background="#A9CCDF">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
-        android:background="#078EAD"
+        android:background="#6FD1C5"
         android:layout_weight="1">
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="100dp"
+            android:hint="메세지를 입력하세요."
+            android:background="@color/white"/>
 
+        <TextView
+            android:id="@+id/transmit_message_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="12dp"
+            android:text="전송"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/white" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

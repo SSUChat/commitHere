@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
-        android:background="#078EAD"
+        android:background="#6FD1C5"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
