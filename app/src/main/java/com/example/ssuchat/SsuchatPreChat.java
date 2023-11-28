@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ssuchat.databinding.ActivitySsuchatPreChatBinding;
-import com.example.ssuchat.databinding.MainPageRecycleItemBinding;
+import com.example.ssuchat.databinding.SsuchatLiveMemberItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +43,16 @@ public class SsuchatPreChat extends AppCompatActivity {
     }
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
-        private MainPageRecycleItemBinding binding;
+        private SsuchatLiveMemberItemBinding binding;
 
-        private MyViewHolder(MainPageRecycleItemBinding binding) {
+        private MyViewHolder(SsuchatLiveMemberItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
         }
 
         private void bind(String text) {
-            binding.mainPageText.setText(text);
+            binding.memberName.setText(text);
         }
     }
 
@@ -67,7 +67,7 @@ public class SsuchatPreChat extends AppCompatActivity {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            MainPageRecycleItemBinding binding = MainPageRecycleItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            SsuchatLiveMemberItemBinding binding = SsuchatLiveMemberItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
             return new MyViewHolder(binding);
         }

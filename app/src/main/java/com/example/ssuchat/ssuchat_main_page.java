@@ -88,5 +88,4 @@ public class ssuchat_main_page extends AppCompatActivity {
             return super.getItemViewType(position);
         }
     }
-
 }
