@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="강의중인 과목"
+            android:text="강의 추가"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20dp"
@@ -39,37 +39,8 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/class_add_button"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical"
-        android:layout_margin="20dp"
-        android:background="@drawable/main_page_shape_add">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/class_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="#6A6B6B"
-                android:textSize="18dp"
-                android:text="+ 강의 추가 +" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_main_page_professor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:isScrollContainer="true">
-
-    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
