@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivitySsuchatRegisterBinding;
@@ -32,8 +33,6 @@ public class ssuchat_register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ssuchat_register);
-
         ActivitySsuchatRegisterBinding binding = ActivitySsuchatRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -52,9 +51,10 @@ public class ssuchat_register extends AppCompatActivity {
             }
         });
 
-        binding.goLoginButton.setOnClickListener(new View.OnClickListener() {
+        binding.buttonSignupCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 취소 버튼을 눌렀을 때 ssuchat_login 액티비티로 이동
                 Intent intent = new Intent(ssuchat_register.this, ssuchat_login.class);
                 startActivity(intent);
             }
@@ -97,7 +97,6 @@ public class ssuchat_register extends AppCompatActivity {
         if (user != null) {
             Intent intent = new Intent(this, ssuchat_login.class);
             intent.putExtra("USER_PROFILE", "email: " + user.getEmail() + "\n" + "uid: " + user.getUid());
-
             startActivity(intent);
         }
     }

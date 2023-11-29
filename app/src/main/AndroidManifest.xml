@@ -24,9 +24,7 @@
         <activity
             android:name=".SsuchatPreChat"
             android:exported="false" />
-        <activity
-            android:name=".FindPassword"
-            android:exported="false" />
+
         <activity
             android:name=".ForgetPassword"
             android:exported="false" />
@@ -35,7 +33,7 @@
             android:exported="false" />
         <activity
             android:name=".ssuchat_register"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ssuchat_login"
             android:exported="false" />
@@ -48,6 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
