@@ -83,6 +83,7 @@
             android:layout_marginRight="4dp"
             android:background="@drawable/edittext_shape"
             android:hint="비밀번호 입력(대/소문자 구분)"
+            android:inputType="textPassword"
             android:padding="16dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
