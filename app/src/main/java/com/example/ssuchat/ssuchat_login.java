@@ -131,14 +131,14 @@ public class ssuchat_login extends AppCompatActivity {
 
     }
 
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            updateUI(currentUser);
-        }
-    }
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            updateUI(currentUser);
+//        }
+//    }
 
     private void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
@@ -175,6 +175,8 @@ public class ssuchat_login extends AppCompatActivity {
         if (user != null) {
             Intent intent = new Intent(this, ssuchat_main_page.class);
             intent.putExtra("USER_PROFILE", "email: " + user.getEmail() + "\n" + "uid: " + user.getUid());
+
+            Toast.makeText(this, "로그인 성공!!", Toast.LENGTH_SHORT).show();
 
             startActivity(intent);
         } else {
