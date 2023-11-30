@@ -128,7 +128,7 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/button_enter_class"
+                android:id="@+id/button_enter_chatting"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="24dp"

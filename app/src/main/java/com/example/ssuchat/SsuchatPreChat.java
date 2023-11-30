@@ -40,6 +40,14 @@ public class SsuchatPreChat extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.buttonEnterChatting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SsuchatPreChat.this, SsuchatChatting.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private class MyViewHolder extends RecyclerView.ViewHolder {

@@ -85,7 +85,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="42dp"
-            android:hint="강의번을 입력하세요!"
+            android:hint="강의번호를 입력하세요!"
             android:background="@drawable/edittext_shape"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"/>
@@ -100,7 +100,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="42dp"
-            android:hint="건물을 입력하세요!"
+            android:hint="건물명을 입력하세요!"
             android:background="@drawable/edittext_shape"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"/>
