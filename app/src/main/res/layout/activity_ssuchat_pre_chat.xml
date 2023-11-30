@@ -47,13 +47,16 @@
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal">
 
-        <TextView
+        <Button
             android:id="@+id/subject_information"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="24dp"
             android:background="@drawable/button_shape_color"
-            android:text="과목정보"/>
+            android:text="과목정보"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,7 +66,7 @@
             android:textSize="24dp"
             android:textStyle="bold"/>
 
-        <TextView
+        <Button
             android:id="@+id/attendance_check_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -72,7 +75,10 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
             android:background="@drawable/button_shape_color"
-            android:text="출석 체크" />
+            android:text="출석 체크"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,7 +115,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:layout_gravity="bottom">
 
             <TextView
                 android:id="@+id/class_start"
@@ -120,7 +127,7 @@
                 android:textSize="24dp"
                 android:textStyle="bold"/>
 
-            <TextView
+            <Button
                 android:id="@+id/button_enter_class"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -129,10 +136,12 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:background="@drawable/button_shape_color"
-                android:text="실시간 채팅 입장!" />
+                android:text="실시간 채팅 입장!"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
 
         </LinearLayout>
-
 
     </LinearLayout>
 

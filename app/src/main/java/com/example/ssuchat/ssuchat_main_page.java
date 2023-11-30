@@ -52,7 +52,7 @@ public class ssuchat_main_page extends AppCompatActivity {
         }
 
         private void bind(String text) {
-            binding.mainPageText.setText(text);
+            // binding.mainPageText.setText(text);
         }
     }
 

@@ -16,7 +16,7 @@
         android:weightSum="10">
 
         <TextView
-            android:id="@+id/logout_go_login_button"
+            android:id="@+id/go_back_main_page_professor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/ic_back"/>
@@ -136,6 +136,7 @@
             android:layout_marginBottom="16dp"/>
 
         <Button
+            android:id="@+id/add_class_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="강의 추가"
