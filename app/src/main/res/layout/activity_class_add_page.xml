@@ -142,6 +142,7 @@
             android:textSize="18dp"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:layout_gravity="bottom"
             android:background="@drawable/button_shape_color"/>
 
     </LinearLayout>
