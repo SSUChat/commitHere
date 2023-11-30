@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivitySsuchatMainPageBinding;
 import com.example.ssuchat.databinding.MainPageRecycleItemBinding;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ssuchat_main_page extends AppCompatActivity {
+
+    private MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,26 @@ public class ssuchat_main_page extends AppCompatActivity {
         for(int i  = 0; i < 10; i++) {
             list.add("Item=" + i);
         }
+
+        myAdapter = new MyAdapter(list);
+
+        myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ssuchat_main_page.this, SsuchatPreChat.class);
+                startActivity(intent);
+                // 여기 수정!!!!!!!!
+            }
+        });
+
+        myAdapter.setOnLongItemClickListener(new MyAdapter.OnLongItemClickListener() {
+            @Override
+            public void onLongItemClick(int pos) {
+                Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         binding.recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerViewMainPage.setAdapter(new MyAdapter(list));
@@ -42,26 +65,73 @@ public class ssuchat_main_page extends AppCompatActivity {
         });
     }
 
-    private class MyViewHolder extends RecyclerView.ViewHolder {
+    private static class MyViewHolder extends RecyclerView.ViewHolder {
         private MainPageRecycleItemBinding binding;
 
         private MyViewHolder(MainPageRecycleItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
+            binding.mainPageItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (MyAdapter.onItemClickListener != null) {
+                            MyAdapter.onItemClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            binding.mainPageItem.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (MyAdapter.onLongItemClickListener != null) {
+                            MyAdapter.onLongItemClickListener.onLongItemClick(position);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+
         }
+
+
 
         private void bind(String text) {
             // binding.mainPageText.setText(text);
         }
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
         private List<String> list;
 
         private MyAdapter(List<String> list) {
             this.list = list;
+        }
+
+        public interface OnItemClickListener {
+            void onItemClick(int pos);
+        }
+
+        private static OnItemClickListener onItemClickListener = null;
+        public void setOnItemClickListener(OnItemClickListener listener) {
+            this.onItemClickListener = listener;
+        }
+
+        public interface OnLongItemClickListener {
+            void onLongItemClick(int pos);
+        }
+
+        private static OnLongItemClickListener onLongItemClickListener = null;
+
+        public void setOnLongItemClickListener(OnLongItemClickListener listener) {
+            this.onLongItemClickListener = listener;
         }
 
         @NonNull
