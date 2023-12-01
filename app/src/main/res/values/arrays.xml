@@ -9,8 +9,7 @@
         <item>토</item>
         <item>일</item>
     </string-array>
-
-    <integer-array name="hours">
+    <string-array name="hours">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -35,9 +34,9 @@
         <item>21</item>
         <item>22</item>
         <item>23</item>
-    </integer-array>
+    </string-array>
 
-    <integer-array name="minutes">
+    <string-array name="minutes">
         <item>0</item>
         <item>5</item>
         <item>10</item>
@@ -50,5 +49,5 @@
         <item>45</item>
         <item>50</item>
         <item>55</item>
-    </integer-array>
+    </string-array>
 </resources>
