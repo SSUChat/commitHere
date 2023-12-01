@@ -39,114 +39,190 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="16dp"
-        android:overScrollMode="always">
+        android:layout_height="match_parent" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="강의명"
-            android:textStyle="bold"
-            android:textSize="20dp" />
-
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:hint="강의명을 입력하세요!"
-            android:background="@drawable/edittext_shape"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분반"
-            android:textStyle="bold"
-            android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강의명"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:hint="분반명을 입력하세요!"
-            android:background="@drawable/edittext_shape"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
+            <EditText
+                android:id="@+id/class_name"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edittext_shape"
+                android:hint="강의명을 입력하세요!" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="강의번호"
-            android:textStyle="bold"
-            android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="분반"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:hint="강의번호를 입력하세요!"
-            android:background="@drawable/edittext_shape"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
+            <EditText
+                android:id="@+id/class_class"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="분반명을 입력하세요!"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="건물명"
-            android:textStyle="bold"
-            android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강의번호"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:hint="건물명을 입력하세요!"
-            android:background="@drawable/edittext_shape"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
+            <EditText
+                android:id="@+id/class_number"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="강의번호를 입력하세요!"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="강의실"
-            android:textStyle="bold"
-            android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="건물명"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:hint="강의실을 입력하세요!"
-            android:background="@drawable/edittext_shape"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
+            <EditText
+                android:id="@+id/class_building"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="건물명을 입력하세요!"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="강의시간"
-            android:textStyle="bold"
-            android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강의실"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:hint="강의시간을 입력하세요!"
-            android:background="@drawable/edittext_shape"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
+            <EditText
+                android:id="@+id/class_address"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="강의실을 입력하세요!"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
 
-        <Button
-            android:id="@+id/add_class_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="강의 추가"
-            android:textSize="18dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_gravity="bottom"
-            android:background="@drawable/button_shape_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강의시간"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
-    </LinearLayout>
+<!--            <TimePicker-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:timePickerMode="spinner" />-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="강의 요일 : "/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:prompt="@string/week_setting"
+                        android:entries="@array/week"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="강의 시작 : "/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="강의 종료 : "/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/add_class_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="강의 추가"
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/button_shape_color"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

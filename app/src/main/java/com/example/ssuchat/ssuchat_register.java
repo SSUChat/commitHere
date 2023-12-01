@@ -72,6 +72,7 @@ public class ssuchat_register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 studCheckBox.setChecked(false);
+
             }
         });
 
