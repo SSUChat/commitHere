@@ -251,11 +251,17 @@ public class ssuchat_login extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(this, ssuchat_main_page.class);
+            Intent intent2 = new Intent(this, ProfessorMainPage.class);
             intent.putExtra("USER_PROFILE", "email: " + user.getEmail() + "\n" + "uid: " + user.getUid());
+            intent2.putExtra("USER_PROFILE", "email: " + user.getEmail() + "\n" + "uid: " + user.getUid());
 
             Toast.makeText(this, "로그인 성공!!", Toast.LENGTH_SHORT).show();
 
-            startActivity(intent);
+            if (studCheckBox.isChecked()) {
+                startActivity(intent);
+            } else {
+                startActivity(intent2);   
+            }
         } else {
             Toast.makeText(this, "로그인 정보가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
         }
