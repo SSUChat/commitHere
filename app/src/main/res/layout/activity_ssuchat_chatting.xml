@@ -17,6 +17,7 @@
         android:weightSum="10">
 
         <TextView
+            android:id="@+id/go_back_pre_chat_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/ic_back"/>
