@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/SSUChat_loading"
-        android:layout_width="256dp"
-        android:layout_height="169dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"
-        android:background="@drawable/loading" />
+        android:background="@drawable/ssuchat_logo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SSU CHAT"
+        android:textColor="#078EAD"
+        android:textSize="30dp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold" />
 
 </LinearLayout>
