@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ssuchat.databinding.ActivitySsuchatChattingBinding;
@@ -31,6 +33,14 @@ public class SsuchatChatting extends AppCompatActivity {
 
         binding.chattingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.chattingRecyclerView.setAdapter(new MyAdapter(list));
+
+        binding.goBackPreChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SsuchatChatting.this, SsuchatPreChat.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
