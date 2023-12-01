@@ -47,8 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_margin="16dp"
-            android:layout_marginBottom="12dp">
+            android:layout_margin="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,7 +131,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -393,7 +393,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/button_shape_color"/>
 
         </LinearLayout>
