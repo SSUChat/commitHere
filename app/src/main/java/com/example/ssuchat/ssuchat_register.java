@@ -11,21 +11,30 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivitySsuchatRegisterBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
-import com.google.firebase.ktx.Firebase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ssuchat_register extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private CheckBox studCheckBox;
+    private CheckBox profCheckBox;
 
     private void initFirebaseAuth() {
         // Initialize Firebase Auth
@@ -44,6 +53,27 @@ public class ssuchat_register extends AppCompatActivity {
         EditText editEmail = binding.editEmail;
         EditText editPassword = binding.editPassword;
         EditText editStudentId = binding.editStudentId;
+        studCheckBox = binding.studLogin;
+        profCheckBox = binding.profLogin;
+
+        // 초기에 학생용 체크박스는 체크되어 있도록 설정
+        studCheckBox.setChecked(true);
+
+        // 학생용 체크박스가 체크되면 교수자용 체크박스는 체크 해제
+        studCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profCheckBox.setChecked(false);
+            }
+        });
+
+        // 교수자용 체크박스가 체크되면 학생용 체크박스는 체크 해제
+        profCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                studCheckBox.setChecked(false);
+            }
+        });
 
         binding.buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,12 +82,13 @@ public class ssuchat_register extends AppCompatActivity {
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
                 String studentId = editStudentId.getText().toString();
+                String role =  studCheckBox.isChecked() ? "student" : "prof";
 
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(studentId)) {
                     Toast.makeText(ssuchat_register.this, "모든 필드를 입력하세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                signUp(email, password);
+                signUp(name, email, password, studentId, role);
             }
         });
 
@@ -90,7 +121,8 @@ public class ssuchat_register extends AppCompatActivity {
 //    }
     }
 
-    private void signUp(String email, String password) {
+
+    private void signUp(String name, String email, String password, String studentId, String role) {
         // Check if the email is already in use
         mAuth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
@@ -112,6 +144,9 @@ public class ssuchat_register extends AppCompatActivity {
                                                     Log.d(TAG, "createUserWithEmail:success");
                                                     FirebaseUser user = mAuth.getCurrentUser();
                                                     updateUI(user);
+
+                                                    // Save user data to Firestore
+                                                    saveUserDataToFirestore(user.getUid(), name, studentId, role);
                                                 } else {
                                                     // If sign up fails, display a message to the user.
                                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -129,6 +164,37 @@ public class ssuchat_register extends AppCompatActivity {
                     }
                 });
     }
+
+    private void saveUserDataToFirestore(String userId, String name, String studentId, String role) {
+        // Access Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Create a new user document with UID as document ID
+        DocumentReference userRef = db.collection("users").document(userId);
+
+        // Set user data in Firestore
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("role", role);
+        userData.put("name", name);
+        userData.put("studentId", studentId);
+        userData.put("createdAt", FieldValue.serverTimestamp());
+
+        // Save user data to Firestore
+        userRef.set(userData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "User data saved to Firestore.");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error saving user data to Firestore", e);
+                    }
+                });
+    }
+
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
