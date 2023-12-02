@@ -54,6 +54,8 @@ public class ssuchat_login extends AppCompatActivity {
 
         initFirebaseAuth();
 
+        String callingActivity = getIntent().getStringExtra("callingActivity");
+
         // Binding
         loginEmail = binding.loginEmail;
         loginPassword = binding.loginPassword;
@@ -102,7 +104,9 @@ public class ssuchat_login extends AppCompatActivity {
 
         if (autoLoginCheckbox.isChecked() && rememberIdCheckbox.isChecked()) {
             loginPassword.setText(preferences.getString(PREF_PASSWORD, ""));
-            signIn(loginEmail.getText().toString(), loginPassword.getText().toString());
+            if (callingActivity != null && callingActivity.equals("MainActivity")) {
+                signIn(loginEmail.getText().toString(), loginPassword.getText().toString());
+            }
         }
 
         rememberIdCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> savePreference(PREF_REMEMBER_ID, isChecked));

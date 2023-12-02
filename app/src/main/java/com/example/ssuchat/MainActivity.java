@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent = new Intent(MainActivity.this, ssuchat_login.class);
+                intent.putExtra("callingActivity", "MainActivity");
                 startActivity(intent);
             }
         }, 2000);
