@@ -85,9 +85,8 @@ public class ProfessorMainPage extends AppCompatActivity {
                                         @Override
                                         public void onItemClick(int pos) {
                                             Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(ProfessorMainPage.this, ClassAddPage.class);
+                                            Intent intent = new Intent(ProfessorMainPage.this, ProfessorPreChat.class);
                                             startActivity(intent);
-                                            // 여기 수정!!!!!!!!
                                         }
                                     });
 
@@ -123,6 +122,14 @@ public class ProfessorMainPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfessorMainPage.this, ClassAddPage.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.logoutGoLoginButtonProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfessorMainPage.this, ssuchat_login.class);
                 startActivity(intent);
             }
         });
