@@ -42,6 +42,43 @@ public class ProfessorMainPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    private class MyModel {
+        private String name;
+        private String className;
+        private String classClass;
+        private String classNumber;
+        private String classBuilding;
+        private String classAddress;
+
+        public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
+            this.name = name;
+            this.className = className;
+            this.classClass = classClass;
+            this.classNumber = classNumber;
+            this.classBuilding = classBuilding;
+            this.classAddress = classAddress;
+        }
+
+        public String getName() {
+            return name;
+        }
+        public String getClassName() {
+            return className;
+        }
+        public String getClassClass() {
+            return classClass;
+        }
+        public String getClassNumber() {
+            return classNumber;
+        }
+        public String getClassBuilding() {
+            return classBuilding;
+        }
+        public String getClassAddress() {
+            return classAddress;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +89,8 @@ public class ProfessorMainPage extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
-        List<String> list = new ArrayList<>();
+//        List<String> list = new ArrayList<>();
+        List<MyModel> myModelList = new ArrayList<>();
 
         DocumentReference userRef = db.collection("users").document(userId);
 
@@ -74,12 +112,27 @@ public class ProfessorMainPage extends AppCompatActivity {
                                     documentCnt = task.getResult().size();
                                     // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
 
-                                    Log.d(TAG, "Document count1: " + documentCnt);
-                                    for(int i  = 0; i < documentCnt; i++) {
-                                        list.add("Item=" + i);
+//                                    Log.d(TAG, "Document count1: " + documentCnt);
+//                                    for(int i  = 0; i < documentCnt; i++) {
+//                                        list.add("Item=" + i);
+//                                    }
+
+                                    for (int i = 0; i < documentCnt; i++) {
+                                        // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
+                                        String className = task.getResult().getDocuments().get(i).getString("className");
+                                        String classClass = task.getResult().getDocuments().get(i).getString("classClass");
+                                        String classNumber = task.getResult().getDocuments().get(i).getString("classNumber");
+                                        String classBuilding = task.getResult().getDocuments().get(i).getString("classBuilding");
+                                        String classAddress = task.getResult().getDocuments().get(i).getString("classAddress");
+
+                                        // MyModel 객체 생성
+                                        MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
+
+                                        // 모델을 리스트에 추가
+                                        myModelList.add(myModel);
                                     }
 
-                                    myAdapter = new MyAdapter(list);
+                                    myAdapter = new MyAdapter(myModelList);
 
                                     myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
                                         @Override
@@ -98,7 +151,7 @@ public class ProfessorMainPage extends AppCompatActivity {
                                     });
 
                                     binding.recyclerViewMainPageProfessor.setLayoutManager(new LinearLayoutManager(ProfessorMainPage.this));
-                                    binding.recyclerViewMainPageProfessor.setAdapter(new MyAdapter(list));
+                                    binding.recyclerViewMainPageProfessor.setAdapter(new MyAdapter(myModelList));
 
                                     Log.d(TAG, "Document count: " + documentCnt);
                                 } else {
@@ -171,19 +224,22 @@ public class ProfessorMainPage extends AppCompatActivity {
             });
         }
 
-        private void bind(String text) {
-//            binding.className.setText("사인페");
-//            binding.classClass.setText("(" + "hello" + ")");
-//            binding.classClass.setText("(" + ")");
+        private void bind(MyModel myModel) {
+            binding.classProfessor.setText(myModel.getName());
+            binding.className.setText(myModel.getClassName());
+            binding.classClass.setText("(" + myModel.getClassClass() + ")");
+            binding.classNumber.setText("("+ myModel.getClassNumber() + ")");
+            binding.classBuilding.setText(myModel.getClassBuilding());
+            binding.classAddress.setText(myModel.getClassAddress());
         }
     }
 
     private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-        private List<String> list;
+        private List<MyModel> myModelList;
 
-        private MyAdapter(List<String> list) {
-            this.list = list;
+        private MyAdapter(List<MyModel> myModelList) {
+            this.myModelList = myModelList;
         }
 
         public interface OnItemClickListener {
@@ -216,13 +272,13 @@ public class ProfessorMainPage extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            String text = list.get(position);
-            holder.bind(text);
+            MyModel myModel = myModelList.get(position);
+            holder.bind(myModel);
         }
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return myModelList.size();
         }
 
         @Override
