@@ -174,8 +174,8 @@ public class ClassAddPage extends AppCompatActivity {
                                           String selectWeek3, String selectStartHour3, String selectStartMinute3, String selectEndHour3, String selectEndMinute3 ) {
 
         db = FirebaseFirestore.getInstance();
-        String doc = name + className + classClass;
-        DocumentReference userRef = db.collection("class").document(doc);
+        String doc = className + classClass;
+        DocumentReference userRef = db.collection(name).document(doc);
         Map<String, Object> userData = new HashMap<>();
 
 //        int SelectStartHour1 = Integer.parseInt(selectStartHour1);
