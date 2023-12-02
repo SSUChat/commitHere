@@ -15,10 +15,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SSU CHAT"
-        android:textColor="#078EAD"
-        android:textSize="30dp"
+        android:text="@string/main_name"
+        android:textColor="@color/mainTheme"
+        android:textSize="30sp"
         android:layout_marginBottom="20dp"
         android:textStyle="bold" />
+
+    <ProgressBar
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
