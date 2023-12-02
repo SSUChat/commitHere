@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="강의명"
                 android:textStyle="bold"
-                android:textSize="20dp" />
+                android:textSize="20dp"/>
 
             <EditText
                 android:id="@+id/class_name"
@@ -63,7 +63,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/edittext_shape"
-                android:hint="강의명을 입력하세요!" />
+                android:hint="강의명 입력"
+                android:padding="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -76,10 +77,11 @@
                 android:id="@+id/class_class"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:hint="분반명을 입력하세요!"
+                android:hint="분반명 입력"
                 android:background="@drawable/edittext_shape"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,10 +94,11 @@
                 android:id="@+id/class_number"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:hint="강의번호를 입력하세요!"
+                android:hint="강의번호 입력"
                 android:background="@drawable/edittext_shape"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,10 +111,11 @@
                 android:id="@+id/class_building"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:hint="건물명을 입력하세요!"
+                android:hint="건물명 입력"
                 android:background="@drawable/edittext_shape"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,10 +128,11 @@
                 android:id="@+id/class_address"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:hint="강의실을 입력하세요!"
+                android:hint="강의실 입력"
                 android:background="@drawable/edittext_shape"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -143,6 +148,7 @@
                     android:layout_alignParentStart="true"/>
 
                 <TextView
+                    android:id="@+id/add_class_time_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="요일 추가"
@@ -169,6 +175,7 @@
                         android:text="강의 요일 : "/>
 
                     <Spinner
+                        android:id="@+id/select_week1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/week_setting"
@@ -189,12 +196,14 @@
                         android:text="강의 시작 : "/>
 
                     <Spinner
+                        android:id="@+id/select_start_hour1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_hour"
                         android:entries="@array/hours"/>
 
                     <Spinner
+                        android:id="@+id/select_start_minute1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_minute"
@@ -213,12 +222,14 @@
                         android:text="강의 종료 : "/>
 
                     <Spinner
+                        android:id="@+id/select_end_hour1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_hour"
                         android:entries="@array/hours"/>
 
                     <Spinner
+                        android:id="@+id/select_end_minute1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_minute"
@@ -247,6 +258,7 @@
                         android:text="강의 요일 : "/>
 
                     <Spinner
+                        android:id="@+id/select_week2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/week_setting"
@@ -267,12 +279,14 @@
                         android:text="강의 시작 : "/>
 
                     <Spinner
+                        android:id="@+id/select_start_hour2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_hour"
                         android:entries="@array/hours"/>
 
                     <Spinner
+                        android:id="@+id/select_start_minute2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_minute"
@@ -291,12 +305,14 @@
                         android:text="강의 종료 : "/>
 
                     <Spinner
+                        android:id="@+id/select_end_hour2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_hour"
                         android:entries="@array/hours"/>
 
                     <Spinner
+                        android:id="@+id/select_end_minute2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_minute"
@@ -325,6 +341,7 @@
                         android:text="강의 요일 : "/>
 
                     <Spinner
+                        android:id="@+id/select_week3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/week_setting"
@@ -345,12 +362,14 @@
                         android:text="강의 시작 : "/>
 
                     <Spinner
+                        android:id="@+id/select_start_hour3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_hour"
                         android:entries="@array/hours"/>
 
                     <Spinner
+                        android:id="@+id/select_start_minute3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_minute"
@@ -369,12 +388,14 @@
                         android:text="강의 종료 : "/>
 
                     <Spinner
+                        android:id="@+id/select_end_hour3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_hour"
                         android:entries="@array/hours"/>
 
                     <Spinner
+                        android:id="@+id/select_end_minute3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:prompt="@string/start_minute"
