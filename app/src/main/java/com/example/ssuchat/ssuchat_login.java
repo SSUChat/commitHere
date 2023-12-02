@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -54,6 +53,8 @@ public class ssuchat_login extends AppCompatActivity {
 
         initFirebaseAuth();
 
+        String callingActivity = getIntent().getStringExtra("callingActivity");
+
         // Binding
         loginEmail = binding.loginEmail;
         loginPassword = binding.loginPassword;
@@ -62,28 +63,22 @@ public class ssuchat_login extends AppCompatActivity {
         studCheckBox = binding.studLogin;
         profCheckBox = binding.profLogin;
 
-        // 초기에 학생용 체크박스는 체크되어 있도록 설정
-        studCheckBox.setChecked(true);
+        binding.buttonSignIn.setOnClickListener(v -> {
+            String email = loginEmail.getText().toString();
+            String password = loginPassword.getText().toString();
 
-        binding.buttonSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = loginEmail.getText().toString();
-                String password = loginPassword.getText().toString();
-
-                // Check if email, password, and role (student or prof) are provided
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(ssuchat_login.this, "모든 필드를 입력하세요.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (!studCheckBox.isChecked() && !profCheckBox.isChecked()) {
-                    Toast.makeText(ssuchat_login.this, "학생용 또는 교수용을 선택하세요.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                signIn(email, password);
+            // Check if email, password, and role (student or prof) are provided
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                Toast.makeText(ssuchat_login.this, "모든 필드를 입력하세요.", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            if (!studCheckBox.isChecked() && !profCheckBox.isChecked()) {
+                Toast.makeText(ssuchat_login.this, "학생용 또는 교수용을 선택하세요.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            signIn(email, password);
         });
 
         binding.goRegisterButton.setOnClickListener(v -> startActivity(new Intent(this, ssuchat_register.class)));
@@ -102,7 +97,9 @@ public class ssuchat_login extends AppCompatActivity {
 
         if (autoLoginCheckbox.isChecked() && rememberIdCheckbox.isChecked()) {
             loginPassword.setText(preferences.getString(PREF_PASSWORD, ""));
-            signIn(loginEmail.getText().toString(), loginPassword.getText().toString());
+            if (callingActivity != null && callingActivity.equals("MainActivity")) {
+                signIn(loginEmail.getText().toString(), loginPassword.getText().toString());
+            }
         }
 
         rememberIdCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> savePreference(PREF_REMEMBER_ID, isChecked));
@@ -118,8 +115,17 @@ public class ssuchat_login extends AppCompatActivity {
             }
         });
 
-        studCheckBox.setOnClickListener(v -> profCheckBox.setChecked(false));
-        profCheckBox.setOnClickListener(v -> studCheckBox.setChecked(false));
+        studCheckBox.setOnClickListener(v -> {
+            profCheckBox.setChecked(false);
+            savePreference(PREF_STUDENT_CHECKED, true);
+            savePreference(PREF_PROF_CHECKED, false);
+        });
+
+        profCheckBox.setOnClickListener(v -> {
+            studCheckBox.setChecked(false);
+            savePreference(PREF_STUDENT_CHECKED, false);
+            savePreference(PREF_PROF_CHECKED, true);
+        });
     }
 
     private void savePreference(String key, boolean value) {
