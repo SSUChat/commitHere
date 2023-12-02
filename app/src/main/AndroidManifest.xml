@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SSUChat"
         tools:targetApi="31">
         <activity
+            android:name=".ProfessorEditClass"
+            android:exported="false" />
+        <activity
             android:name=".ProfessorPreChat"
             android:exported="false" />
         <activity

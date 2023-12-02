@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#6FD1C5"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/back_pre_chat_professor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="강의정보 수정"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_weight="10"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_menu"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="16dp" >
+
+            <TextView
+                android:id="@+id/textview_class_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강의명"
+                android:textStyle="bold"
+                android:textSize="20dp"/>
+
+            <EditText
+                android:id="@+id/class_name"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edittext_shape"
+                android:hint="강의명 수정"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/textview_class_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="분반"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/class_class"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="분반명 수정"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/textview_class_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강의번호"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/class_number"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="강의번호 수정"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/textview_class_building"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="건물명"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/class_building"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="건물명 수정"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/textview_class_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="강의실"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/class_address"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:hint="강의실 수정"
+                android:background="@drawable/edittext_shape"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"/>
+
+            <Button
+                android:id="@+id/add_class_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="강의 정보 수정하기"
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/button_shape_color"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

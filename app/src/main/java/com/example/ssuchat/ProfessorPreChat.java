@@ -40,5 +40,28 @@ public class ProfessorPreChat extends AppCompatActivity {
             }
         });
 
+        binding.buttonEnterChattingProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfessorPreChat.this, SsuchatChatting.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.subjectInformationProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfessorPreChat.this, ProfessorEditClass.class);
+
+                intent.putExtra("className", className);
+                intent.putExtra("classClass", classClass);
+                intent.putExtra("classNumber", classNumber);
+                intent.putExtra("classBuilding", classBuilding);
+                intent.putExtra("classAddress", classAddress);
+
+                startActivity(intent);
+            }
+        });
+
     }
 }
