@@ -112,11 +112,6 @@ public class ProfessorMainPage extends AppCompatActivity {
                                     documentCnt = task.getResult().size();
                                     // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
 
-//                                    Log.d(TAG, "Document count1: " + documentCnt);
-//                                    for(int i  = 0; i < documentCnt; i++) {
-//                                        list.add("Item=" + i);
-//                                    }
-
                                     for (int i = 0; i < documentCnt; i++) {
                                         // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
                                         String className = task.getResult().getDocuments().get(i).getString("className");
@@ -139,6 +134,19 @@ public class ProfessorMainPage extends AppCompatActivity {
                                         public void onItemClick(int pos) {
                                             Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(ProfessorMainPage.this, ProfessorPreChat.class);
+
+                                            String className = task.getResult().getDocuments().get(pos).getString("className");
+                                            String classClass = task.getResult().getDocuments().get(pos).getString("classClass");
+                                            String classNumber = task.getResult().getDocuments().get(pos).getString("classNumber");
+                                            String classBuilding = task.getResult().getDocuments().get(pos).getString("classBuilding");
+                                            String classAddress = task.getResult().getDocuments().get(pos).getString("classAddress");
+
+                                            intent.putExtra("className", className);
+                                            intent.putExtra("classClass", classClass);
+                                            intent.putExtra("classNumber", classNumber);
+                                            intent.putExtra("classBuilding", classBuilding);
+                                            intent.putExtra("classAddress", classAddress);
+
                                             startActivity(intent);
                                         }
                                     });
