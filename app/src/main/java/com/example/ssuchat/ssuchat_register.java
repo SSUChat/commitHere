@@ -89,6 +89,12 @@ public class ssuchat_register extends AppCompatActivity {
                     Toast.makeText(ssuchat_register.this, "모든 필드를 입력하세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if (!studCheckBox.isChecked() && !profCheckBox.isChecked()) {
+                    Toast.makeText(ssuchat_register.this, "학생용 또는 교수용을 선택하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 signUp(name, email, password, studentId, role);
             }
         });

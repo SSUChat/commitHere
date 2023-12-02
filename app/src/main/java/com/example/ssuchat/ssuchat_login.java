@@ -1,24 +1,20 @@
 package com.example.ssuchat;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
 import com.example.ssuchat.databinding.ActivitySsuchatLoginBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,11 +30,12 @@ public class ssuchat_login extends AppCompatActivity {
     private static final String PREF_PASSWORD = "password";
     private static final String PREF_REMEMBER_ID = "rememberId";
     private static final String PREF_AUTO_LOGIN = "autoLogin";
+    private static final String PREF_STUDENT_CHECKED = "isStudentChecked";
+    private static final String PREF_PROF_CHECKED = "isProfChecked";
 
     private EditText loginEmail;
     private EditText loginPassword;
     private CheckBox rememberIdCheckbox;
-    private CheckBox autoLoginCheckbox;
     private CheckBox studCheckBox;
     private CheckBox profCheckBox;
 
@@ -52,41 +49,21 @@ public class ssuchat_login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ssuchat_login);
-
         ActivitySsuchatLoginBinding binding = ActivitySsuchatLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         initFirebaseAuth();
 
+        // Binding
         loginEmail = binding.loginEmail;
         loginPassword = binding.loginPassword;
         rememberIdCheckbox = binding.idRemember;
-        autoLoginCheckbox = binding.autologin;
+        CheckBox autoLoginCheckbox = binding.autologin;
         studCheckBox = binding.studLogin;
         profCheckBox = binding.profLogin;
 
-        EditText loginEmail = binding.loginEmail;
-        EditText loginPassword = binding.loginPassword;
-
         // 초기에 학생용 체크박스는 체크되어 있도록 설정
         studCheckBox.setChecked(true);
-
-        // 학생용 체크박스가 체크되면 교수자용 체크박스는 체크 해제
-        studCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                profCheckBox.setChecked(false);
-            }
-        });
-
-        // 교수자용 체크박스가 체크되면 학생용 체크박스는 체크 해제
-        profCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                studCheckBox.setChecked(false);
-            }
-        });
 
         binding.buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,94 +71,76 @@ public class ssuchat_login extends AppCompatActivity {
                 String email = loginEmail.getText().toString();
                 String password = loginPassword.getText().toString();
 
+                // Check if email, password, and role (student or prof) are provided
+                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                    Toast.makeText(ssuchat_login.this, "모든 필드를 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!studCheckBox.isChecked() && !profCheckBox.isChecked()) {
+                    Toast.makeText(ssuchat_login.this, "학생용 또는 교수용을 선택하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 signIn(email, password);
             }
         });
 
-        binding.goRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ssuchat_login.this, ssuchat_register.class);
-                startActivity(intent);
-            }
-        });
-
-        binding.goFindPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ssuchat_login.this, ForgetPassword.class);
-                startActivity(intent);
-            }
-        });
+        binding.goRegisterButton.setOnClickListener(v -> startActivity(new Intent(this, ssuchat_register.class)));
+        binding.goFindPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgetPassword.class)));
 
         // "아이디 기억하기" 랑 "자동 로그인" 선택 됐을 때
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        boolean rememberId = preferences.getBoolean(PREF_REMEMBER_ID, false);
-        boolean autoLogin = preferences.getBoolean(PREF_AUTO_LOGIN, false);
+        rememberIdCheckbox.setChecked(preferences.getBoolean(PREF_REMEMBER_ID, false));
+        autoLoginCheckbox.setChecked(preferences.getBoolean(PREF_AUTO_LOGIN, false));
+        studCheckBox.setChecked(preferences.getBoolean(PREF_STUDENT_CHECKED, false));
+        profCheckBox.setChecked(preferences.getBoolean(PREF_PROF_CHECKED, false));
 
-        rememberIdCheckbox.setChecked(rememberId);
-        autoLoginCheckbox.setChecked(autoLogin);
-
-        if (rememberId) {
-            String savedEmail = preferences.getString(PREF_EMAIL, "");
-            loginEmail.setText(savedEmail);
+        if (rememberIdCheckbox.isChecked()) {
+            loginEmail.setText(preferences.getString(PREF_EMAIL, ""));
         }
 
-        if (autoLogin && rememberId) {
-            String savedPassword = preferences.getString(PREF_PASSWORD, "");
-            loginPassword.setText(savedPassword);
-            signIn(loginEmail.getText().toString(), savedPassword);
+        if (autoLoginCheckbox.isChecked() && rememberIdCheckbox.isChecked()) {
+            loginPassword.setText(preferences.getString(PREF_PASSWORD, ""));
+            signIn(loginEmail.getText().toString(), loginPassword.getText().toString());
         }
 
-        // 체크박스 리스너
-        rememberIdCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // SharedPreferences 에 "ID 기억하기" 옵션 저장
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean(PREF_REMEMBER_ID, isChecked);
-                editor.apply();
+        rememberIdCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> savePreference(PREF_REMEMBER_ID, isChecked));
+        autoLoginCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            savePreference(PREF_AUTO_LOGIN, isChecked);
+            if (isChecked) {
+                savePreference(PREF_STUDENT_CHECKED, studCheckBox.isChecked());
+                savePreference(PREF_PROF_CHECKED, profCheckBox.isChecked());
+                if (!rememberIdCheckbox.isChecked()) {
+                    rememberIdCheckbox.setChecked(true);
+                    savePreference(PREF_REMEMBER_ID, true);
+                }
             }
         });
 
-        autoLoginCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // SharedPreferences 에 "자동 로그인" 옵션 저장
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean(PREF_AUTO_LOGIN, isChecked);
-                editor.apply();
-            }
-        });
-
+        studCheckBox.setOnClickListener(v -> profCheckBox.setChecked(false));
+        profCheckBox.setOnClickListener(v -> studCheckBox.setChecked(false));
     }
 
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            updateUI(currentUser);
-//        }
-//    }
+    private void savePreference(String key, boolean value) {
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        preferences.edit().putBoolean(key, value).apply();
+    }
+
 
     private void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            checkUserInFirestore(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d(TAG, "signInWithEmail:failure");
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        checkUserInFirestore(user);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.d(TAG, "signInWithEmail:failure");
+                        Toast.makeText(this, "로그인 정보가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+                        updateUI(null);
                     }
                 });
 
@@ -200,48 +159,25 @@ public class ssuchat_login extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference userRef = db.collection("users").document(user.getUid());
 
-            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            // User data found in Firestore
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-
-                            // Check user role
-                            String role = document.getString("role");
-                            if (role != null) {
-                                // Check if the user role matches the desired role for login
-                                if ((studCheckBox.isChecked() && role.equals("student")) ||
-                                        (profCheckBox.isChecked() && role.equals("prof"))) {
-                                    // User role is allowed, update UI
-                                    updateUI(user);
-                                } else {
-                                    // User role is not allowed, display an error message
-                                    Toast.makeText(getApplicationContext(), "Invalid user role for login.",
-                                            Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
-                                }
-                            } else {
-                                // User role not found, display an error message
-                                Toast.makeText(getApplicationContext(), "User role not found.",
-                                        Toast.LENGTH_SHORT).show();
-                                updateUI(null);
-                            }
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        String role = document.getString("role");
+                        if ((studCheckBox.isChecked() && "student".equals(role)) ||
+                                (profCheckBox.isChecked() && "prof".equals(role))) {
+                            updateUI(user);
                         } else {
-                            // User data not found in Firestore
-                            Log.d(TAG, "No such document");
-                            Toast.makeText(getApplicationContext(), "User data not found.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Invalid user role for login.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                        Toast.makeText(getApplicationContext(), "Error fetching user data.",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "User data not found.", Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error fetching user data.", Toast.LENGTH_SHORT).show();
+                    updateUI(null);
                 }
             });
         }
@@ -254,16 +190,8 @@ public class ssuchat_login extends AppCompatActivity {
             Intent intent2 = new Intent(this, ProfessorMainPage.class);
             intent.putExtra("USER_PROFILE", "email: " + user.getEmail() + "\n" + "uid: " + user.getUid());
             intent2.putExtra("USER_PROFILE", "email: " + user.getEmail() + "\n" + "uid: " + user.getUid());
-
             Toast.makeText(this, "로그인 성공!!", Toast.LENGTH_SHORT).show();
-
-            if (studCheckBox.isChecked()) {
-                startActivity(intent);
-            } else {
-                startActivity(intent2);   
-            }
-        } else {
-            Toast.makeText(this, "로그인 정보가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+            startActivity(studCheckBox.isChecked() ? intent : intent2);
         }
     }
 }
