@@ -14,13 +14,17 @@ import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivitySsuchatMainPageBinding;
 import com.example.ssuchat.databinding.MainPageRecycleItemBinding;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ssuchat_main_page extends AppCompatActivity {
 
     private MyAdapter myAdapter;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

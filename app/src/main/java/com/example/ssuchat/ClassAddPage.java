@@ -39,8 +39,6 @@ public class ClassAddPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
