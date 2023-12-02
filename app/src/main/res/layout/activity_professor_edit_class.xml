@@ -140,7 +140,7 @@
                 android:padding="10dp"/>
 
             <Button
-                android:id="@+id/add_class_button"
+                android:id="@+id/edit_class_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="강의 정보 수정하기"
