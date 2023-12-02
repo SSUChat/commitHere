@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivityProfessorMainPageBinding;
 import com.example.ssuchat.databinding.MainPageRecycleItemBinding;
@@ -80,6 +81,23 @@ public class ProfessorMainPage extends AppCompatActivity {
 
                                     myAdapter = new MyAdapter(list);
 
+                                    myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(int pos) {
+                                            Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(ProfessorMainPage.this, ClassAddPage.class);
+                                            startActivity(intent);
+                                            // 여기 수정!!!!!!!!
+                                        }
+                                    });
+
+                                    myAdapter.setOnLongItemClickListener(new MyAdapter.OnLongItemClickListener() {
+                                        @Override
+                                        public void onLongItemClick(int pos) {
+                                            Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
                                     binding.recyclerViewMainPageProfessor.setLayoutManager(new LinearLayoutManager(ProfessorMainPage.this));
                                     binding.recyclerViewMainPageProfessor.setAdapter(new MyAdapter(list));
 
@@ -118,6 +136,32 @@ public class ProfessorMainPage extends AppCompatActivity {
         public MyViewHolder(MainPageRecycleItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
+            binding.mainPageItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (MyAdapter.onItemClickListener != null) {
+                            MyAdapter.onItemClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            binding.mainPageItem.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (MyAdapter.onLongItemClickListener != null) {
+                            MyAdapter.onLongItemClickListener.onLongItemClick(position);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
         }
 
         private void bind(String text) {
@@ -133,6 +177,26 @@ public class ProfessorMainPage extends AppCompatActivity {
 
         private MyAdapter(List<String> list) {
             this.list = list;
+        }
+
+        public interface OnItemClickListener {
+            void onItemClick(int pos);
+        }
+
+        private static OnItemClickListener onItemClickListener = null;
+
+        public void setOnItemClickListener(MyAdapter.OnItemClickListener listener) {
+            this.onItemClickListener = listener;
+        }
+
+        public interface OnLongItemClickListener {
+            void onLongItemClick(int pos);
+        }
+
+        private static OnLongItemClickListener onLongItemClickListener = null;
+
+        public void setOnLongItemClickListener(OnLongItemClickListener listener) {
+            this.onLongItemClickListener = listener;
         }
 
         @NonNull
