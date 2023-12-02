@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SSUChat"
         tools:targetApi="31">
         <activity
+            android:name=".ProfessorPreChat"
+            android:exported="false" />
+        <activity
             android:name=".ClassAddPage"
             android:exported="false" />
         <activity
@@ -24,7 +27,6 @@
         <activity
             android:name=".SsuchatPreChat"
             android:exported="false" />
-
         <activity
             android:name=".ForgetPassword"
             android:exported="false" />
@@ -46,7 +48,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
