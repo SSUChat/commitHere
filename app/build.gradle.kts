@@ -61,4 +61,11 @@ dependencies {
     // Declare the dependency for the Cloud Firestore library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage-ktx:20.1.0")
+    implementation ("com.google.firebase:firebase-messaging-ktx:23.1.2")
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
+
+    implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
 }
