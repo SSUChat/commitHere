@@ -35,7 +35,6 @@ public class ClassAddPage extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private void initFirebaseAuth() {
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -93,6 +92,7 @@ public class ClassAddPage extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
+                            Log.d(TAG, "add_page_document : " + document);
                             if (document.exists()) {
                                 // 사용자 문서가 존재할 경우
                                 String name = document.getString("name");
@@ -210,6 +210,7 @@ public class ClassAddPage extends AppCompatActivity {
         userData.put("selectStartMinute3", selectStartMinute3);
         userData.put("selectEndHour3", selectEndHour3);
         userData.put("selectEndMinute3", selectEndMinute3);
+        userData.put("enrolledStudents", null);
         userData.put("createdAt", FieldValue.serverTimestamp());
 
         userRef.set(userData)

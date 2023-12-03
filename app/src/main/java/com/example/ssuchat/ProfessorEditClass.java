@@ -29,7 +29,6 @@ public class ProfessorEditClass extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private void initFirebaseAuth() {
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
     String className;
@@ -71,7 +70,7 @@ public class ProfessorEditClass extends AppCompatActivity {
         });
 
         String doc = className + classClass;
-        DocumentReference userRef = db.collection("users").document(doc);
+        DocumentReference userRef = db.collection("users").document(userId);;
 
         binding.editClassButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +81,7 @@ public class ProfessorEditClass extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // 여기서 에러
                             DocumentSnapshot document = task.getResult();
+                            Log.d(TAG, "document : " + document);
                             if (document.exists()) {
                                 Log.d(TAG, "doc = " + doc);
                                 // 사용자 문서가 존재할 경우
