@@ -67,6 +67,13 @@ public class ProfessorPreChat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfessorPreChat.this, ProfessorClassMember.class);
+
+                intent.putExtra("className", className);
+                intent.putExtra("classClass", classClass);
+                intent.putExtra("classNumber", classNumber);
+                intent.putExtra("classBuilding", classBuilding);
+                intent.putExtra("classAddress", classAddress);
+
                 startActivity(intent);
             }
         });

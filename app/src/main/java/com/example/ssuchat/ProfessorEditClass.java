@@ -112,6 +112,13 @@ public class ProfessorEditClass extends AppCompatActivity {
                                 saveClassDataToFirestore(name, editClassName, editClassClass, editClassNumber, editClassBuilding, editClassAddress);
 
                                 Intent intent = new Intent(ProfessorEditClass.this, ProfessorPreChat.class);
+
+                                intent.putExtra("className", className);
+                                intent.putExtra("classClass", classClass);
+                                intent.putExtra("classNumber", classNumber);
+                                intent.putExtra("classBuilding", classBuilding);
+                                intent.putExtra("classAddress", classAddress);
+
                                 startActivity(intent);
 
                             } else {

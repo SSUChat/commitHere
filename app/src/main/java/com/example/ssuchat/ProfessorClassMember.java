@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -35,6 +36,12 @@ public class ProfessorClassMember extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    String className;
+    String classClass;
+    String classNumber;
+    String classBuilding;
+    String classAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,15 @@ public class ProfessorClassMember extends AppCompatActivity {
         String userId = user.getUid();
         DocumentReference userRef = db.collection("users").document(userId);
         ArrayList<String> enrolledStudentsList = new ArrayList<>();
+
+        Intent getIntent = getIntent();
+        if(getIntent != null) {
+            className = getIntent.getStringExtra("className");
+            classClass = getIntent.getStringExtra("classClass");
+            classNumber = getIntent.getStringExtra("classNumber");
+            classBuilding = getIntent.getStringExtra("classBuilding");
+            classAddress = getIntent.getStringExtra("classAddress");
+        }
 
         binding.backPreChatProfessor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,16 +89,15 @@ public class ProfessorClassMember extends AppCompatActivity {
                                 if (document.exists()) {
                                     // 사용자 문서가 존재할 경우
                                     String name = document.getString("name");
-                                    String className = document.getString("className");
-                                    String classClass = document.getString("classClass");
 
                                     DocumentReference updateRef = db.collection(name).document(className+classClass);
+                                    Log.d(TAG, "Name + Class : " + className + classClass);
                                     enrolledStudentsList.add(addClassMember);
 
                                     Map<String, Object> updateData = new HashMap<>();
-                                    updateData.put("enrolledStudents", enrolledStudentsList);
+                                    updateData.put("enrolledStudents", FieldValue.arrayUnion(addClassMember));
 
-                                    updateRef.set(updateData, SetOptions.merge())
+                                    updateRef.update(updateData)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
@@ -113,6 +128,9 @@ public class ProfessorClassMember extends AppCompatActivity {
                 }
             }
         });
+
+
+
     }
 
     private void saveClassDataToFirestore(String name, String className, String classClass) {
