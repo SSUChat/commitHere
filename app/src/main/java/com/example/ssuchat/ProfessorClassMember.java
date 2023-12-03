@@ -26,6 +26,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProfessorClassMember extends AppCompatActivity {
@@ -111,8 +112,6 @@ public class ProfessorClassMember extends AppCompatActivity {
                                                 }
                                             });
 
-                                    saveClassDataToFirestore(name, className, classClass);
-
                                     Log.d(TAG, "getDocument : " + document.getString("enrolledStudents"));
 
                                 } else {
@@ -129,16 +128,74 @@ public class ProfessorClassMember extends AppCompatActivity {
             }
         });
 
+        binding.removeClassMemberProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String removeClassMember = binding.removeClassMember.getText().toString();
+                if (removeClassMember.isEmpty()) {
+                    Toast.makeText(ProfessorClassMember.this, "필드를 채워주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+                    userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    // 사용자 문서가 존재할 경우
+                                    String name = document.getString("name");
 
+                                    DocumentReference updateRef = db.collection(name).document(className + classClass);
+                                    Log.d(TAG, "Name + Class : " + className + classClass);
 
-    }
+                                    updateRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                if (document.exists()) {
+                                                    List<String> updatedEnrolledStudentsList = new ArrayList<>();
 
-    private void saveClassDataToFirestore(String name, String className, String classClass) {
-        db = FirebaseFirestore.getInstance();
-        String doc = className + classClass;
-        DocumentReference userRef = db.collection(name).document(doc);
-        Map<String, Object> userData = new HashMap<>();
+                                                    updatedEnrolledStudentsList = (List<String>) document.get("enrolledStudents");
+                                                    updatedEnrolledStudentsList.remove(removeClassMember);
+                                                    Log.d(TAG, "okkkkkk");
+                                                    Map<String, Object> updateData = new HashMap<>();
+                                                    updateData.put("enrolledStudents", updatedEnrolledStudentsList);
 
+                                                    updateRef.set(updateData, SetOptions.merge()) // 새로운 배열로 업데이트
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    Log.d("TAG", "Enrolled students list updated successfully");
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Log.w("TAG", "Error updating enrolled students list", e);
+                                                                }
+                                                            });
+
+                                                    Log.d(TAG, "getDocument : " + document.getString("enrolledStudents"));
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    // 사용자 문서가 존재하지 않을 경우
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                // 작업이 실패한 경우
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
     }
 }

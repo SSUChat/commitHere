@@ -67,7 +67,7 @@
             android:textSize="18dp"/>
 
         <EditText
-            android:id="@+id/delete_class_member"
+            android:id="@+id/remove_class_member"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="24dp"
@@ -78,7 +78,7 @@
             android:padding="10dp"/>
 
         <Button
-            android:id="@+id/delete_class_member_professor"
+            android:id="@+id/remove_class_member_professor"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="24dp"
