@@ -63,5 +63,13 @@ public class ProfessorPreChat extends AppCompatActivity {
             }
         });
 
+        binding.attendanceCheckButtonProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfessorPreChat.this, ProfessorClassMember.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

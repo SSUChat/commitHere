@@ -35,7 +35,6 @@ public class ClassAddPage extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private void initFirebaseAuth() {
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -211,6 +210,7 @@ public class ClassAddPage extends AppCompatActivity {
         userData.put("selectStartMinute3", selectStartMinute3);
         userData.put("selectEndHour3", selectEndHour3);
         userData.put("selectEndMinute3", selectEndMinute3);
+        userData.put("enrolledStudents", null);
         userData.put("createdAt", FieldValue.serverTimestamp());
 
         userRef.set(userData)
