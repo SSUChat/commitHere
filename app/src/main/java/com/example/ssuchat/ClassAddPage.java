@@ -93,6 +93,7 @@ public class ClassAddPage extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
+                            Log.d(TAG, "add_page_document : " + document);
                             if (document.exists()) {
                                 // 사용자 문서가 존재할 경우
                                 String name = document.getString("name");
