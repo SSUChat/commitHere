@@ -29,7 +29,6 @@ public class ProfessorEditClass extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private void initFirebaseAuth() {
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
     String className;
