@@ -2,6 +2,8 @@
 <resources>
     <color name="mainTheme">#429EBD</color>
     <color name="my_primary">#429EBD</color>
+    <color name="my_primary2">#078EAD</color>
+    <color name="my_primary3">#6FD1C5</color>
     <color name="my_secondary">#F27F0C</color>
 
 

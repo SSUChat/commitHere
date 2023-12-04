@@ -72,27 +72,6 @@ public class ForgetPassword extends AppCompatActivity {
         });
     }
 
-//    private void reauthenticateUser(String id, String password) {
-//        FirebaseAuth auth = FirebaseAuth.getInstance();
-//        String userEmail = id; // 이메일 형식을 수정해야 합니다.
-//
-//        AuthCredential credential = EmailAuthProvider.getCredential(userEmail, password);
-//
-//        mAuth.getCurrentUser().reauthenticate(credential)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            // 사용자 재인증 성공
-//                            Toast.makeText(ForgetPassword.this, "사용자 재인증 성공", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            // 사용자 재인증 실패
-//                            Toast.makeText(ForgetPassword.this, "사용자 재인증 실패", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//    }
-
     private void sendPasswordResetEmail(String id) {
         String email = id;
         mAuth.sendPasswordResetEmail(email)
