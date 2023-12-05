@@ -143,7 +143,7 @@ public class ssuchat_register extends AppCompatActivity {
                                                     updateUI(user);
 
                                                     // Save user data to Firestore
-                                                    saveUserDataToFirestore(user.getUid(), name, studentId, role);
+                                                    saveUserDataToFirestore(user.getUid(),email, name, studentId, role);
                                                 } else {
                                                     // If sign up fails, display a message to the user.
                                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -162,7 +162,7 @@ public class ssuchat_register extends AppCompatActivity {
                 });
     }
 
-    private void saveUserDataToFirestore(String userId, String name, String studentId, String role) {
+    private void saveUserDataToFirestore(String userId, String email, String name, String studentId, String role) {
         // Access Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -171,6 +171,7 @@ public class ssuchat_register extends AppCompatActivity {
 
         // Set user data in Firestore
         Map<String, Object> userData = new HashMap<>();
+        userData.put("email", email);
         userData.put("role", role);
         userData.put("name", name);
         userData.put("studentId", studentId);

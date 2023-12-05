@@ -68,4 +68,9 @@ dependencies {
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
 
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.navigation:navigation-fragment:2.7.5")
+    implementation("androidx.navigation:navigation-ui:2.7.5")
+
 }

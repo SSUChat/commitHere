@@ -38,7 +38,8 @@
             android:exported="false" />
         <activity
             android:name=".ssuchat_main_page"
-            android:exported="false" />
+            android:exported="true"
+            android:parentActivityName=".ssuchat_login"/>
         <activity
             android:name=".ssuchat_register"
             android:exported="true" />
