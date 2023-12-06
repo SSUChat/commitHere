@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -108,10 +109,8 @@ public class ProfessorMainPage extends AppCompatActivity {
             } else if (id == R.id.nav_gallery) {
                 Toast.makeText(ProfessorMainPage.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.nav_logout) {
-                drawer.closeDrawer(GravityCompat.END);
-
-                Button logoutBtn = findViewById(R.id.nav_logout);
-                logoutBtn.setOnClickListener(new View.OnClickListener() {
+                MenuItem logoutItem = binding.navigationView.getMenu().findItem(R.id.nav_logout);
+                logoutItem.getActionView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //로그아웃 기능 넣을 부분
@@ -123,6 +122,7 @@ public class ProfessorMainPage extends AppCompatActivity {
                         finish(); // Optional: close the current activity to prevent going back to it with the back button
                     }
                 });
+                drawer.closeDrawer(GravityCompat.END);
             }
             return false;
         });

@@ -66,8 +66,8 @@ public class ssuchat_main_page extends AppCompatActivity {
             } else if (id == R.id.nav_logout) {
                 drawer.closeDrawer(GravityCompat.END);
 
-                Button logoutBtn = findViewById(R.id.nav_logout);
-                logoutBtn.setOnClickListener(new View.OnClickListener() {
+                MenuItem logoutItem = binding.navigationView.getMenu().findItem(R.id.nav_logout);
+                logoutItem.getActionView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //로그아웃 기능 넣을 부분
