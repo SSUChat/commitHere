@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ssuchat_main_page extends AppCompatActivity {
@@ -50,13 +48,13 @@ public class ssuchat_main_page extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    private class MyModel {
-        private String name;
-        private String className;
-        private String classClass;
-        private String classNumber;
-        private String classBuilding;
-        private String classAddress;
+    private static class MyModel {
+        private final String name;
+        private final String className;
+        private final String classClass;
+        private final String classNumber;
+        private final String classBuilding;
+        private final String classAddress;
 
         public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
             this.name = name;
@@ -161,132 +159,109 @@ public class ssuchat_main_page extends AppCompatActivity {
             }
         });
 
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        // 사용자 문서가 존재할 경우
-                        name = document.getString("name");
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // 사용자 문서가 존재할 경우
+                    name = document.getString("name");
 
-                        CollectionReference collectionRef = db.collection("class");
+                    CollectionReference collectionRef = db.collection("class");
 
 
-                        collectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    documentCnt = task.getResult().size();
-                                    // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
+                    collectionRef.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            documentCnt = task1.getResult().size();
+                            // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
 
-                                    for (int i = 0; i < documentCnt; i++) {
-                                        // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
-                                        String className = task.getResult().getDocuments().get(i).getString("className");
-                                        String classClass = task.getResult().getDocuments().get(i).getString("classClass");
-                                        String classNumber = task.getResult().getDocuments().get(i).getString("classNumber");
-                                        String classBuilding = task.getResult().getDocuments().get(i).getString("classBuilding");
-                                        String classAddress = task.getResult().getDocuments().get(i).getString("classAddress");
-                                        // MyModel 객체 생성
-                                        MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
+                            for (int i = 0; i < documentCnt; i++) {
+                                // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
+                                String className = task1.getResult().getDocuments().get(i).getString("className");
+                                String classClass = task1.getResult().getDocuments().get(i).getString("classClass");
+                                String classNumber = task1.getResult().getDocuments().get(i).getString("classNumber");
+                                String classBuilding = task1.getResult().getDocuments().get(i).getString("classBuilding");
+                                String classAddress = task1.getResult().getDocuments().get(i).getString("classAddress");
+                                // MyModel 객체 생성
+                                MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
 
-                                        // 모델을 리스트에 추가
-                                        myModelList.add(myModel);
-                                    }
-
-                                    myAdapter = new MyAdapter(myModelList);
-
-                                    myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(int pos) {
-                                            Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(ssuchat_main_page.this, SsuchatPreChat.class);
-
-                                            String className = task.getResult().getDocuments().get(pos).getString("className");
-                                            String classClass = task.getResult().getDocuments().get(pos).getString("classClass");
-                                            String classNumber = task.getResult().getDocuments().get(pos).getString("classNumber");
-                                            String classBuilding = task.getResult().getDocuments().get(pos).getString("classBuilding");
-                                            String classAddress = task.getResult().getDocuments().get(pos).getString("classAddress");
-
-                                            intent.putExtra("className", className);
-                                            intent.putExtra("classClass", classClass);
-                                            intent.putExtra("classNumber", classNumber);
-                                            intent.putExtra("classBuilding", classBuilding);
-                                            intent.putExtra("classAddress", classAddress);
-
-                                            startActivity(intent);
-                                        }
-                                    });
-
-                                    myAdapter.setOnLongItemClickListener(new MyAdapter.OnLongItemClickListener() {
-                                        @Override
-                                        public void onLongItemClick(int pos) {
-                                            Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-                                    binding.recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(ssuchat_main_page.this));
-                                    binding.recyclerViewMainPage.setAdapter(new MyAdapter(myModelList));
-
-                                    Log.d(TAG, "Document count: " + documentCnt);
-                                } else {
-                                    // 작업이 실패한 경우
-                                    Log.w(TAG, "Error getting documents.", task.getException());
-                                }
+                                // 모델을 리스트에 추가
+                                myModelList.add(myModel);
                             }
-                        });
-                    } else {
-                        // 사용자 문서가 존재하지 않을 경우
-                        Log.d(TAG, "No such document");
-                    }
+
+                            myAdapter = new MyAdapter(myModelList);
+
+                            myAdapter.setOnItemClickListener(pos -> {
+                                Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ssuchat_main_page.this, SsuchatPreChat.class);
+
+                                String className = task1.getResult().getDocuments().get(pos).getString("className");
+                                String classClass = task1.getResult().getDocuments().get(pos).getString("classClass");
+                                String classNumber = task1.getResult().getDocuments().get(pos).getString("classNumber");
+                                String classBuilding = task1.getResult().getDocuments().get(pos).getString("classBuilding");
+                                String classAddress = task1.getResult().getDocuments().get(pos).getString("classAddress");
+
+                                intent.putExtra("className", className);
+                                intent.putExtra("classClass", classClass);
+                                intent.putExtra("classNumber", classNumber);
+                                intent.putExtra("classBuilding", classBuilding);
+                                intent.putExtra("classAddress", classAddress);
+
+                                startActivity(intent);
+                            });
+
+                            myAdapter.setOnLongItemClickListener(pos -> Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show());
+
+                            binding.recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(ssuchat_main_page.this));
+                            binding.recyclerViewMainPage.setAdapter(new MyAdapter(myModelList));
+
+                            Log.d(TAG, "Document count: " + documentCnt);
+                        } else {
+                            // 작업이 실패한 경우
+                            Log.w(TAG, "Error getting documents.", task1.getException());
+                        }
+                    });
                 } else {
-                    // 작업이 실패한 경우
-                    Log.d(TAG, "get failed with ", task.getException());
+                    // 사용자 문서가 존재하지 않을 경우
+                    Log.d(TAG, "No such document");
                 }
+            } else {
+                // 작업이 실패한 경우
+                Log.d(TAG, "get failed with ", task.getException());
             }
         });
 
-        binding.logoutGoLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ssuchat_main_page.this, ssuchat_login.class);
-                startActivity(intent); // dialog 넣어서 정말 뒤로가시면 로그아웃 된다는 알림 넣어야 함
-            }
+        binding.logoutGoLoginButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ssuchat_main_page.this, ssuchat_login.class);
+            startActivity(intent); // dialog 넣어서 정말 뒤로가시면 로그아웃 된다는 알림 넣어야 함
         });
     }
 
     private static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private MainPageRecycleItemBinding binding;
+        private final MainPageRecycleItemBinding binding;
 
         public MyViewHolder(MainPageRecycleItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
-            binding.mainPageItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        if (MyAdapter.onItemClickListener != null) {
-                            MyAdapter.onItemClickListener.onItemClick(position);
-                        }
+            binding.mainPageItem.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    if (MyAdapter.onItemClickListener != null) {
+                        MyAdapter.onItemClickListener.onItemClick(position);
                     }
                 }
             });
 
-            binding.mainPageItem.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        if (MyAdapter.onLongItemClickListener != null) {
-                            MyAdapter.onLongItemClickListener.onLongItemClick(position);
-                            return true;
-                        }
+            binding.mainPageItem.setOnLongClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    if (MyAdapter.onLongItemClickListener != null) {
+                        MyAdapter.onLongItemClickListener.onLongItemClick(position);
+                        return true;
                     }
-                    return false;
                 }
+                return false;
             });
         }
 
@@ -302,7 +277,7 @@ public class ssuchat_main_page extends AppCompatActivity {
 
     private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-        private List<MyModel> myModelList;
+        private final List<MyModel> myModelList;
 
         private MyAdapter(List<MyModel> myModelList) {
             this.myModelList = myModelList;
@@ -315,7 +290,7 @@ public class ssuchat_main_page extends AppCompatActivity {
         private static MyAdapter.OnItemClickListener onItemClickListener = null;
 
         public void setOnItemClickListener(MyAdapter.OnItemClickListener listener) {
-            this.onItemClickListener = listener;
+            onItemClickListener = listener;
         }
 
         public interface OnLongItemClickListener {
@@ -325,7 +300,7 @@ public class ssuchat_main_page extends AppCompatActivity {
         private static MyAdapter.OnLongItemClickListener onLongItemClickListener = null;
 
         public void setOnLongItemClickListener(MyAdapter.OnLongItemClickListener listener) {
-            this.onLongItemClickListener = listener;
+            onLongItemClickListener = listener;
         }
 
         @NonNull

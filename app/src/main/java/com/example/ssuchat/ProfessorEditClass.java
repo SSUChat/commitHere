@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,9 +56,7 @@ public class ProfessorEditClass extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
 
-        binding.menuBtn.setOnClickListener(v -> {
-            drawer.openDrawer(GravityCompat.END);
-        });
+        binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
         binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
@@ -137,69 +134,61 @@ public class ProfessorEditClass extends AppCompatActivity {
         });
 
         String doc = className + classClass;
-        DocumentReference userRef = db.collection("users").document(userId);;
+        DocumentReference userRef = db.collection("users").document(userId);
 
-        binding.editClassButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            // 여기서 에러
-                            DocumentSnapshot document = task.getResult();
-                            Log.d(TAG, "document : " + document);
-                            if (document.exists()) {
-                                Log.d(TAG, "doc = " + doc);
-                                // 사용자 문서가 존재할 경우
-                                String name = document.getString("name");
+        binding.editClassButton.setOnClickListener(v -> userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // 여기서 에러
+                DocumentSnapshot document = task.getResult();
+                Log.d(TAG, "document : " + document);
+                if (document.exists()) {
+                    Log.d(TAG, "doc = " + doc);
+                    // 사용자 문서가 존재할 경우
+                    String name = document.getString("name");
 
-                                String editClassName = binding.className.getText().toString();
-                                String editClassClass = binding.classClass.getText().toString();
-                                String editClassNumber = binding.classNumber.getText().toString();
-                                String editClassBuilding = binding.classBuilding.getText().toString();
-                                String editClassAddress = binding.classAddress.getText().toString();
+                    String editClassName = binding.className.getText().toString();
+                    String editClassClass = binding.classClass.getText().toString();
+                    String editClassNumber = binding.classNumber.getText().toString();
+                    String editClassBuilding = binding.classBuilding.getText().toString();
+                    String editClassAddress = binding.classAddress.getText().toString();
 
-                                if(editClassName.isEmpty()) {
-                                    editClassName = className;
-                                }
-                                if(editClassClass.isEmpty()) {
-                                    editClassClass = classClass;
-                                }
-                                if(editClassNumber.isEmpty()) {
-                                    editClassNumber = classNumber;
-                                }
-                                if(editClassBuilding.isEmpty()) {
-                                    editClassBuilding = classBuilding;
-                                }
-                                if(editClassAddress.isEmpty()) {
-                                    editClassAddress = classAddress;
-                                }
-
-                                saveClassDataToFirestore(name, editClassName, editClassClass, editClassNumber, editClassBuilding, editClassAddress);
-
-                                Intent intent = new Intent(ProfessorEditClass.this, ProfessorPreChat.class);
-
-                                intent.putExtra("className", className);
-                                intent.putExtra("classClass", classClass);
-                                intent.putExtra("classNumber", classNumber);
-                                intent.putExtra("classBuilding", classBuilding);
-                                intent.putExtra("classAddress", classAddress);
-
-                                startActivity(intent);
-
-                            } else {
-                                // 사용자 문서가 존재하지 않을 경우
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            // 작업이 실패한 경우
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
+                    if(editClassName.isEmpty()) {
+                        editClassName = className;
                     }
-                });
+                    if(editClassClass.isEmpty()) {
+                        editClassClass = classClass;
+                    }
+                    if(editClassNumber.isEmpty()) {
+                        editClassNumber = classNumber;
+                    }
+                    if(editClassBuilding.isEmpty()) {
+                        editClassBuilding = classBuilding;
+                    }
+                    if(editClassAddress.isEmpty()) {
+                        editClassAddress = classAddress;
+                    }
+
+                    saveClassDataToFirestore(name, editClassName, editClassClass, editClassNumber, editClassBuilding, editClassAddress);
+
+                    Intent intent = new Intent(ProfessorEditClass.this, ProfessorPreChat.class);
+
+                    intent.putExtra("className", className);
+                    intent.putExtra("classClass", classClass);
+                    intent.putExtra("classNumber", classNumber);
+                    intent.putExtra("classBuilding", classBuilding);
+                    intent.putExtra("classAddress", classAddress);
+
+                    startActivity(intent);
+
+                } else {
+                    // 사용자 문서가 존재하지 않을 경우
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                // 작업이 실패한 경우
+                Log.d(TAG, "get failed with ", task.getException());
             }
-        });
+        }));
 
     }
 
@@ -216,17 +205,7 @@ public class ProfessorEditClass extends AppCompatActivity {
         userData.put("classAddress", classAddress);
 
         userRef.set(userData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "User data saved to Firestore.");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error saving user data to Firestore", e);
-                    }
-                });
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "User data saved to Firestore."))
+                .addOnFailureListener(e -> Log.w(TAG, "Error saving user data to Firestore", e));
     }
 }

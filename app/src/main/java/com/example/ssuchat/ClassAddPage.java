@@ -57,9 +57,7 @@ public class ClassAddPage extends AppCompatActivity {
         String userId = user.getUid();
         DocumentReference userRef = db.collection("users").document(userId);
 
-        binding.menuBtn.setOnClickListener(v -> {
-            drawer.openDrawer(GravityCompat.END);
-        });
+        binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
         binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
@@ -72,17 +70,14 @@ public class ClassAddPage extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.END);
 
                 MenuItem logoutItem = binding.navigationView.getMenu().findItem(R.id.nav_logout);
-                logoutItem.getActionView().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //로그아웃 기능 넣을 부분
-                        FirebaseAuth.getInstance().signOut();
+                logoutItem.getActionView().setOnClickListener(v -> {
+                    //로그아웃 기능 넣을 부분
+                    FirebaseAuth.getInstance().signOut();
 
-                        // Navigate to the login screen
-                        Intent intent = new Intent(ClassAddPage.this, ssuchat_login.class);
-                        startActivity(intent);
-                        finish(); // Optional: close the current activity to prevent going back to it with the back button
-                    }
+                    // Navigate to the login screen
+                    Intent intent = new Intent(ClassAddPage.this, ssuchat_login.class);
+                    startActivity(intent);
+                    finish(); // Optional: close the current activity to prevent going back to it with the back button
                 });
             }
             return false;
@@ -147,82 +142,68 @@ public class ClassAddPage extends AppCompatActivity {
 //        int SelectEndMinute2 = Integer.parseInt(String.valueOf(selectEndMinute2));
 //        int SelectEndMinute3 = Integer.parseInt(String.valueOf(selectEndMinute3));
 
-        binding.addClassButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            Log.d(TAG, "add_page_document : " + document);
-                            if (document.exists()) {
-                                // 사용자 문서가 존재할 경우
-                                String name = document.getString("name");
+        binding.addClassButton.setOnClickListener(v -> userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                Log.d(TAG, "add_page_document : " + document);
+                if (document.exists()) {
+                    // 사용자 문서가 존재할 경우
+                    String name = document.getString("name");
 
-                                String className = binding.className.getText().toString();
-                                String classClass = binding.classClass.getText().toString();
-                                String classNumber = binding.classNumber.getText().toString();
-                                String classBuilding = binding.classBuilding.getText().toString();
-                                String classAddress = binding.classAddress.getText().toString();
-                                String selectWeek1 = String.valueOf(binding.selectWeek1);
-                                String selectWeek2 = String.valueOf(binding.selectWeek2);
-                                String selectWeek3 = String.valueOf(binding.selectWeek3);
-                                String selectStartHour1 = String.valueOf(binding.selectStartHour1);
-                                String selectStartHour2 = String.valueOf(binding.selectStartHour2);
-                                String selectStartHour3 = String.valueOf(binding.selectStartHour3);
-                                String selectStartMinute1 = String.valueOf(binding.selectStartMinute1);
-                                String selectStartMinute2 = String.valueOf(binding.selectStartMinute2);
-                                String selectStartMinute3 = String.valueOf(binding.selectStartMinute3);
-                                String selectEndHour1 = String.valueOf(binding.selectEndHour1);
-                                String selectEndHour2 = String.valueOf(binding.selectEndHour2);
-                                String selectEndHour3 = String.valueOf(binding.selectEndHour3);
-                                String selectEndMinute1 = String.valueOf(binding.selectEndMinute1);
-                                String selectEndMinute2 = String.valueOf(binding.selectEndMinute2);
-                                String selectEndMinute3 = String.valueOf(binding.selectEndMinute3);
+                    String className = binding.className.getText().toString();
+                    String classClass = binding.classClass.getText().toString();
+                    String classNumber = binding.classNumber.getText().toString();
+                    String classBuilding = binding.classBuilding.getText().toString();
+                    String classAddress = binding.classAddress.getText().toString();
+                    String selectWeek1 = String.valueOf(binding.selectWeek1);
+                    String selectWeek2 = String.valueOf(binding.selectWeek2);
+                    String selectWeek3 = String.valueOf(binding.selectWeek3);
+                    String selectStartHour1 = String.valueOf(binding.selectStartHour1);
+                    String selectStartHour2 = String.valueOf(binding.selectStartHour2);
+                    String selectStartHour3 = String.valueOf(binding.selectStartHour3);
+                    String selectStartMinute1 = String.valueOf(binding.selectStartMinute1);
+                    String selectStartMinute2 = String.valueOf(binding.selectStartMinute2);
+                    String selectStartMinute3 = String.valueOf(binding.selectStartMinute3);
+                    String selectEndHour1 = String.valueOf(binding.selectEndHour1);
+                    String selectEndHour2 = String.valueOf(binding.selectEndHour2);
+                    String selectEndHour3 = String.valueOf(binding.selectEndHour3);
+                    String selectEndMinute1 = String.valueOf(binding.selectEndMinute1);
+                    String selectEndMinute2 = String.valueOf(binding.selectEndMinute2);
+                    String selectEndMinute3 = String.valueOf(binding.selectEndMinute3);
 
-                                saveClassDataToFirestore(userId, name, className, classClass, classNumber, classBuilding, classAddress,
-                                        selectWeek1, selectStartHour1, selectStartMinute1, selectEndHour1, selectEndMinute1,
-                                        selectWeek2, selectStartHour2, selectStartMinute2, selectEndHour2, selectEndMinute2,
-                                        selectWeek3, selectStartHour3, selectStartMinute3, selectEndHour3, selectEndMinute3);
+                    saveClassDataToFirestore(userId, name, className, classClass, classNumber, classBuilding, classAddress,
+                            selectWeek1, selectStartHour1, selectStartMinute1, selectEndHour1, selectEndMinute1,
+                            selectWeek2, selectStartHour2, selectStartMinute2, selectEndHour2, selectEndMinute2,
+                            selectWeek3, selectStartHour3, selectStartMinute3, selectEndHour3, selectEndMinute3);
 
-                                Toast.makeText(ClassAddPage.this, "강의가 추가되었습니다!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClassAddPage.this, "강의가 추가되었습니다!!", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(ClassAddPage.this, ProfessorMainPage.class);
-                                startActivity(intent);
+                    Intent intent = new Intent(ClassAddPage.this, ProfessorMainPage.class);
+                    startActivity(intent);
 
-                                // 이제 'name' 변수에 문서에서 가져온 이름이 들어 있음
-                                // saveClassDataToFirestore 메소드 호출할 때 'name'을 전달하면 됨
-                            } else {
-                                // 사용자 문서가 존재하지 않을 경우
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            // 작업이 실패한 경우
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
+                    // 이제 'name' 변수에 문서에서 가져온 이름이 들어 있음
+                    // saveClassDataToFirestore 메소드 호출할 때 'name'을 전달하면 됨
+                } else {
+                    // 사용자 문서가 존재하지 않을 경우
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                // 작업이 실패한 경우
+                Log.d(TAG, "get failed with ", task.getException());
             }
+        }));
+
+        binding.goBackMainPageProfessor.setOnClickListener(v -> {
+            Intent intent = new Intent(ClassAddPage.this, ProfessorMainPage.class);
+            startActivity(intent);
         });
 
-        binding.goBackMainPageProfessor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ClassAddPage.this, ProfessorMainPage.class);
-                startActivity(intent);
+        binding.addClassTimeButton.setOnClickListener(v -> {
+            if(binding.selectClassTime2.getVisibility() == View.GONE) {
+                binding.selectClassTime2.setVisibility(View.VISIBLE);
             }
-        });
-
-        binding.addClassTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(binding.selectClassTime2.getVisibility() == View.GONE) {
-                    binding.selectClassTime2.setVisibility(View.VISIBLE);
-                }
-                else {
-                    binding.selectClassTime3.setVisibility(View.VISIBLE);
-                }
+            else {
+                binding.selectClassTime3.setVisibility(View.VISIBLE);
             }
         });
 
@@ -278,32 +259,12 @@ public class ClassAddPage extends AppCompatActivity {
         userData.put("createdAt", FieldValue.serverTimestamp());
 
         userRef.set(userData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "User data saved to Firestore.");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error saving user data to Firestore", e);
-                    }
-                });
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "User data saved to Firestore."))
+                .addOnFailureListener(e -> Log.w(TAG, "Error saving user data to Firestore", e));
 
         classRef.set(userData)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d(TAG, "User data saved to Class Firestore.");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error saving user data to Class Firestore", e);
-                    }
-                });
+                .addOnCompleteListener(task -> Log.d(TAG, "User data saved to Class Firestore."))
+                .addOnFailureListener(e -> Log.w(TAG, "Error saving user data to Class Firestore", e));
     }
 
 }

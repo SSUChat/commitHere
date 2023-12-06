@@ -48,13 +48,13 @@ public class ProfessorMainPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    private class MyModel {
-        private String name;
-        private String className;
-        private String classClass;
-        private String classNumber;
-        private String classBuilding;
-        private String classAddress;
+    private static class MyModel {
+        private final String name;
+        private final String className;
+        private final String classClass;
+        private final String classNumber;
+        private final String classBuilding;
+        private final String classAddress;
 
         public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
             this.name = name;
@@ -97,9 +97,7 @@ public class ProfessorMainPage extends AppCompatActivity {
         drawer = findViewById(R.id.drawerLayout);
         String userId = user.getUid();
 
-        binding.menuBtn.setOnClickListener(v -> {
-            drawer.openDrawer(GravityCompat.END);
-        });
+        binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
         binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
@@ -157,141 +155,115 @@ public class ProfessorMainPage extends AppCompatActivity {
 
         DocumentReference userRef = db.collection("users").document(userId);
 
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        // 사용자 문서가 존재할 경우
-                        name = document.getString("name");
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // 사용자 문서가 존재할 경우
+                    name = document.getString("name");
 
-                        CollectionReference collectionRef = db.collection(name);
+                    CollectionReference collectionRef = db.collection(name);
 
-                        collectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    documentCnt = task.getResult().size();
-                                    // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
+                    collectionRef.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            documentCnt = task1.getResult().size();
+                            // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
 
-                                    for (int i = 0; i < documentCnt; i++) {
-                                        // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
-                                        String className = task.getResult().getDocuments().get(i).getString("className");
-                                        String classClass = task.getResult().getDocuments().get(i).getString("classClass");
-                                        String classNumber = task.getResult().getDocuments().get(i).getString("classNumber");
-                                        String classBuilding = task.getResult().getDocuments().get(i).getString("classBuilding");
-                                        String classAddress = task.getResult().getDocuments().get(i).getString("classAddress");
+                            for (int i = 0; i < documentCnt; i++) {
+                                // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
+                                String className = task1.getResult().getDocuments().get(i).getString("className");
+                                String classClass = task1.getResult().getDocuments().get(i).getString("classClass");
+                                String classNumber = task1.getResult().getDocuments().get(i).getString("classNumber");
+                                String classBuilding = task1.getResult().getDocuments().get(i).getString("classBuilding");
+                                String classAddress = task1.getResult().getDocuments().get(i).getString("classAddress");
 
-                                        // MyModel 객체 생성
-                                        MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
+                                // MyModel 객체 생성
+                                MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
 
-                                        // 모델을 리스트에 추가
-                                        myModelList.add(myModel);
-                                    }
-
-                                    myAdapter = new MyAdapter(myModelList);
-
-                                    myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(int pos) {
-                                            Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(ProfessorMainPage.this, ProfessorPreChat.class);
-
-                                            String className = task.getResult().getDocuments().get(pos).getString("className");
-                                            String classClass = task.getResult().getDocuments().get(pos).getString("classClass");
-                                            String classNumber = task.getResult().getDocuments().get(pos).getString("classNumber");
-                                            String classBuilding = task.getResult().getDocuments().get(pos).getString("classBuilding");
-                                            String classAddress = task.getResult().getDocuments().get(pos).getString("classAddress");
-
-                                            intent.putExtra("className", className);
-                                            intent.putExtra("classClass", classClass);
-                                            intent.putExtra("classNumber", classNumber);
-                                            intent.putExtra("classBuilding", classBuilding);
-                                            intent.putExtra("classAddress", classAddress);
-
-                                            startActivity(intent);
-                                        }
-                                    });
-
-                                    myAdapter.setOnLongItemClickListener(new MyAdapter.OnLongItemClickListener() {
-                                        @Override
-                                        public void onLongItemClick(int pos) {
-                                            Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-                                    binding.recyclerViewMainPageProfessor.setLayoutManager(new LinearLayoutManager(ProfessorMainPage.this));
-                                    binding.recyclerViewMainPageProfessor.setAdapter(new MyAdapter(myModelList));
-
-                                    Log.d(TAG, "Document count: " + documentCnt);
-                                } else {
-                                    // 작업이 실패한 경우
-                                    Log.w(TAG, "Error getting documents.", task.getException());
-                                }
+                                // 모델을 리스트에 추가
+                                myModelList.add(myModel);
                             }
-                        });
-                    } else {
-                        // 사용자 문서가 존재하지 않을 경우
-                        Log.d(TAG, "No such document");
-                    }
+
+                            myAdapter = new MyAdapter(myModelList);
+
+                            myAdapter.setOnItemClickListener(pos -> {
+                                Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ProfessorMainPage.this, ProfessorPreChat.class);
+
+                                String className = task1.getResult().getDocuments().get(pos).getString("className");
+                                String classClass = task1.getResult().getDocuments().get(pos).getString("classClass");
+                                String classNumber = task1.getResult().getDocuments().get(pos).getString("classNumber");
+                                String classBuilding = task1.getResult().getDocuments().get(pos).getString("classBuilding");
+                                String classAddress = task1.getResult().getDocuments().get(pos).getString("classAddress");
+
+                                intent.putExtra("className", className);
+                                intent.putExtra("classClass", classClass);
+                                intent.putExtra("classNumber", classNumber);
+                                intent.putExtra("classBuilding", classBuilding);
+                                intent.putExtra("classAddress", classAddress);
+
+                                startActivity(intent);
+                            });
+
+                            myAdapter.setOnLongItemClickListener(pos -> Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show());
+
+                            binding.recyclerViewMainPageProfessor.setLayoutManager(new LinearLayoutManager(ProfessorMainPage.this));
+                            binding.recyclerViewMainPageProfessor.setAdapter(new MyAdapter(myModelList));
+
+                            Log.d(TAG, "Document count: " + documentCnt);
+                        } else {
+                            // 작업이 실패한 경우
+                            Log.w(TAG, "Error getting documents.", task1.getException());
+                        }
+                    });
                 } else {
-                    // 작업이 실패한 경우
-                    Log.d(TAG, "get failed with ", task.getException());
+                    // 사용자 문서가 존재하지 않을 경우
+                    Log.d(TAG, "No such document");
                 }
+            } else {
+                // 작업이 실패한 경우
+                Log.d(TAG, "get failed with ", task.getException());
             }
         });
 
-        binding.classAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfessorMainPage.this, ClassAddPage.class);
-                startActivity(intent);
-            }
+        binding.classAddButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfessorMainPage.this, ClassAddPage.class);
+            startActivity(intent);
         });
 
-        binding.logoutGoLoginButtonProfessor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfessorMainPage.this, ssuchat_login.class);
-                startActivity(intent);
-            }
+        binding.logoutGoLoginButtonProfessor.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfessorMainPage.this, ssuchat_login.class);
+            startActivity(intent);
         });
 
     }
 
     private static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private MainPageRecycleItemBinding binding;
+        private final MainPageRecycleItemBinding binding;
 
         public MyViewHolder(MainPageRecycleItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
-            binding.mainPageItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        if (MyAdapter.onItemClickListener != null) {
-                            MyAdapter.onItemClickListener.onItemClick(position);
-                        }
+            binding.mainPageItem.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    if (MyAdapter.onItemClickListener != null) {
+                        MyAdapter.onItemClickListener.onItemClick(position);
                     }
                 }
             });
 
-            binding.mainPageItem.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        if (MyAdapter.onLongItemClickListener != null) {
-                            MyAdapter.onLongItemClickListener.onLongItemClick(position);
-                            return true;
-                        }
+            binding.mainPageItem.setOnLongClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    if (MyAdapter.onLongItemClickListener != null) {
+                        MyAdapter.onLongItemClickListener.onLongItemClick(position);
+                        return true;
                     }
-                    return false;
                 }
+                return false;
             });
         }
 
@@ -307,7 +279,7 @@ public class ProfessorMainPage extends AppCompatActivity {
 
     private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-        private List<MyModel> myModelList;
+        private final List<MyModel> myModelList;
 
         private MyAdapter(List<MyModel> myModelList) {
             this.myModelList = myModelList;
@@ -320,7 +292,7 @@ public class ProfessorMainPage extends AppCompatActivity {
         private static OnItemClickListener onItemClickListener = null;
 
         public void setOnItemClickListener(MyAdapter.OnItemClickListener listener) {
-            this.onItemClickListener = listener;
+            onItemClickListener = listener;
         }
 
         public interface OnLongItemClickListener {
@@ -330,7 +302,7 @@ public class ProfessorMainPage extends AppCompatActivity {
         private static OnLongItemClickListener onLongItemClickListener = null;
 
         public void setOnLongItemClickListener(OnLongItemClickListener listener) {
-            this.onLongItemClickListener = listener;
+            onLongItemClickListener = listener;
         }
 
         @NonNull

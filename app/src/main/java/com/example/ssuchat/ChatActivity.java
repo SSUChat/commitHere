@@ -77,9 +77,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
-        backBtn.setOnClickListener((v)->{
-            onBackPressed();
-        });
+        backBtn.setOnClickListener((v)-> onBackPressed());
         otherUsername.setText(otherUser.getUsername());
 
         sendMessageBtn.setOnClickListener((v -> {
@@ -124,13 +122,10 @@ public class ChatActivity extends AppCompatActivity {
 
         ChatMessageModel chatMessageModel = new ChatMessageModel(message,FirebaseUtil.currentUserId(),Timestamp.now());
         FirebaseUtil.getChatroomMessageReference(chatroomId).add(chatMessageModel)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if(task.isSuccessful()){
-                            messageInput.setText("");
-                            sendNotification(message);
-                        }
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        messageInput.setText("");
+                        sendNotification(message);
                     }
                 });
     }

@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SsuchatPreChat extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
     private DrawerLayout drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +34,12 @@ public class SsuchatPreChat extends AppCompatActivity {
         ActivitySsuchatPreChatBinding binding = ActivitySsuchatPreChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         drawer = findViewById(R.id.drawerLayout);
 
-        binding.menuBtn.setOnClickListener(v -> {
-            drawer.openDrawer(GravityCompat.END);
-        });
+        binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
         binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
@@ -104,27 +99,21 @@ public class SsuchatPreChat extends AppCompatActivity {
         }
 
         binding.liveMemberRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.liveMemberRecyclerView.setAdapter(new SsuchatPreChat.MyAdapter(list));
+        binding.liveMemberRecyclerView.setAdapter(new MyAdapter(list));
 
-        binding.backMainPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SsuchatPreChat.this, ssuchat_main_page.class);
-                startActivity(intent);
-            }
+        binding.backMainPage.setOnClickListener(v -> {
+            Intent intent = new Intent(SsuchatPreChat.this, ssuchat_main_page.class);
+            startActivity(intent);
         });
 
-        binding.buttonEnterChatting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SsuchatPreChat.this, SsuchatChatting.class);
-                startActivity(intent);
-            }
+        binding.buttonEnterChatting.setOnClickListener(v -> {
+            Intent intent = new Intent(SsuchatPreChat.this, SsuchatChatting.class);
+            startActivity(intent);
         });
     }
 
-    private class MyViewHolder extends RecyclerView.ViewHolder {
-        private SsuchatLiveMemberItemBinding binding;
+    private static class MyViewHolder extends RecyclerView.ViewHolder {
+        private final SsuchatLiveMemberItemBinding binding;
 
         private MyViewHolder(SsuchatLiveMemberItemBinding binding) {
             super(binding.getRoot());
@@ -137,9 +126,9 @@ public class SsuchatPreChat extends AppCompatActivity {
         }
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-        private List<String> list;
+        private final List<String> list;
 
         private MyAdapter(List<String> list) {
             this.list = list;

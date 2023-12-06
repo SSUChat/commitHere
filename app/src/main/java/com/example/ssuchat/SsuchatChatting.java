@@ -13,12 +13,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivitySsuchatChattingBinding;
-import com.example.ssuchat.databinding.MainPageRecycleItemBinding;
 import com.example.ssuchat.databinding.SsuchatChattingItemBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SsuchatChatting extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
     private DrawerLayout drawer;
 
     @Override
@@ -39,14 +35,12 @@ public class SsuchatChatting extends AppCompatActivity {
         ActivitySsuchatChattingBinding binding = ActivitySsuchatChattingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         drawer = findViewById(R.id.drawerLayout);
 
-        binding.menuBtn.setOnClickListener(v -> {
-            drawer.openDrawer(GravityCompat.END);
-        });
+        binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
         binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
@@ -108,18 +102,15 @@ public class SsuchatChatting extends AppCompatActivity {
         binding.chattingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.chattingRecyclerView.setAdapter(new MyAdapter(list));
 
-        binding.goBackPreChatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SsuchatChatting.this, SsuchatPreChat.class);
-                startActivity(intent);
-            }
+        binding.goBackPreChatButton.setOnClickListener(v -> {
+            Intent intent = new Intent(SsuchatChatting.this, SsuchatPreChat.class);
+            startActivity(intent);
         });
 
     }
 
-    private class MyViewHolder extends RecyclerView.ViewHolder {
-        private SsuchatChattingItemBinding binding;
+    private static class MyViewHolder extends RecyclerView.ViewHolder {
+        private final SsuchatChattingItemBinding binding;
 
         private MyViewHolder(SsuchatChattingItemBinding binding) {
             super(binding.getRoot());
@@ -132,9 +123,9 @@ public class SsuchatChatting extends AppCompatActivity {
         }
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
-        private List<String> list;
+        private final List<String> list;
 
         private MyAdapter(List<String> list) {
             this.list = list;
