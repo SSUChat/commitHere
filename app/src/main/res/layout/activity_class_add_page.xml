@@ -1,424 +1,443 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:openDrawer="end">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="#6FD1C5"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:weightSum="10">
-
-        <TextView
-            android:id="@+id/go_back_main_page_professor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_back"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="강의 추가"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_weight="10"
-            android:layout_gravity="center"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_menu"/>
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="16dp">
+            android:layout_height="60dp"
+            android:background="#6FD1C5"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/go_back_main_page_professor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_back" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="강의명"
-                android:textStyle="bold"
-                android:textSize="20dp"/>
-
-            <EditText
-                android:id="@+id/class_name"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/edittext_shape"
-                android:hint="강의명 입력"
-                android:padding="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="분반"
-                android:textStyle="bold"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/class_class"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:hint="분반명 입력"
-                android:background="@drawable/edittext_shape"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:padding="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="강의번호"
-                android:textStyle="bold"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/class_number"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:hint="강의번호 입력"
-                android:background="@drawable/edittext_shape"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:padding="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="건물명"
-                android:textStyle="bold"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/class_building"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:hint="건물명 입력"
-                android:background="@drawable/edittext_shape"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:padding="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="강의실"
-                android:textStyle="bold"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/class_address"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:hint="강의실 입력"
-                android:background="@drawable/edittext_shape"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:padding="10dp"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="강의시간"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:layout_alignParentStart="true"/>
-
-                <TextView
-                    android:id="@+id/add_class_time_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="요일 추가"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12dp"/>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/select_class_time1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 요일 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_week1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/week_setting"
-                        android:entries="@array/week"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 시작 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_start_hour1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_hour"
-                        android:entries="@array/hours"/>
-
-                    <Spinner
-                        android:id="@+id/select_start_minute1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_minute"
-                        android:entries="@array/minutes"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 종료 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_end_hour1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_hour"
-                        android:entries="@array/hours"/>
-
-                    <Spinner
-                        android:id="@+id/select_end_minute1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_minute"
-                        android:entries="@array/minutes"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/select_class_time2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 요일 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_week2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/week_setting"
-                        android:entries="@array/week"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 시작 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_start_hour2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_hour"
-                        android:entries="@array/hours"/>
-
-                    <Spinner
-                        android:id="@+id/select_start_minute2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_minute"
-                        android:entries="@array/minutes"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 종료 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_end_hour2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_hour"
-                        android:entries="@array/hours"/>
-
-                    <Spinner
-                        android:id="@+id/select_end_minute2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_minute"
-                        android:entries="@array/minutes"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/select_class_time3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 요일 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_week3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/week_setting"
-                        android:entries="@array/week"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 시작 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_start_hour3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_hour"
-                        android:entries="@array/hours"/>
-
-                    <Spinner
-                        android:id="@+id/select_start_minute3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_minute"
-                        android:entries="@array/minutes"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="강의 종료 : "/>
-
-                    <Spinner
-                        android:id="@+id/select_end_hour3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_hour"
-                        android:entries="@array/hours"/>
-
-                    <Spinner
-                        android:id="@+id/select_end_minute3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:prompt="@string/start_minute"
-                        android:entries="@array/minutes"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/add_class_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="10"
+                android:gravity="center"
                 android:text="강의 추가"
-                android:textSize="18dp"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/button_shape_color"/>
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/menu_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_menu" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="강의명"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/class_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/edittext_shape"
+                    android:hint="강의명 입력"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="분반"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/class_class"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/edittext_shape"
+                    android:hint="분반명 입력"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="강의번호"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/class_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/edittext_shape"
+                    android:hint="강의번호 입력"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="건물명"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/class_building"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/edittext_shape"
+                    android:hint="건물명 입력"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="강의실"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/class_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/edittext_shape"
+                    android:hint="강의실 입력"
+                    android:padding="10dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="강의시간"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/add_class_time_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12dp"
+                        android:text="요일 추가" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/select_class_time1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 요일 : " />
+
+                        <Spinner
+                            android:id="@+id/select_week1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/week"
+                            android:prompt="@string/week_setting" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 시작 : " />
+
+                        <Spinner
+                            android:id="@+id/select_start_hour1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/hours"
+                            android:prompt="@string/start_hour" />
+
+                        <Spinner
+                            android:id="@+id/select_start_minute1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/minutes"
+                            android:prompt="@string/start_minute" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 종료 : " />
+
+                        <Spinner
+                            android:id="@+id/select_end_hour1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/hours"
+                            android:prompt="@string/start_hour" />
+
+                        <Spinner
+                            android:id="@+id/select_end_minute1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/minutes"
+                            android:prompt="@string/start_minute" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/select_class_time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 요일 : " />
+
+                        <Spinner
+                            android:id="@+id/select_week2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/week"
+                            android:prompt="@string/week_setting" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 시작 : " />
+
+                        <Spinner
+                            android:id="@+id/select_start_hour2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/hours"
+                            android:prompt="@string/start_hour" />
+
+                        <Spinner
+                            android:id="@+id/select_start_minute2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/minutes"
+                            android:prompt="@string/start_minute" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 종료 : " />
+
+                        <Spinner
+                            android:id="@+id/select_end_hour2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/hours"
+                            android:prompt="@string/start_hour" />
+
+                        <Spinner
+                            android:id="@+id/select_end_minute2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/minutes"
+                            android:prompt="@string/start_minute" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/select_class_time3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 요일 : " />
+
+                        <Spinner
+                            android:id="@+id/select_week3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/week"
+                            android:prompt="@string/week_setting" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 시작 : " />
+
+                        <Spinner
+                            android:id="@+id/select_start_hour3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/hours"
+                            android:prompt="@string/start_hour" />
+
+                        <Spinner
+                            android:id="@+id/select_start_minute3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/minutes"
+                            android:prompt="@string/start_minute" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="강의 종료 : " />
+
+                        <Spinner
+                            android:id="@+id/select_end_hour3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/hours"
+                            android:prompt="@string/start_hour" />
+
+                        <Spinner
+                            android:id="@+id/select_end_minute3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/minutes"
+                            android:prompt="@string/start_minute" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/add_class_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/button_shape_color"
+                    android:text="강의 추가"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/activity_main_drawer" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

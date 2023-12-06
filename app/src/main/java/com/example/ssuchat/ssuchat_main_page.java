@@ -36,9 +36,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class ssuchat_main_page extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-
     private MyAdapter myAdapter;
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private DrawerLayout drawer;
 
@@ -49,6 +48,8 @@ public class ssuchat_main_page extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
         drawer = findViewById(R.id.drawerLayout);
 
         binding.menuBtn.setOnClickListener(v -> {
@@ -84,8 +85,6 @@ public class ssuchat_main_page extends AppCompatActivity {
 
 
         //Firestore에 저장된 유저 정보 가져오기
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
         DocumentReference userRef = db.collection("users").document(user.getUid());
         userRef.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {

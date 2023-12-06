@@ -1,105 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:openDrawer="end">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="#6FD1C5"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:weightSum="10">
-
-        <TextView
-            android:id="@+id/back_pre_chat_professor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_back"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_weight="10"
-            android:layout_gravity="center"
-            android:text="수강 인원 정보 / 수정"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/ic_menu"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/add_class_member"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#6FD1C5"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/back_pre_chat_professor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="수강 인원 정보 / 수정"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/menu_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_menu" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-            android:background="@drawable/edittext_shape"
-            android:hint="추가할 인원의 학번 입력"
-            android:padding="10dp"/>
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/add_class_member_professor"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/button_shape_color"
-            android:text="수강 인원 추가하기"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
+            <EditText
+                android:id="@+id/add_class_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:background="@drawable/edittext_shape"
+                android:hint="추가할 인원의 학번 입력"
+                android:padding="10dp" />
 
-        <EditText
-            android:id="@+id/remove_class_member"
+            <Button
+                android:id="@+id/add_class_member_professor"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_shape_color"
+                android:text="수강 인원 추가하기"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/remove_class_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/edittext_shape"
+                android:hint="삭제할 인원의 학번 입력"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/remove_class_member_professor"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/button_shape_color"
+                android:text="수강 인원 삭제하기"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/class_member_recycler_view_professor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/edittext_shape"
-            android:hint="삭제할 인원의 학번 입력"
-            android:padding="10dp"/>
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp">
 
-        <Button
-            android:id="@+id/remove_class_member_professor"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/button_shape_color"
-            android:text="수강 인원 삭제하기"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="18dp"/>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/class_member_recycler_view_professor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp">
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/activity_main_drawer" />
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
