@@ -236,6 +236,7 @@ public class ClassAddPage extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         String doc = className + classClass;
         DocumentReference userRef = db.collection(name).document(doc);
+        DocumentReference classRef = db.collection("class").document(doc);
         Map<String, Object> userData = new HashMap<>();
 
 //        int SelectStartHour1 = Integer.parseInt(selectStartHour1);
@@ -286,6 +287,20 @@ public class ClassAddPage extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error saving user data to Firestore", e);
+                    }
+                });
+
+        classRef.set(userData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d(TAG, "User data saved to Class Firestore.");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error saving user data to Class Firestore", e);
                     }
                 });
     }

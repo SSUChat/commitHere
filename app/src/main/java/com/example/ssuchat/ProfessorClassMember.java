@@ -153,6 +153,7 @@ public class ProfessorClassMember extends AppCompatActivity {
 
                                     DocumentReference updateRef = db.collection(name).document(className+classClass);
                                     Log.d(TAG, "Name + Class : " + className + classClass);
+                                    DocumentReference classRef = db.collection("class").document(className+classClass);
                                     enrolledStudentsList.add(addClassMember);
 
                                     Map<String, Object> updateData = new HashMap<>();
@@ -171,6 +172,20 @@ public class ProfessorClassMember extends AppCompatActivity {
                                                     Log.w("TAG", "Error updating enrolled students list", e);
                                                 }
                                             });
+
+                                    classRef.update(updateData)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Log.d("TAG", "Enrolled students list updated successfully");
+                                                        }
+                                                    })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w("TAG", "Error updating enrolled students list", e);
+                                                    }
+                                                });
 
                                     Log.d(TAG, "getDocument : " + document.getString("enrolledStudents"));
 
