@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivityProfessorPreChatBinding;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,7 +42,8 @@ public class ProfessorPreChat extends AppCompatActivity {
 
         binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
-        binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
+        NavigationView sideNavigationView = findViewById(R.id.navigationView);
+        sideNavigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
             if (id == R.id.nav_home) {
                 // Handle navigation home
@@ -49,35 +52,19 @@ public class ProfessorPreChat extends AppCompatActivity {
                 // Handle navigation gallery
                 Toast.makeText(ProfessorPreChat.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.nav_logout) {
-//                Button logoutButton = binding.navigationView.getHeaderView(0).findViewById(R.id.nav_logout);
-//
-//                logoutButton.setOnClickListener(view -> {
-//                    // Handle navigation logout
-//                    drawer.closeDrawer(GravityCompat.END);
-//
-//                    // Implement logout functionality
-//                    FirebaseAuth.getInstance().signOut();
-//
-//                    // Navigate to the login screen
-//                    Intent intent = new Intent(ProfessorPreChat.this, ssuchat_login.class);
-//                    startActivity(intent);
-//                    finish(); // Optional: close the current activity to prevent going back to it with the back button
-//                });
-                MenuItem logoutItem = binding.navigationView.getMenu().findItem(R.id.nav_logout);
-                logoutItem.setOnMenuItemClickListener(item -> {
-                    drawer.closeDrawer(GravityCompat.END);
-                    // 로그아웃 기능 넣을 부분
-                    FirebaseAuth.getInstance().signOut();
+                // 네비게이션 드로어를 닫습니다.
+                drawer.closeDrawer(GravityCompat.END);
 
-                    // Navigate to the login screen
-                    Intent intent = new Intent(ProfessorPreChat.this, ssuchat_login.class);
-                    startActivity(intent);
-//                    finish(); // Optional: close the current activity to prevent going back to it with the back button
-                    return true;
-                });
+                // 로그아웃 기능을 수행합니다.
+                FirebaseAuth.getInstance().signOut();
+
+                // 로그인 화면으로 이동합니다.
+                switchToOtherActivity(ssuchat_login.class);
+                finish(); // Optional: close the current activity to prevent going back to it with the back button
             }
             return false;
         });
+
 
 
         if (user != null) {
@@ -154,5 +141,16 @@ public class ProfessorPreChat extends AppCompatActivity {
             startActivity(intent);
         });
 
+    }
+
+    private void switchToOtherActivity(Class<?> destinationActivity) {
+        // 현재 액티비티의 컨텍스트를 가져옵니다.
+        Context context = this;
+
+        // Intent를 생성하고, 전환할 액티비티로 설정합니다.
+        Intent intent = new Intent(context, destinationActivity);
+
+        // 다른 액티비티로 전환합니다.
+        startActivity(intent);
     }
 }

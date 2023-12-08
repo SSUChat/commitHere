@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.example.ssuchat.databinding.ActivitySsuchatMainPageBinding;
 import com.example.ssuchat.databinding.MainPageRecycleItemBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -104,33 +106,27 @@ public class ssuchat_main_page extends AppCompatActivity {
         drawer = findViewById(R.id.drawerLayout);
 
         DocumentReference userRef = db.collection("users").document(userId);
-        binding.menuBtn.setOnClickListener(v -> {
-            drawer.openDrawer(GravityCompat.END);
-        });
+        binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
-        binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
+        NavigationView sideNavigationView = findViewById(R.id.navigationView);
+        sideNavigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
             if (id == R.id.nav_home) {
-                //기능 추가하기. 일단 예시로 토스트
+                // Handle navigation home
                 Toast.makeText(ssuchat_main_page.this, "NavigationDrawer...home..", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.nav_gallery) {
+                // Handle navigation gallery
                 Toast.makeText(ssuchat_main_page.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.nav_logout) {
+                // 네비게이션 드로어를 닫습니다.
                 drawer.closeDrawer(GravityCompat.END);
 
-                MenuItem logoutItem = binding.navigationView.getMenu().findItem(R.id.nav_logout);
-                logoutItem.getActionView().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //로그아웃 기능 넣을 부분
-                        FirebaseAuth.getInstance().signOut();
+                // 로그아웃 기능을 수행합니다.
+                FirebaseAuth.getInstance().signOut();
 
-                        // Navigate to the login screen
-                        Intent intent = new Intent(ssuchat_main_page.this, ssuchat_login.class);
-                        startActivity(intent);
-                        finish(); // Optional: close the current activity to prevent going back to it with the back button
-                    }
-                });
+                // 로그인 화면으로 이동합니다.
+                switchToOtherActivity(ssuchat_login.class);
+                finish(); // Optional: close the current activity to prevent going back to it with the back button
             }
             return false;
         });
@@ -421,4 +417,15 @@ public class ssuchat_main_page extends AppCompatActivity {
 //            return super.getItemViewType(position);
 //        }
 //    }
+
+    private void switchToOtherActivity(Class<?> destinationActivity) {
+        // 현재 액티비티의 컨텍스트를 가져옵니다.
+        Context context = this;
+
+        // Intent를 생성하고, 전환할 액티비티로 설정합니다.
+        Intent intent = new Intent(context, destinationActivity);
+
+        // 다른 액티비티로 전환합니다.
+        startActivity(intent);
+    }
 }
