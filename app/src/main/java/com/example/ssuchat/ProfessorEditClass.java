@@ -2,7 +2,6 @@ package com.example.ssuchat;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -13,16 +12,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivityProfessorEditClassBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,32 +71,34 @@ public class ProfessorEditClass extends AppCompatActivity {
             return false;
         });
 
-        //Firestore에 저장된 유저 정보 가져오기
-        DocumentReference user_ref = db.collection("users").document(user.getUid());
-        user_ref.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                if (task.getResult() != null && task.getResult().exists()) {
-                    String userName = task.getResult().getString("name");
-                    String userEmail = task.getResult().getString("email");
-                    String userStudentId = task.getResult().getString("studentId");
+        if (user != null) {
+            //Firestore에 저장된 유저 정보 가져오기
+            DocumentReference userRef = db.collection("users").document(user.getUid());
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null && task.getResult().exists()) {
+                        String userName = task.getResult().getString("name");
+                        String userEmail = task.getResult().getString("email");
+                        String userStudentId = task.getResult().getString("studentId");
 
-                    // Set user information to TextViews
-                    TextView userNameTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_name_tv);
-                    TextView userEmailTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_email_tv);
-                    TextView userStudentIdTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_studentId_tv);
+                        // Set user information to TextViews
+                        TextView userNameTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_name_tv);
+                        TextView userEmailTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_email_tv);
+                        TextView userStudentIdTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_studentId_tv);
 
-                    userNameTextView.setText(userName);
-                    userEmailTextView.setText(userEmail);
-                    userStudentIdTextView.setText(userStudentId);
+                        userNameTextView.setText(userName);
+                        userEmailTextView.setText(userEmail);
+                        userStudentIdTextView.setText(userStudentId);
+                    }
+                } else {
+                    // Handle the error
+                    Toast.makeText(ProfessorEditClass.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                // Handle the error
-                Toast.makeText(ProfessorEditClass.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
+            });
+        } else {
+            // Handle the case where the user is null
+            Toast.makeText(ProfessorEditClass.this, "User is not authenticated", Toast.LENGTH_SHORT).show();
+        }
 
         Intent getIntent = getIntent();
         className = getIntent.getStringExtra("className");
@@ -117,12 +113,9 @@ public class ProfessorEditClass extends AppCompatActivity {
         binding.textviewClassBuilding.setText(classBuilding);
         binding.textviewClassAddress.setText(classAddress);
 
-        binding.backPreChatProfessor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfessorEditClass.this, ProfessorPreChat.class);
-                startActivity(intent);
-            }
+        binding.backPreChatProfessor.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfessorEditClass.this, ProfessorPreChat.class);
+            startActivity(intent);
         });
 
         String doc = className + classClass;
@@ -216,27 +209,21 @@ public class ProfessorEditClass extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("로그아웃");
         builder.setMessage("정말 로그아웃 하시겠습니까?");
-        builder.setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("로그아웃", (dialog, which) -> {
 
-                if (drawer.isDrawerOpen(GravityCompat.END)) // 네비게이션 드로어 열려있으면
-                    drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
+            if (drawer.isDrawerOpen(GravityCompat.END)) // 네비게이션 드로어 열려있으면
+                drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
 
-                // 로그아웃 기능을 수행합니다.
-                FirebaseAuth.getInstance().signOut();
+            // 로그아웃 기능을 수행합니다.
+            FirebaseAuth.getInstance().signOut();
 
-                // 로그인 화면으로 이동합니다.
-                switchToOtherActivity(ssuchat_login.class);
-                finish();
-            }
+            // 로그인 화면으로 이동합니다.
+            switchToOtherActivity(ssuchat_login.class);
+            finish();
         });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // 취소 버튼을 눌렀을 때의 동작
-                dialog.dismiss(); // 다이얼로그 닫기
-            }
+        builder.setNegativeButton("취소", (dialog, which) -> {
+            // 취소 버튼을 눌렀을 때의 동작
+            dialog.dismiss(); // 다이얼로그 닫기
         });
         builder.show();
     }

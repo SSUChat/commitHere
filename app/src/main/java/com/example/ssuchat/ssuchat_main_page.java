@@ -121,28 +121,32 @@ public class ssuchat_main_page extends AppCompatActivity {
         });
 
 
-        //Firestore에 저장된 유저 정보 가져오기
-        userRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                if (task.getResult() != null && task.getResult().exists()) {
-                    String userName = task.getResult().getString("name");
-                    String userEmail = task.getResult().getString("email");
-                    String userStudentId = task.getResult().getString("studentId");
+        if (user != null) {
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null && task.getResult().exists()) {
+                        String userName = task.getResult().getString("name");
+                        String userEmail = task.getResult().getString("email");
+                        String userStudentId = task.getResult().getString("studentId");
 
-                    // Set user information to TextViews
-                    TextView userNameTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_name_tv);
-                    TextView userEmailTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_email_tv);
-                    TextView userStudentIdTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_studentId_tv);
+                        // Set user information to TextViews
+                        TextView userNameTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_name_tv);
+                        TextView userEmailTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_email_tv);
+                        TextView userStudentIdTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_studentId_tv);
 
-                    userNameTextView.setText(userName);
-                    userEmailTextView.setText(userEmail);
-                    userStudentIdTextView.setText(userStudentId);
+                        userNameTextView.setText(userName);
+                        userEmailTextView.setText(userEmail);
+                        userStudentIdTextView.setText(userStudentId);
+                    }
+                } else {
+                    // Handle the error
+                    Toast.makeText(ssuchat_main_page.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                // Handle the error
-                Toast.makeText(ssuchat_main_page.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        } else {
+            // Handle the case where the user is null
+            Toast.makeText(ssuchat_main_page.this, "User is not authenticated", Toast.LENGTH_SHORT).show();
+        }
 
         userRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
