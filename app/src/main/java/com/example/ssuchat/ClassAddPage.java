@@ -70,8 +70,7 @@ public class ClassAddPage extends AppCompatActivity {
 
         if (user != null) {
             //Firestore에 저장된 유저 정보 가져오기
-            DocumentReference user_Ref = db.collection("users").document(user.getUid());
-            user_Ref.get().addOnCompleteListener(task -> {
+            userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task.getResult() != null && task.getResult().exists()) {
                         String userName = task.getResult().getString("name");
