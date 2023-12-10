@@ -7,7 +7,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -54,15 +56,7 @@ public class SsuchatChatting extends AppCompatActivity {
                 // Handle navigation gallery
                 Toast.makeText(SsuchatChatting.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
             } else if (id == R.id.nav_logout) {
-                // 네비게이션 드로어를 닫습니다.
-                drawer.closeDrawer(GravityCompat.END);
-
-                // 로그아웃 기능을 수행합니다.
-                FirebaseAuth.getInstance().signOut();
-
-                // 로그인 화면으로 이동합니다.
-                switchToOtherActivity(ssuchat_login.class);
-                finish(); // Optional: close the current activity to prevent going back to it with the back button
+                logoutDialog();
             }
             return false;
         });
@@ -163,5 +157,34 @@ public class SsuchatChatting extends AppCompatActivity {
 
         // 다른 액티비티로 전환합니다.
         startActivity(intent);
+    }
+
+    private void logoutDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("로그아웃");
+        builder.setMessage("정말 로그아웃 하시겠습니까?");
+        builder.setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if (drawer.isDrawerOpen(GravityCompat.END)) // 네비게이션 드로어 열려있으면
+                    drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
+
+                // 로그아웃 기능을 수행합니다.
+                FirebaseAuth.getInstance().signOut();
+
+                // 로그인 화면으로 이동합니다.
+                switchToOtherActivity(ssuchat_login.class);
+                finish();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 취소 버튼을 눌렀을 때의 동작
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
+        builder.show();
     }
 }
