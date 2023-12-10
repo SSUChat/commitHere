@@ -108,8 +108,7 @@ public class ssuchat_main_page extends AppCompatActivity {
         sideNavigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
             if (id == R.id.nav_home) {
-                // Handle navigation home
-                Toast.makeText(ssuchat_main_page.this, "NavigationDrawer...home..", Toast.LENGTH_SHORT).show();
+                drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
             } else if (id == R.id.nav_gallery) {
                 // Handle navigation gallery
                 Toast.makeText(ssuchat_main_page.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
