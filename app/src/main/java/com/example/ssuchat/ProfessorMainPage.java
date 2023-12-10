@@ -16,17 +16,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivityProfessorMainPageBinding;
 import com.example.ssuchat.databinding.MainPageRecycleItemBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +29,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -228,9 +222,7 @@ public class ProfessorMainPage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.logoutGoLoginButtonProfessor.setOnClickListener(v -> {
-            logoutDialog();
-        });
+        binding.logoutGoLoginButtonProfessor.setOnClickListener(v -> logoutDialog());
 
     }
 
@@ -341,27 +333,21 @@ public class ProfessorMainPage extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("로그아웃");
         builder.setMessage("정말 로그아웃 하시겠습니까?");
-        builder.setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("로그아웃", (dialog, which) -> {
 
-                if (drawer.isDrawerOpen(GravityCompat.END)) // 네비게이션 드로어 열려있으면
-                    drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
+            if (drawer.isDrawerOpen(GravityCompat.END)) // 네비게이션 드로어 열려있으면
+                drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
 
-                // 로그아웃 기능을 수행합니다.
-                FirebaseAuth.getInstance().signOut();
+            // 로그아웃 기능을 수행합니다.
+            FirebaseAuth.getInstance().signOut();
 
-                // 로그인 화면으로 이동합니다.
-                switchToOtherActivity(ssuchat_login.class);
-                finish();
-            }
+            // 로그인 화면으로 이동합니다.
+            switchToOtherActivity(ssuchat_login.class);
+            finish();
         });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // 취소 버튼을 눌렀을 때의 동작
-                dialog.dismiss(); // 다이얼로그 닫기
-            }
+        builder.setNegativeButton("취소", (dialog, which) -> {
+            // 취소 버튼을 눌렀을 때의 동작
+            dialog.dismiss(); // 다이얼로그 닫기
         });
         builder.show();
     }

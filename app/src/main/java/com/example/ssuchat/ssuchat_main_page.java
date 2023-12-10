@@ -219,9 +219,7 @@ public class ssuchat_main_page extends AppCompatActivity {
             }
         });
 
-        binding.logoutGoLoginButton.setOnClickListener(v -> {
-            logoutDialog();
-        });
+        binding.logoutGoLoginButton.setOnClickListener(v -> logoutDialog());
     }
 
     private static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -425,27 +423,21 @@ public class ssuchat_main_page extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("로그아웃");
         builder.setMessage("정말 로그아웃 하시겠습니까?");
-        builder.setPositiveButton("로그아웃", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("로그아웃", (dialog, which) -> {
 
-                if (drawer.isDrawerOpen(GravityCompat.END)) // 네비게이션 드로어 열려있으면
-                    drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
+            if (drawer.isDrawerOpen(GravityCompat.END)) // 네비게이션 드로어 열려있으면
+                drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
 
-                // 로그아웃 기능을 수행합니다.
-                FirebaseAuth.getInstance().signOut();
+            // 로그아웃 기능을 수행합니다.
+            FirebaseAuth.getInstance().signOut();
 
-                // 로그인 화면으로 이동합니다.
-                switchToOtherActivity(ssuchat_login.class);
-                finish();
-            }
+            // 로그인 화면으로 이동합니다.
+            switchToOtherActivity(ssuchat_login.class);
+            finish();
         });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // 취소 버튼을 눌렀을 때의 동작
-                dialog.dismiss(); // 다이얼로그 닫기
-            }
+        builder.setNegativeButton("취소", (dialog, which) -> {
+            // 취소 버튼을 눌렀을 때의 동작
+            dialog.dismiss(); // 다이얼로그 닫기
         });
         builder.show();
     }

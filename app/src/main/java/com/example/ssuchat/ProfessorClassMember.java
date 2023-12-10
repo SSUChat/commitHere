@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,7 +60,7 @@ public class ProfessorClassMember extends AppCompatActivity {
         ArrayList<String> enrolledStudentsList = new ArrayList<>();
 
         Intent getIntent = getIntent();
-        if(getIntent != null) {
+        if (getIntent != null) {
             className = getIntent.getStringExtra("className");
             classClass = getIntent.getStringExtra("classClass");
             classNumber = getIntent.getStringExtra("classNumber");
@@ -87,7 +86,7 @@ public class ProfessorClassMember extends AppCompatActivity {
         });
 
         userRef.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
+            if (task.isSuccessful()) {
                 if (task.getResult() != null && task.getResult().exists()) {
                     String userName = task.getResult().getString("name");
                     String userEmail = task.getResult().getString("email");
@@ -114,11 +113,10 @@ public class ProfessorClassMember extends AppCompatActivity {
 
         binding.addClassMemberProfessor.setOnClickListener(v -> {
             String addClassMember = binding.addClassMember.getText().toString();
-            if(addClassMember.isEmpty()) {
+            if (addClassMember.isEmpty()) {
                 Toast.makeText(ProfessorClassMember.this, "필드를 채워주세요", Toast.LENGTH_SHORT).show();
                 return;
-            }
-            else {
+            } else {
                 userRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
@@ -126,9 +124,9 @@ public class ProfessorClassMember extends AppCompatActivity {
                             // 사용자 문서가 존재할 경우
                             String name = document.getString("name");
 
-                            DocumentReference updateRef = db.collection(name).document(className+classClass);
+                            DocumentReference updateRef = db.collection(name).document(className + classClass);
                             Log.d(TAG, "Name + Class : " + className + classClass);
-                            DocumentReference classRef = db.collection("class").document(className+classClass);
+                            DocumentReference classRef = db.collection("class").document(className + classClass);
                             enrolledStudentsList.add(addClassMember);
 
                             Map<String, Object> updateData = new HashMap<>();
@@ -139,8 +137,8 @@ public class ProfessorClassMember extends AppCompatActivity {
                                     .addOnFailureListener(e -> Log.w("TAG", "Error updating enrolled students list", e));
 
                             classRef.update(updateData)
-                                            .addOnSuccessListener(unused -> Log.d("TAG", "Enrolled students list updated successfully"))
-                                        .addOnFailureListener(e -> Log.w("TAG", "Error updating enrolled students list", e));
+                                    .addOnSuccessListener(unused -> Log.d("TAG", "Enrolled students list updated successfully"))
+                                    .addOnFailureListener(e -> Log.w("TAG", "Error updating enrolled students list", e));
 
                             Log.d(TAG, "getDocument : " + document.getString("enrolledStudents"));
 
@@ -161,8 +159,7 @@ public class ProfessorClassMember extends AppCompatActivity {
             if (removeClassMember.isEmpty()) {
                 Toast.makeText(ProfessorClassMember.this, "필드를 채워주세요", Toast.LENGTH_SHORT).show();
                 return;
-            }
-            else {
+            } else {
                 userRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
@@ -219,7 +216,7 @@ public class ProfessorClassMember extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void logoutDialog(){
+    private void logoutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("로그아웃");
         builder.setMessage("정말 로그아웃 하시겠습니까?");
