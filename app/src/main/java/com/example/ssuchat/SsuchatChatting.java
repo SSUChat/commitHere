@@ -22,6 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class SsuchatChatting extends AppCompatActivity {
     private DrawerLayout drawer;
+    String userRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,31 +45,17 @@ public class SsuchatChatting extends AppCompatActivity {
 
         binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
-        NavigationView sideNavigationView = findViewById(R.id.navigationView);
-        sideNavigationView.setNavigationItemSelectedListener(menuItem -> {
-            int id = menuItem.getItemId();
-            if (id == R.id.nav_home) {
-                drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
-                switchToOtherActivity(ssuchat_main_page.class);
-            } else if (id == R.id.nav_gallery) {
-                // Handle navigation gallery
-                Toast.makeText(SsuchatChatting.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
-            } else if (id == R.id.nav_logout) {
-                logoutDialog();
-            }
-            return false;
-        });
-
-
         if (user != null) {
             //Firestore에 저장된 유저 정보 가져오기
             DocumentReference userRef = db.collection("users").document(user.getUid());
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
                     if (task.getResult() != null && task.getResult().exists()) {
                         String userName = task.getResult().getString("name");
                         String userEmail = task.getResult().getString("email");
                         String userStudentId = task.getResult().getString("studentId");
+                        userRole = document.getString("role");
 
                         // Set user information to TextViews
                         TextView userNameTextView = binding.navigationView.getHeaderView(0).findViewById(R.id.user_name_tv);
@@ -88,8 +76,28 @@ public class SsuchatChatting extends AppCompatActivity {
             Toast.makeText(SsuchatChatting.this, "User is not authenticated", Toast.LENGTH_SHORT).show();
         }
 
+        NavigationView sideNavigationView = findViewById(R.id.navigationView);
+        sideNavigationView.setNavigationItemSelectedListener(menuItem -> {
+            int id = menuItem.getItemId();
+            if (id == R.id.nav_home) {
+                drawer.closeDrawer(GravityCompat.END);// 네비게이션 드로어를 닫습니다.
+
+                if ("prof".equals(userRole)) { // 교수로 로그인 했으면 교수 메인 화면으로
+                    switchToOtherActivity(ProfessorMainPage.class);
+                } else { // 학생으로 로그인 했으면 학생 메인 화면으로
+                    switchToOtherActivity(ssuchat_main_page.class);
+                }
+            } else if (id == R.id.nav_gallery) {
+                // Handle navigation gallery
+                Toast.makeText(SsuchatChatting.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.nav_logout) {
+                logoutDialog();
+            }
+            return false;
+        });
+
         List<String> list = new ArrayList<>();
-        for(int i  = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             list.add("Item=" + i);
         }
 
@@ -161,7 +169,7 @@ public class SsuchatChatting extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void logoutDialog(){
+    private void logoutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("로그아웃");
         builder.setMessage("정말 로그아웃 하시겠습니까?");

@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:text="강의중인 과목"
+                android:text="강의 중인 과목"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />

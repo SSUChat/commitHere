@@ -75,7 +75,7 @@ public class ProfessorClassMember extends AppCompatActivity {
             int id = menuItem.getItemId();
             if (id == R.id.nav_home) {
                 drawer.closeDrawer(GravityCompat.END); // 네비게이션 드로어를 닫습니다.
-                switchToOtherActivity(ssuchat_main_page.class);
+                switchToOtherActivity(ProfessorMainPage.class);
             } else if (id == R.id.nav_gallery) {
                 // Handle navigation gallery
                 Toast.makeText(ProfessorClassMember.this, "NavigationDrawer...gallery..", Toast.LENGTH_SHORT).show();
