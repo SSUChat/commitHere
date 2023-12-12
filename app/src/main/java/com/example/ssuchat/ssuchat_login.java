@@ -31,6 +31,7 @@ public class ssuchat_login extends AppCompatActivity {
     private static final String PREF_AUTO_LOGIN = "autoLogin";
     private static final String PREF_STUDENT_CHECKED = "isStudentChecked";
     private static final String PREF_PROF_CHECKED = "isProfChecked";
+    private long backKeyPressedTime = 0;
 
     private EditText loginEmail;
     private EditText loginPassword;
@@ -128,6 +129,20 @@ public class ssuchat_login extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();    // 에러 떠도 컴파일 잘됨!!!
+//        이전 액티비티로 못돌아가게 하려고 주석처리 해놓은거니까 수정 ㄴㄴ!!!
+
+        //2000 millseconds = 2sec
+        if (System.currentTimeMillis()- backKeyPressedTime >= 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }else {
+            finishAffinity();
+        }
+    }
+
     private void savePreference(String key, boolean value) {
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         preferences.edit().putBoolean(key, value).apply();
@@ -188,7 +203,6 @@ public class ssuchat_login extends AppCompatActivity {
             });
         }
     }
-
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {

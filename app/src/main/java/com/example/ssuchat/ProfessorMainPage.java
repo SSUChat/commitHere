@@ -349,4 +349,11 @@ public class ProfessorMainPage extends AppCompatActivity {
         });
         builder.show();
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();    // 에러 떠도 컴파일 잘됨!!!
+        // 이전 액티비티로 못돌아가게 하려고 주석처리 해놓은거니까 수정 ㄴㄴ!!!
+        logoutDialog();
+    }
 }
