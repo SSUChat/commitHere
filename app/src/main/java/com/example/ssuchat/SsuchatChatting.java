@@ -105,8 +105,11 @@ public class SsuchatChatting extends AppCompatActivity {
         binding.chattingRecyclerView.setAdapter(new MyAdapter(list));
 
         binding.goBackPreChatButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SsuchatChatting.this, SsuchatPreChat.class);
-            startActivity(intent);
+            if ("prof".equals(userRole)) { // 교수로 로그인 했으면 교수 프리챗 화면으로
+                switchToOtherActivity(ProfessorPreChat.class);
+            } else { // 학생으로 로그인 했으면 학생 프리챗 화면으로
+                switchToOtherActivity(SsuchatPreChat.class);
+            }
         });
 
     }

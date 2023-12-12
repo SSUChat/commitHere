@@ -10,9 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
         android:gravity="center"
-        android:layout_marginTop="30dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,18 +26,18 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/ssuchat_logo"/>
+            android:background="@drawable/ssuchat_logo" />
 
     </LinearLayout>
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:text="로그인"-->
-<!--        android:textColor="#6FD1C5"-->
-<!--        android:textSize="28dp"-->
-<!--        android:textStyle="bold" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:text="로그인"-->
+    <!--        android:textColor="#6FD1C5"-->
+    <!--        android:textSize="28dp"-->
+    <!--        android:textStyle="bold" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,21 +50,21 @@
             android:id="@+id/stud_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="학생용"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="35dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="35dp"/>
+            android:text="학생용" />
 
         <CheckBox
             android:id="@+id/prof_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="교수자용"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="60dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="60dp" />
+            android:text="교수자용" />
     </LinearLayout>
 
     <TextView
