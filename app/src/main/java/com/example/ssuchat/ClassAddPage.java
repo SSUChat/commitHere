@@ -182,8 +182,8 @@ public class ClassAddPage extends AppCompatActivity {
         }));
 
         binding.goBackMainPageProfessor.setOnClickListener(v -> {
-            Intent intent = new Intent(ClassAddPage.this, ProfessorMainPage.class);
-            startActivity(intent);
+            onBackPressed();
+            finish();
         });
 
         binding.addClassTimeButton.setOnClickListener(v -> {

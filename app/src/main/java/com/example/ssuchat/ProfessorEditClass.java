@@ -112,8 +112,9 @@ public class ProfessorEditClass extends AppCompatActivity {
         binding.textviewClassAddress.setText(classAddress);
 
         binding.backPreChatProfessor.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfessorEditClass.this, ProfessorPreChat.class);
-            startActivity(intent);
+//            Intent intent = new Intent(ProfessorEditClass.this, ProfessorPreChat.class);
+//            startActivity(intent);
+            finish();
         });
 
         String doc = className + classClass;

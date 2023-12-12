@@ -96,8 +96,9 @@ public class SsuchatPreChat extends AppCompatActivity {
         binding.liveMemberRecyclerView.setAdapter(new MyAdapter(list));
 
         binding.backMainPage.setOnClickListener(v -> {
-            Intent intent = new Intent(SsuchatPreChat.this, ssuchat_main_page.class);
-            startActivity(intent);
+//            Intent intent = new Intent(SsuchatPreChat.this, ssuchat_main_page.class);
+//            startActivity(intent);
+            finish();
         });
 
         binding.buttonEnterChatting.setOnClickListener(v -> {

@@ -100,8 +100,9 @@ public class ProfessorPreChat extends AppCompatActivity {
         }
 
         binding.backMainPageProfessor.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfessorPreChat.this, ProfessorMainPage.class);
-            startActivity(intent);
+//            Intent intent = new Intent(ProfessorPreChat.this, ProfessorMainPage.class);
+//            startActivity(intent);
+            finish();
         });
 
         binding.buttonEnterChattingProfessor.setOnClickListener(v -> {

@@ -25,13 +25,15 @@ public class ForgetPassword extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         binding.forgetPasswordBackLoginButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ForgetPassword.this, ssuchat_login.class);
-            startActivity(intent);
+//            Intent intent = new Intent(ForgetPassword.this, ssuchat_login.class);
+//            startActivity(intent);
+            finish();
         });
 
         binding.goLoginButton.setOnClickListener(v -> {
-                Intent intent = new Intent(ForgetPassword.this, ssuchat_login.class);
-                startActivity(intent);
+//                Intent intent = new Intent(ForgetPassword.this, ssuchat_login.class);
+//                startActivity(intent);
+            finish();
         });
 
         binding.buttonFindPassword.setOnClickListener(v -> {

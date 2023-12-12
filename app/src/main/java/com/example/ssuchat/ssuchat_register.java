@@ -78,17 +78,7 @@ public class ssuchat_register extends AppCompatActivity {
             signUp(name, email, password, studentId, role);
         });
 
-        binding.buttonSignupCancel.setOnClickListener(v -> {
-            // 취소 버튼을 눌렀을 때 ssuchat_login 액티비티로 이동
-            Intent intent = new Intent(ssuchat_register.this, ssuchat_login.class);
-            startActivity(intent);
-        });
-
-        binding.goLoginButton.setOnClickListener(v -> {
-            // 취소 버튼을 눌렀을 때 ssuchat_login 액티비티로 이동
-            Intent intent = new Intent(ssuchat_register.this, ssuchat_login.class);
-            startActivity(intent);
-        });
+        binding.buttonSignupCancel.setOnClickListener(v -> finish());
     }
 
 

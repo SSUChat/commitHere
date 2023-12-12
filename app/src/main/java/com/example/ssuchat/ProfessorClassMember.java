@@ -107,8 +107,9 @@ public class ProfessorClassMember extends AppCompatActivity {
             }
         });
         binding.backPreChatProfessor.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfessorClassMember.this, ProfessorPreChat.class);
-            startActivity(intent);
+//            Intent intent = new Intent(ProfessorClassMember.this, ProfessorPreChat.class);
+//            startActivity(intent);
+            finish();
         });
 
         binding.addClassMemberProfessor.setOnClickListener(v -> {
