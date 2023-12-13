@@ -47,15 +47,15 @@ public class ssuchat_main_page extends AppCompatActivity {
     }
 
     private static class MyModel {
-        private final String name;
+        private final String Profname;
         private final String className;
         private final String classClass;
         private final String classNumber;
         private final String classBuilding;
         private final String classAddress;
 
-        public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
-            this.name = name;
+        public MyModel(String Profname, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
+            this.Profname = Profname;
             this.className = className;
             this.classClass = classClass;
             this.classNumber = classNumber;
@@ -64,7 +64,7 @@ public class ssuchat_main_page extends AppCompatActivity {
         }
 
         public String getName() {
-            return name;
+            return Profname;
         }
 
         public String getClassName() {
@@ -151,62 +151,71 @@ public class ssuchat_main_page extends AppCompatActivity {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     // 사용자 문서가 존재할 경우
-                    name = document.getString("name");
+                    String userStudentId = task.getResult().getString("studentId");
 
                     CollectionReference collectionRef = db.collection("class");
 
+                    // Modify the query to filter only the classes where the user is enrolled
+                    collectionRef.whereArrayContains("enrolledStudents", userStudentId)
+                            .get()
+                            .addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    documentCnt = task1.getResult().size();
+                                    // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
+                                    myModelList.clear();
 
-                    collectionRef.get().addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            documentCnt = task1.getResult().size();
-                            // documentCount에는 특정 컬렉션의 문서 개수가 들어 있음
+                                    for (int i = 0; i < documentCnt; i++) {
+                                        // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
+                                        String className = task1.getResult().getDocuments().get(i).getString("className");
+                                        String classClass = task1.getResult().getDocuments().get(i).getString("classClass");
+                                        String classNumber = task1.getResult().getDocuments().get(i).getString("classNumber");
+                                        String classBuilding = task1.getResult().getDocuments().get(i).getString("classBuilding");
+                                        String classAddress = task1.getResult().getDocuments().get(i).getString("classAddress");
+                                        String classProfName = task1.getResult().getDocuments().get(i).getString("name");
+                                        // MyModel 객체 생성
+                                        MyModel myModel = new MyModel(classProfName, className, classClass, classNumber, classBuilding, classAddress);
 
-                            for (int i = 0; i < documentCnt; i++) {
-                                // Firestore 문서에서 데이터 가져오기 (예시로 className과 classClass 가져옴)
-                                String className = task1.getResult().getDocuments().get(i).getString("className");
-                                String classClass = task1.getResult().getDocuments().get(i).getString("classClass");
-                                String classNumber = task1.getResult().getDocuments().get(i).getString("classNumber");
-                                String classBuilding = task1.getResult().getDocuments().get(i).getString("classBuilding");
-                                String classAddress = task1.getResult().getDocuments().get(i).getString("classAddress");
-                                // MyModel 객체 생성
-                                MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
+                                        // 모델을 리스트에 추가
+                                        myModelList.add(myModel);
+                                    }
 
-                                // 모델을 리스트에 추가
-                                myModelList.add(myModel);
-                            }
+                                    // Notify the adapter that the dataset has changed
+                                    myAdapter = new MyAdapter(myModelList);
 
-                            myAdapter = new MyAdapter(myModelList);
+                                    Log.d(TAG, "Document count: " + documentCnt);
 
-                            myAdapter.setOnItemClickListener(pos -> {
-                                Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(ssuchat_main_page.this, SsuchatPreChat.class);
+                                    myAdapter.setOnItemClickListener(pos -> {
+                                        Toast.makeText(getApplicationContext(), "onItemClick position : " + pos, Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(ssuchat_main_page.this, SsuchatPreChat.class);
 
-                                String className = task1.getResult().getDocuments().get(pos).getString("className");
-                                String classClass = task1.getResult().getDocuments().get(pos).getString("classClass");
-                                String classNumber = task1.getResult().getDocuments().get(pos).getString("classNumber");
-                                String classBuilding = task1.getResult().getDocuments().get(pos).getString("classBuilding");
-                                String classAddress = task1.getResult().getDocuments().get(pos).getString("classAddress");
+                                        String className = task1.getResult().getDocuments().get(pos).getString("className");
+                                        String classClass = task1.getResult().getDocuments().get(pos).getString("classClass");
+                                        String classNumber = task1.getResult().getDocuments().get(pos).getString("classNumber");
+                                        String classBuilding = task1.getResult().getDocuments().get(pos).getString("classBuilding");
+                                        String classAddress = task1.getResult().getDocuments().get(pos).getString("classAddress");
+                                        String ProfName = task1.getResult().getDocuments().get(pos).getString("name");
 
-                                intent.putExtra("className", className);
-                                intent.putExtra("classClass", classClass);
-                                intent.putExtra("classNumber", classNumber);
-                                intent.putExtra("classBuilding", classBuilding);
-                                intent.putExtra("classAddress", classAddress);
+                                        intent.putExtra("className", className);
+                                        intent.putExtra("classClass", classClass);
+                                        intent.putExtra("classNumber", classNumber);
+                                        intent.putExtra("classBuilding", classBuilding);
+                                        intent.putExtra("classAddress", classAddress);
+                                        intent.putExtra("ProfName", ProfName);
 
-                                startActivity(intent);
+                                        startActivity(intent);
+                                    });
+
+                                    myAdapter.setOnLongItemClickListener(pos -> Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show());
+
+                                    binding.recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(ssuchat_main_page.this));
+                                    binding.recyclerViewMainPage.setAdapter(new MyAdapter(myModelList));
+
+                                    Log.d(TAG, "Document count: " + documentCnt);
+                                } else {
+                                    // 작업이 실패한 경우
+                                    Log.w(TAG, "Error getting documents.", task1.getException());
+                                }
                             });
-
-                            myAdapter.setOnLongItemClickListener(pos -> Toast.makeText(getApplicationContext(), "onLongItemClick position : " + pos, Toast.LENGTH_SHORT).show());
-
-                            binding.recyclerViewMainPage.setLayoutManager(new LinearLayoutManager(ssuchat_main_page.this));
-                            binding.recyclerViewMainPage.setAdapter(new MyAdapter(myModelList));
-
-                            Log.d(TAG, "Document count: " + documentCnt);
-                        } else {
-                            // 작업이 실패한 경우
-                            Log.w(TAG, "Error getting documents.", task1.getException());
-                        }
-                    });
                 } else {
                     // 사용자 문서가 존재하지 않을 경우
                     Log.d(TAG, "No such document");
@@ -417,7 +426,7 @@ public class ssuchat_main_page extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void logoutDialog(){
+    private void logoutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("로그아웃");
         builder.setMessage("정말 로그아웃 하시겠습니까?");
