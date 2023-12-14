@@ -92,13 +92,163 @@
             android:layout_alignBottom="@id/class_building"
             android:text="교수님"/>
 
-        <TextView
-            android:id="@+id/class_time"
+        <RelativeLayout
+            android:id="@+id/time1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:textSize="14dp"
-            android:text="화 16:00 ~ 17 : 50  금 16:00 ~ 17 : 50"/>
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/class_week1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:text="화"/>
+
+            <TextView
+                android:id="@+id/class_start_hour1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@id/class_week1"
+                android:text="16"/>
+            <TextView
+                android:id="@+id/time_start1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@id/class_start_hour1"
+                android:layout_marginLeft="2dp"
+                android:text=":"/>
+
+            <TextView
+                android:id="@+id/class_start_minute1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/time_start1"
+                android:layout_marginLeft="2dp"
+                android:text="00"/>
+
+            <TextView
+                android:id="@+id/time_b1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/class_start_minute1"
+                android:layout_marginLeft="10dp"
+                android:text="~"/>
+
+            <TextView
+                android:id="@+id/class_end_hour1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/time_b1"
+                android:layout_marginLeft="10dp"
+                android:text="17"/>
+            <TextView
+                android:id="@+id/time_start11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/class_end_hour1"
+                android:layout_marginLeft="2dp"
+                android:text=":"/>
+
+            <TextView
+                android:id="@+id/class_end_minute1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/time_start11"
+                android:layout_marginLeft="2dp"
+                android:text="00"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_toRightOf="@+id/time1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/class_week2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:text="화"/>
+
+            <TextView
+                android:id="@+id/class_start_hour2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@id/class_week2"
+                android:text="16"/>
+            <TextView
+                android:id="@+id/time_start2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@id/class_start_hour2"
+                android:layout_marginLeft="2dp"
+                android:text=":"/>
+
+            <TextView
+                android:id="@+id/class_start_minute2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/time_start2"
+                android:layout_marginLeft="2dp"
+                android:text="00"/>
+
+            <TextView
+                android:id="@+id/time_b2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/class_start_minute2"
+                android:layout_marginLeft="10dp"
+                android:text="~"/>
+
+            <TextView
+                android:id="@+id/class_end_hour2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/time_b2"
+                android:layout_marginLeft="10dp"
+                android:text="17"/>
+            <TextView
+                android:id="@+id/time_start22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/class_end_hour2"
+                android:layout_marginLeft="2dp"
+                android:text=":"/>
+
+            <TextView
+                android:id="@+id/class_end_minute2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_toRightOf="@+id/time_start22"
+                android:layout_marginLeft="2dp"
+                android:text="00"/>
+
+        </RelativeLayout>
+
+<!--        <TextView-->
+<!--            android:id="@+id/class_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:textSize="14dp"-->
+<!--            android:text="화 16:00 ~ 17 : 50  금 16:00 ~ 17 : 50"/>-->
 
         <TextView
             android:layout_width="wrap_content"

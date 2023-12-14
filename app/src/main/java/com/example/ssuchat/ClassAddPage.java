@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -143,26 +145,26 @@ public class ClassAddPage extends AppCompatActivity {
                     String classNumber = binding.classNumber.getText().toString();
                     String classBuilding = binding.classBuilding.getText().toString();
                     String classAddress = binding.classAddress.getText().toString();
-                    String selectWeek1 = String.valueOf(binding.selectWeek1);
-                    String selectWeek2 = String.valueOf(binding.selectWeek2);
-                    String selectWeek3 = String.valueOf(binding.selectWeek3);
-                    String selectStartHour1 = String.valueOf(binding.selectStartHour1);
-                    String selectStartHour2 = String.valueOf(binding.selectStartHour2);
-                    String selectStartHour3 = String.valueOf(binding.selectStartHour3);
-                    String selectStartMinute1 = String.valueOf(binding.selectStartMinute1);
-                    String selectStartMinute2 = String.valueOf(binding.selectStartMinute2);
-                    String selectStartMinute3 = String.valueOf(binding.selectStartMinute3);
-                    String selectEndHour1 = String.valueOf(binding.selectEndHour1);
-                    String selectEndHour2 = String.valueOf(binding.selectEndHour2);
-                    String selectEndHour3 = String.valueOf(binding.selectEndHour3);
-                    String selectEndMinute1 = String.valueOf(binding.selectEndMinute1);
-                    String selectEndMinute2 = String.valueOf(binding.selectEndMinute2);
-                    String selectEndMinute3 = String.valueOf(binding.selectEndMinute3);
+
+                    String selectWeek1 = binding.selectWeek1.getText().toString();
+                    String selectWeek2 = binding.selectWeek2.getText().toString();
+                    String selectWeek3 = binding.selectWeek3.getText().toString();
+                    String selectStartHour1 = binding.selectStartHour1.getText().toString();
+                    String selectStartHour2 = binding.selectStartHour2.getText().toString();
+                    String selectStartHour3 = binding.selectStartHour3.getText().toString();
+                    String selectStartMinute1 = binding.selectStartMinute1.getText().toString();
+                    String selectStartMinute2 = binding.selectStartMinute2.getText().toString();
+                    String selectStartMinute3 = binding.selectStartMinute3.getText().toString();
+                    String selectEndHour1 = binding.selectEndHour1.getText().toString();
+                    String selectEndHour2 = binding.selectEndHour2.getText().toString();
+                    String selectEndHour3 = binding.selectEndHour3.getText().toString();
+                    String selectEndMinute1 = binding.selectEndMinute1.getText().toString();
+                    String selectEndMinute2 = binding.selectEndMinute2.getText().toString();
+                    String selectEndMinute3 = binding.selectEndMinute3.getText().toString();
 
                     saveClassDataToFirestore(userId, name, className, classClass, classNumber, classBuilding, classAddress,
                             selectWeek1, selectStartHour1, selectStartMinute1, selectEndHour1, selectEndMinute1,
-                            selectWeek2, selectStartHour2, selectStartMinute2, selectEndHour2, selectEndMinute2,
-                            selectWeek3, selectStartHour3, selectStartMinute3, selectEndHour3, selectEndMinute3);
+                            selectWeek2, selectStartHour2, selectStartMinute2, selectEndHour2, selectEndMinute2);
 
                     Toast.makeText(ClassAddPage.this, "강의가 추가되었습니다!!", Toast.LENGTH_SHORT).show();
 
@@ -189,8 +191,6 @@ public class ClassAddPage extends AppCompatActivity {
         binding.addClassTimeButton.setOnClickListener(v -> {
             if (binding.selectClassTime2.getVisibility() == View.GONE) {
                 binding.selectClassTime2.setVisibility(View.VISIBLE);
-            } else {
-                binding.selectClassTime3.setVisibility(View.VISIBLE);
             }
         });
 
@@ -199,14 +199,14 @@ public class ClassAddPage extends AppCompatActivity {
     private void saveClassDataToFirestore(String userId, String name, String className, String classClass, String classNumber,
                                           String classBuilding, String classAddress,
                                           String selectWeek1, String selectStartHour1, String selectStartMinute1, String selectEndHour1, String selectEndMinute1,
-                                          String selectWeek2, String selectStartHour2, String selectStartMinute2, String selectEndHour2, String selectEndMinute2,
-                                          String selectWeek3, String selectStartHour3, String selectStartMinute3, String selectEndHour3, String selectEndMinute3) {
+                                          String selectWeek2, String selectStartHour2, String selectStartMinute2, String selectEndHour2, String selectEndMinute2) {
 
         db = FirebaseFirestore.getInstance();
         String doc = className + classClass;
         DocumentReference userRef = db.collection(name).document(doc);
         DocumentReference classRef = db.collection("class").document(doc);
         Map<String, Object> userData = new HashMap<>();
+
 
 //        int SelectStartHour1 = Integer.parseInt(selectStartHour1);
 //        int SelectStartMinute1 = Integer.parseInt(selectStartMinute1);
@@ -237,12 +237,6 @@ public class ClassAddPage extends AppCompatActivity {
         userData.put("selectStartMinute2", selectStartMinute2);
         userData.put("selectEndHour2", selectEndHour2);
         userData.put("selectEndMinute2", selectEndMinute2);
-        userData.put("selectWeek3", selectWeek3);
-        userData.put("selectStartHour3", selectStartHour3);
-        userData.put("selectStartMinute3", selectStartMinute3);
-        userData.put("selectEndHour3", selectEndHour3);
-        userData.put("selectEndMinute3", selectEndMinute3);
-        userData.put("enrolledStudents", null);
         userData.put("createdAt", FieldValue.serverTimestamp());
 
         userRef.set(userData)

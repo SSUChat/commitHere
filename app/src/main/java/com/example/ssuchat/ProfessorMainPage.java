@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,14 +53,35 @@ public class ProfessorMainPage extends AppCompatActivity {
         private final String classNumber;
         private final String classBuilding;
         private final String classAddress;
+        private String classWeek1;
+        private String classStartHour1;
+        private String classStartMinute1;
+        private String classEndHour1;
+        private String classEndMinute1;
+        private String classWeek2;
+        private String classStartHour2;
+        private String classStartMinute2;
+        private String classEndHour2;
+        private String classEndMinute2;
 
-        public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
+        public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress, String classWeek1, String classStartHour1, String classStartMinute1, String classEndHour1, String classEndMinute1,
+                       String classWeek2, String classStartHour2, String classStartMinute2, String classEndHour2, String classEndMinute2) {
             this.name = name;
             this.className = className;
             this.classClass = classClass;
             this.classNumber = classNumber;
             this.classBuilding = classBuilding;
             this.classAddress = classAddress;
+            this.classWeek1 = classWeek1;
+            this.classStartHour1 = classStartHour1;
+            this.classStartMinute1 = classStartMinute1;
+            this.classEndHour1 = classEndHour1;
+            this.classEndMinute1 = classEndMinute1;
+            this.classWeek2 = classWeek2;
+            this.classStartHour2 = classStartHour2;
+            this.classStartMinute2 = classStartMinute2;
+            this.classEndHour2 = classEndHour2;
+            this.classEndMinute2 = classEndMinute2;
         }
 
         public String getName() {
@@ -79,6 +101,36 @@ public class ProfessorMainPage extends AppCompatActivity {
         }
         public String getClassAddress() {
             return classAddress;
+        }
+        public String getClassWeek1() {
+            return classWeek1;
+        }
+        public String getClassStarHour1() {
+            return classStartHour1;
+        }
+        public String getClassStartMinute1() {
+            return classStartMinute1;
+        }
+        public String getClassEndHour1() {
+            return classEndHour1;
+        }
+        public String getClassEndMinute1() {
+            return classEndMinute1;
+        }
+        public String getClassWeek2() {
+            return classWeek2;
+        }
+        public String getClassStarHour2() {
+            return classStartHour2;
+        }
+        public String getClassStartMinute2() {
+            return classStartMinute2;
+        }
+        public String getClassEndHour2() {
+            return classEndHour2;
+        }
+        public String getClassEndMinute2() {
+            return classEndMinute2;
         }
     }
 
@@ -165,9 +217,19 @@ public class ProfessorMainPage extends AppCompatActivity {
                                 String classNumber = task1.getResult().getDocuments().get(i).getString("classNumber");
                                 String classBuilding = task1.getResult().getDocuments().get(i).getString("classBuilding");
                                 String classAddress = task1.getResult().getDocuments().get(i).getString("classAddress");
+                                String classStartWeek1 = task1.getResult().getDocuments().get(i).getString("selectWeek1");
+                                String classStartHour1 = task1.getResult().getDocuments().get(i).getString("selectStartHour1");
+                                String classStartMinute1 = task1.getResult().getDocuments().get(i).getString("selectStartMinute1");
+                                String classEndHour1 = task1.getResult().getDocuments().get(i).getString("selectEndHour1");
+                                String classEndMinute1 = task1.getResult().getDocuments().get(i).getString("selectEndMinute1");
+                                String classStartWeek2 = task1.getResult().getDocuments().get(i).getString("selectWeek2");
+                                String classStartHour2 = task1.getResult().getDocuments().get(i).getString("selectStartHour2");
+                                String classStartMinute2 = task1.getResult().getDocuments().get(i).getString("selectStartMinute2");
+                                String classEndHour2 = task1.getResult().getDocuments().get(i).getString("selectEndHour2");
+                                String classEndMinute2 = task1.getResult().getDocuments().get(i).getString("selectEndMinute2");
 
                                 // MyModel 객체 생성
-                                MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
+                                MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress, classStartWeek1, classStartHour1, classStartMinute1, classEndHour1, classEndMinute1, classStartWeek2, classStartHour2, classStartMinute2, classEndHour2, classEndMinute2);
 
                                 // 모델을 리스트에 추가
                                 myModelList.add(myModel);
@@ -184,12 +246,32 @@ public class ProfessorMainPage extends AppCompatActivity {
                                 String classNumber = task1.getResult().getDocuments().get(pos).getString("classNumber");
                                 String classBuilding = task1.getResult().getDocuments().get(pos).getString("classBuilding");
                                 String classAddress = task1.getResult().getDocuments().get(pos).getString("classAddress");
+                                String classStartWeek1 = task1.getResult().getDocuments().get(pos).getString("selectWeek1");
+                                String classStartHour1 = task1.getResult().getDocuments().get(pos).getString("selectStartHour1");
+                                String classStartMinute1 = task1.getResult().getDocuments().get(pos).getString("selectStartMinute1");
+                                String classEndHour1 = task1.getResult().getDocuments().get(pos).getString("selectEndHour1");
+                                String classEndMinute1 = task1.getResult().getDocuments().get(pos).getString("selectEndMinute1");
+                                String classStartWeek2 = task1.getResult().getDocuments().get(pos).getString("selectWeek2");
+                                String classStartHour2 = task1.getResult().getDocuments().get(pos).getString("selectStartHour2");
+                                String classStartMinute2 = task1.getResult().getDocuments().get(pos).getString("selectStartMinute2");
+                                String classEndHour2 = task1.getResult().getDocuments().get(pos).getString("selectEndHour2");
+                                String classEndMinute2 = task1.getResult().getDocuments().get(pos).getString("selectEndMinute2");
 
                                 intent.putExtra("className", className);
                                 intent.putExtra("classClass", classClass);
                                 intent.putExtra("classNumber", classNumber);
                                 intent.putExtra("classBuilding", classBuilding);
                                 intent.putExtra("classAddress", classAddress);
+                                intent.putExtra("classWeek1", classStartWeek1);
+                                intent.putExtra("selectStartHour1", classStartHour1);
+                                intent.putExtra("selectStartMinute1", classStartMinute1);
+                                intent.putExtra("selectEndHour1", classEndHour1);
+                                intent.putExtra("selectEndMinute1", classEndMinute1);
+                                intent.putExtra("classWeek2", classStartWeek2);
+                                intent.putExtra("selectStartHour2", classStartHour2);
+                                intent.putExtra("selectStartMinute2", classStartMinute2);
+                                intent.putExtra("selectEndHour2", classEndHour2);
+                                intent.putExtra("selectEndMinute2", classEndMinute2);
 
                                 startActivity(intent);
                             });
@@ -260,6 +342,26 @@ public class ProfessorMainPage extends AppCompatActivity {
             binding.classNumber.setText("("+ myModel.getClassNumber() + ")");
             binding.classBuilding.setText(myModel.getClassBuilding());
             binding.classAddress.setText(myModel.getClassAddress());
+            binding.classWeek1.setText(myModel.getClassWeek1());
+            binding.classStartHour1.setText(myModel.getClassStarHour1());
+            binding.classStartMinute1.setText(myModel.getClassStartMinute1());
+            binding.classEndHour1.setText(myModel.getClassEndHour1());
+            binding.classEndMinute1.setText(myModel.getClassEndMinute1());
+            binding.classWeek2.setText(myModel.getClassWeek2());
+            binding.classStartHour2.setText(myModel.getClassStarHour2());
+            binding.classStartMinute2.setText(myModel.getClassStartMinute2());
+            binding.classEndHour2.setText(myModel.getClassEndHour2());
+            binding.classEndMinute2.setText(myModel.getClassEndMinute2());
+            if (myModel.getClassWeek1() == "") {
+                binding.timeB1.setVisibility(View.GONE);
+                binding.timeStart1.setVisibility(View.GONE);
+                binding.timeStart11.setVisibility(View.GONE);
+            }
+            if (myModel.getClassWeek2() == "") {
+                binding.timeB2.setVisibility(View.GONE);
+                binding.timeStart2.setVisibility(View.GONE);
+                binding.timeStart22.setVisibility(View.GONE);
+            }
         }
     }
 
