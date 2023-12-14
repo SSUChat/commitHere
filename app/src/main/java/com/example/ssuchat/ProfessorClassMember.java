@@ -121,47 +121,66 @@ public class ProfessorClassMember extends AppCompatActivity {
                 Toast.makeText(ProfessorClassMember.this, "필드를 채워주세요", Toast.LENGTH_SHORT).show();
                 return;
             } else {
-                DocumentReference classRef = db.collection("class").document(className + classClass);
+                // Check if the student exists in the "users" collection
+                db.collection("users")
+                        .whereEqualTo("studentId", addClassMember)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                if (task.getResult() != null && !task.getResult().isEmpty()) {
+                                    // Student exists, proceed to add to the class
+                                    DocumentReference classRef = db.collection("class").document(className + classClass);
 
-                // Check if the student is already enrolled
-                classRef.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            List<String> enrolledStudentsList = (List<String>) document.get("enrolledStudents");
+                                    // Check if the student is already enrolled
+                                    classRef.get().addOnCompleteListener(classTask -> {
+                                        if (classTask.isSuccessful()) {
+                                            DocumentSnapshot document = classTask.getResult();
+                                            if (document.exists()) {
+                                                List<String> enrolledStudentsList = (List<String>) document.get("enrolledStudents");
 
-                            if (enrolledStudentsList == null || enrolledStudentsList.contains(addClassMember)) {
-                                Toast.makeText(ProfessorClassMember.this, "이미 등록된 학생입니다.", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                                                if (enrolledStudentsList == null || enrolledStudentsList.contains(addClassMember)) {
+                                                    Toast.makeText(ProfessorClassMember.this, "이미 등록된 학생입니다.", Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                }
 
-                            // Update the enrolled students list
-                            enrolledStudentsList.add(addClassMember);
+                                                // Update the enrolled students list
+                                                enrolledStudentsList.add(addClassMember);
 
-                            Map<String, Object> updateData = new HashMap<>();
-                            updateData.put("enrolledStudents", enrolledStudentsList);
+                                                Map<String, Object> updateData = new HashMap<>();
+                                                updateData.put("enrolledStudents", enrolledStudentsList);
 
-                            // Update Firestore with the new enrolled students list
-                            classRef.update(updateData)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Log.d("TAG", "Enrolled students list updated successfully");
-                                        // Update RecyclerView with the new list
-                                        updateRecyclerView(enrolledStudentsList);
-                                        Toast.makeText(ProfessorClassMember.this, "성공적으로 추가되었습니다.", Toast.LENGTH_SHORT).show();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Log.w("TAG", "Error updating enrolled students list", e);
-                                        Toast.makeText(ProfessorClassMember.this, "추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                                // Update Firestore with the new enrolled students list
+                                                classRef.update(updateData)
+                                                        .addOnSuccessListener(aVoid -> {
+                                                            Log.d("TAG", "Enrolled students list updated successfully");
+                                                            // Update RecyclerView with the new list
+                                                            updateRecyclerView(enrolledStudentsList);
+                                                            Toast.makeText(ProfessorClassMember.this, "성공적으로 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                                            // Clear the addClassMember TextView
+                                                            binding.addClassMember.getText().clear();
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Log.w("TAG", "Error updating enrolled students list", e);
+                                                            Toast.makeText(ProfessorClassMember.this, "추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                                        });
+                                            } else {
+                                                Log.d(TAG, "No such document");
+                                            }
+                                        } else {
+                                            Log.d(TAG, "get failed with ", classTask.getException());
+                                        }
                                     });
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                });
+                                } else {
+                                    // Student does not exist in the "users" collection
+                                    Toast.makeText(ProfessorClassMember.this, "해당 학번은 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        });
             }
         });
+
 
 
         binding.removeClassMemberProfessor.setOnClickListener(v -> {
@@ -197,6 +216,8 @@ public class ProfessorClassMember extends AppCompatActivity {
                                         // Update RecyclerView with the updated list
                                         updateRecyclerView(enrolledStudentsList);
                                         Toast.makeText(ProfessorClassMember.this, "성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                        // Clear the addClassMember TextView
+                                        binding.removeClassMember.getText().clear();
                                     })
                                     .addOnFailureListener(e -> {
                                         Log.w("TAG", "Error updating enrolled students list", e);
