@@ -1,5 +1,7 @@
 package com.example.ssuchat;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -11,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -29,6 +33,9 @@ import java.util.List;
 
 public class SsuchatPreChat extends AppCompatActivity {
     private DrawerLayout drawer;
+    String className;
+    String classClass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,12 @@ public class SsuchatPreChat extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         drawer = findViewById(R.id.drawerLayout);
+
+        Intent getIntent = getIntent();
+        if (getIntent != null) {
+            className = getIntent.getStringExtra("className");
+            classClass = getIntent.getStringExtra("classClass");
+        }
 
         binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
@@ -86,18 +99,28 @@ public class SsuchatPreChat extends AppCompatActivity {
             Toast.makeText(SsuchatPreChat.this, "User is not authenticated", Toast.LENGTH_SHORT).show();
         }
 
+        String documentId = className + classClass;
 
-        List<String> list = new ArrayList<>();
-        for(int i  = 0; i < 20; i++) {
-            list.add("Item=" + i);
-        }
+        DocumentReference classRef = db.collection("class").document(documentId);
 
-        binding.liveMemberRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.liveMemberRecyclerView.setAdapter(new MyAdapter(list));
+        classRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    List<String> enrolledStudents = (List<String>) document.get("enrolledStudents");
+
+                    // Set enrolled students in RecyclerView
+                    binding.liveMemberRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    binding.liveMemberRecyclerView.setAdapter(new SsuchatPreChat.MyAdapter(enrolledStudents));
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        });
 
         binding.backMainPage.setOnClickListener(v -> {
-//            Intent intent = new Intent(SsuchatPreChat.this, ssuchat_main_page.class);
-//            startActivity(intent);
             finish();
         });
 
@@ -121,7 +144,7 @@ public class SsuchatPreChat extends AppCompatActivity {
         }
     }
 
-    private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    private static class MyAdapter extends RecyclerView.Adapter<SsuchatPreChat.MyViewHolder> {
 
         private final List<String> list;
 
@@ -131,14 +154,14 @@ public class SsuchatPreChat extends AppCompatActivity {
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public SsuchatPreChat.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             SsuchatLiveMemberItemBinding binding = SsuchatLiveMemberItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
-            return new MyViewHolder(binding);
+            return new SsuchatPreChat.MyViewHolder(binding);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull SsuchatPreChat.MyViewHolder holder, int position) {
             String text = list.get(position);
             holder.bind(text);
         }
@@ -165,7 +188,7 @@ public class SsuchatPreChat extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void logoutDialog(){
+    private void logoutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("로그아웃");
         builder.setMessage("정말 로그아웃 하시겠습니까?");

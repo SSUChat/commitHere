@@ -47,19 +47,19 @@ public class ProfessorMainPage extends AppCompatActivity {
 
     private static class MyModel {
         private final String name;
-        private final String className;
-        private final String classClass;
-        private final String classNumber;
-        private final String classBuilding;
-        private final String classAddress;
+        private final String className; //수업명
+        private final String classClass;    //분반
+        private final String classNumber;   //강의 번호
+        private final String classBuilding; //건물명
+        private final String classAddress;  //강의실
 
         public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
             this.name = name;
-            this.className = className;
-            this.classClass = classClass;
-            this.classNumber = classNumber;
-            this.classBuilding = classBuilding;
-            this.classAddress = classAddress;
+            this.className = className; //수업명
+            this.classClass = classClass;   //분반
+            this.classNumber = classNumber; //강의 번호
+            this.classBuilding = classBuilding; // 건물명
+            this.classAddress = classAddress;   //강의실
         }
 
         public String getName() {
@@ -139,7 +139,6 @@ public class ProfessorMainPage extends AppCompatActivity {
             Toast.makeText(ProfessorMainPage.this, "User is not authenticated", Toast.LENGTH_SHORT).show();
         }
 
-//        List<String> list = new ArrayList<>();
         List<MyModel> myModelList = new ArrayList<>();
 
         DocumentReference userRef = db.collection("users").document(userId);
