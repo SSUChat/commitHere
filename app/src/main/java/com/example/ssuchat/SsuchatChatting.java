@@ -81,7 +81,7 @@ public class SsuchatChatting extends AppCompatActivity {
             className = getIntent.getStringExtra("className");
             classClass = getIntent.getStringExtra("classClass");
 
-            binding.className.setText(className);
+            binding.className.setText(className + "(" + classClass + ")");
         }
 
         if (user != null) {
@@ -160,6 +160,7 @@ public class SsuchatChatting extends AppCompatActivity {
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
         private SsuchatChattingItemBinding binding;
+
         // 레이아웃의 참조를 가져옵니다.
         public MyViewHolder(SsuchatChattingItemBinding binding) {
             super(binding.getRoot());
@@ -190,6 +191,7 @@ public class SsuchatChatting extends AppCompatActivity {
     private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         private List<ChatMessageModel> messageList;
         private String currentUserId;
+
         private MyAdapter(List<ChatMessageModel> messageList, String currentUserId) {
             this.messageList = messageList;
             this.currentUserId = currentUserId;
@@ -295,7 +297,7 @@ public class SsuchatChatting extends AppCompatActivity {
         binding.chattingRecyclerView.setAdapter(adapter);
     }
 
-    private void sendMessage(String messageText){
+    private void sendMessage(String messageText) {
         if (user != null && !messageText.isEmpty()) {
             // Firestore에서 현재 사용자의 이름을 가져옵니다.
             db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
