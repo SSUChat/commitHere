@@ -38,6 +38,8 @@ public class ssuchat_main_page extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String name;
     private int documentCnt;
+    private String studentID;
+    private ArrayList<String> enrolledStudentsList = new ArrayList<>();
     private void initFirebaseAuth() {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -102,6 +104,7 @@ public class ssuchat_main_page extends AppCompatActivity {
                     if (document.exists()) {
                         // 사용자 문서가 존재할 경우
                         name = document.getString("name");
+                        studentID = document.getString("studentId");
 
                         CollectionReference collectionRef = db.collection("class");
 
@@ -119,6 +122,11 @@ public class ssuchat_main_page extends AppCompatActivity {
                                         String classNumber = task.getResult().getDocuments().get(i).getString("classNumber");
                                         String classBuilding = task.getResult().getDocuments().get(i).getString("classBuilding");
                                         String classAddress = task.getResult().getDocuments().get(i).getString("classAddress");
+
+
+//                                        for (String studentId : task.getResult().getDocuments().get(i).getString("enrolledStudents")) {
+//                                            enrolledStudentsList.add(studentId);
+//                                        }
 
                                         // MyModel 객체 생성
                                         MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
