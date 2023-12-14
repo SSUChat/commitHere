@@ -29,13 +29,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SsuchatPreChat extends AppCompatActivity {
     private DrawerLayout drawer;
-    String className;
-    String classClass;
-
+    private String className;
+    private String classClass;
+    private String classNumber;
+    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,9 @@ public class SsuchatPreChat extends AppCompatActivity {
         if (getIntent != null) {
             className = getIntent.getStringExtra("className");
             classClass = getIntent.getStringExtra("classClass");
+            classNumber = getIntent.getStringExtra("classNumber");
+
+            binding.className.setText(className);
         }
 
         binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
@@ -125,10 +131,28 @@ public class SsuchatPreChat extends AppCompatActivity {
         });
 
         binding.buttonEnterChatting.setOnClickListener(v -> {
-            Intent intent = new Intent(SsuchatPreChat.this, SsuchatChatting.class);
-            startActivity(intent);
-        });
-    }
+            String chatroomId = classNumber;
+
+            DocumentReference chatroomRef = db.collection("chatrooms").document(chatroomId);
+            chatroomRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot chatroomDoc = task.getResult();
+                    if (chatroomDoc != null && chatroomDoc.exists()) {
+                        // 채팅방 존재 시, 해당 채팅방으로 이동
+                            enterChatRoom(chatroomId, chatroomDoc.getString("title"));
+                    } else {
+                            // 채팅방 존재하지 않을 경우, 새로운 채팅방 생성
+                            createNewChatRoom(chatroomId);
+                    }
+                } else {
+                        // 에러 처리
+                        Toast.makeText(SsuchatPreChat.this, "채팅방 검색에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+
+        }
+
 
     private static class MyViewHolder extends RecyclerView.ViewHolder {
         private final SsuchatLiveMemberItemBinding binding;
@@ -175,6 +199,33 @@ public class SsuchatPreChat extends AppCompatActivity {
         public int getItemViewType(int position) {
             return super.getItemViewType(position);
         }
+    }
+
+    private void enterChatRoom(String chatroomId, String chatroomTitle) {
+        // 채팅방으로 이동하는 로직
+        Intent intent = new Intent(SsuchatPreChat.this, SsuchatChatting.class);
+        intent.putExtra("classNumber", chatroomId);
+        intent.putExtra("chatRoomTitle", chatroomTitle);
+        intent.putExtra("name", "user_name"); // replace with the actual user name
+        intent.putExtra("UID", "user_uid"); // replace with the actual user UID
+        startActivity(intent);
+    }
+
+    private void createNewChatRoom(String chatroomId) {
+        // 새로운 채팅방 생성 로직
+        Map<String, Object> chatroomData = new HashMap<>();
+        chatroomData.put("title", chatroomId); // 이 예시에서는 chatroomId를 제목으로 사용
+        // 다른 필요한 데이터 설정
+
+        db.collection("chatrooms").document(chatroomId)
+                .set(chatroomData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(SsuchatPreChat.this, "채팅방이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+                    enterChatRoom(chatroomId, chatroomId); // 생성된 채팅방으로 이동
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(SsuchatPreChat.this, "채팅방 생성 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void switchToOtherActivity(Class<?> destinationActivity) {

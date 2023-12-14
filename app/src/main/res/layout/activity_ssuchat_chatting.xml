@@ -30,6 +30,7 @@
                 android:background="@mipmap/ic_back" />
 
             <TextView
+                android:id="@+id/class_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -66,6 +67,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/message_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
@@ -75,7 +77,7 @@
                 android:background="@color/white"
                 android:hint="메세지를 입력하세요." />
 
-            <TextView
+            <Button
                 android:id="@+id/transmit_message_button"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
