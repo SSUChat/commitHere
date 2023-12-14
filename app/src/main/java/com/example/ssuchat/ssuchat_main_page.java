@@ -50,14 +50,36 @@ public class ssuchat_main_page extends AppCompatActivity {
         private String classNumber;
         private String classBuilding;
         private String classAddress;
+        private String classWeek1;
+        private String classStartHour1;
+        private String classStartMinute1;
+        private String classEndHour1;
+        private String classEndMinute1;
+        private String classWeek2;
+        private String classStartHour2;
+        private String classStartMinute2;
+        private String classEndHour2;
+        private String classEndMinute2;
 
-        public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress) {
+        public MyModel(String name, String className, String classClass, String classNumber, String classBuilding, String classAddress,
+                       String classWeek1, String classStartHour1, String classStartMinute1, String classEndHour1, String classEndMinute1,
+                       String classWeek2, String classStartHour2, String classStartMinute2, String classEndHour2, String classEndMinute2) {
             this.name = name;
             this.className = className;
             this.classClass = classClass;
             this.classNumber = classNumber;
             this.classBuilding = classBuilding;
             this.classAddress = classAddress;
+            this.classWeek1 = classWeek1;
+            this.classStartHour1 = classStartHour1;
+            this.classStartMinute1 = classStartMinute1;
+            this.classEndHour1 = classEndHour1;
+            this.classEndMinute1 = classEndMinute1;
+            this.classWeek2 = classWeek2;
+            this.classStartHour2 = classStartHour2;
+            this.classStartMinute2 = classStartMinute2;
+            this.classEndHour2 = classEndHour2;
+            this.classEndMinute2 = classEndMinute2;
         }
 
         public String getName() {
@@ -77,6 +99,36 @@ public class ssuchat_main_page extends AppCompatActivity {
         }
         public String getClassAddress() {
             return classAddress;
+        }
+        public String getClassWeek1() {
+            return classWeek1;
+        }
+        public String getClassStartHour1() {
+            return classStartHour1;
+        }
+        public String getClassStartMinute1() {
+            return classStartMinute1;
+        }
+        public String getClassEndHour1() {
+            return classEndHour1;
+        }
+        public String getClassEndMinute1() {
+            return classEndMinute1;
+        }
+        public String getClassWeek2() {
+            return classWeek2;
+        }
+        public String getClassStartHour2() {
+            return classStartHour2;
+        }
+        public String getClassStartMinute2() {
+            return classStartMinute2;
+        }
+        public String getClassEndHour2() {
+            return classEndHour2;
+        }
+        public String getClassEndMinute2() {
+            return classEndMinute2;
         }
     }
 
@@ -119,9 +171,21 @@ public class ssuchat_main_page extends AppCompatActivity {
                                         String classNumber = task.getResult().getDocuments().get(i).getString("classNumber");
                                         String classBuilding = task.getResult().getDocuments().get(i).getString("classBuilding");
                                         String classAddress = task.getResult().getDocuments().get(i).getString("classAddress");
+                                        String classWeek1 = task.getResult().getDocuments().get(i).getString("selectWeek1");
+                                        String classStartHour1 = task.getResult().getDocuments().get(i).getString("selectStartHour1");
+                                        String classStartMinute1 = task.getResult().getDocuments().get(i).getString("selectStartMinute1");
+                                        String classEndHour1 = task.getResult().getDocuments().get(i).getString("selectEndHour1");
+                                        String classEndMinute1 = task.getResult().getDocuments().get(i).getString("selectEndMinute1");
+                                        String classWeek2 = task.getResult().getDocuments().get(i).getString("selectWeek2");
+                                        String classStartHour2 = task.getResult().getDocuments().get(i).getString("selectStartHour2");
+                                        String classStartMinute2 = task.getResult().getDocuments().get(i).getString("selectStartMinute2");
+                                        String classEndHour2 = task.getResult().getDocuments().get(i).getString("selectEndHour2");
+                                        String classEndMinute2 = task.getResult().getDocuments().get(i).getString("selectEndMinute2");
 
                                         // MyModel 객체 생성
-                                        MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress);
+                                        MyModel myModel = new MyModel(name, className, classClass, classNumber, classBuilding, classAddress
+                                        , classWeek1, classStartHour1, classStartMinute1, classEndHour1, classEndMinute1,
+                                                classWeek2, classStartHour2, classStartMinute2, classEndHour2, classEndMinute2);
 
                                         // 모델을 리스트에 추가
                                         myModelList.add(myModel);
