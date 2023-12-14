@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -324,6 +325,26 @@ public class ProfessorMainPage extends AppCompatActivity {
             binding.classNumber.setText("("+ myModel.getClassNumber() + ")");
             binding.classBuilding.setText(myModel.getClassBuilding());
             binding.classAddress.setText(myModel.getClassAddress());
+            binding.classWeek1.setText(myModel.getClassWeek1());
+            binding.classStartHour1.setText(myModel.getClassStartHour1());
+            binding.classStartMinute1.setText(myModel.getClassStartMinute1());
+            binding.classEndHour1.setText(myModel.getClassEndHour1());
+            binding.classEndMinute1.setText(myModel.getClassEndMinute1());
+            binding.classWeek2.setText(myModel.getClassWeek2());
+            binding.classStartHour2.setText(myModel.getClassStartHour2());
+            binding.classStartMinute2.setText(myModel.getClassStartMinute2());
+            binding.classEndHour2.setText(myModel.getClassEndHour2());
+            binding.classEndMinute2.setText(myModel.getClassEndMinute2());
+            if (myModel.getClassWeek1() == "") {
+                binding.timeB1.setVisibility(View.GONE);
+                binding.timeStart1.setVisibility(View.GONE);
+                binding.timeStart11.setVisibility(View.GONE);
+            }
+            if (myModel.getClassWeek2() == "") {
+                binding.timeB2.setVisibility(View.GONE);
+                binding.timeStart2.setVisibility(View.GONE);
+                binding.timeStart22.setVisibility(View.GONE);
+            }
         }
     }
 
