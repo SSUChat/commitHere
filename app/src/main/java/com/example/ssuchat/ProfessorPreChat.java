@@ -16,7 +16,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfessorPreChat extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -106,8 +110,24 @@ public class ProfessorPreChat extends AppCompatActivity {
         });
 
         binding.buttonEnterChattingProfessor.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfessorPreChat.this, SsuchatChatting.class);
-            startActivity(intent);
+            String chatroomId = classNumber;
+
+            DocumentReference chatroomRef = db.collection("chatrooms").document(chatroomId);
+            chatroomRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot chatroomDoc = task.getResult();
+                    if (chatroomDoc != null && chatroomDoc.exists()) {
+                        // 채팅방 존재 시, 해당 채팅방으로 이동
+                        enterChatRoom(chatroomId, chatroomDoc.getString("title"));
+                    } else {
+                        // 채팅방 존재하지 않을 경우, 새로운 채팅방 생성
+                        createNewChatRoom(chatroomId);
+                    }
+                } else {
+                    // 에러 처리
+                    Toast.makeText(ProfessorPreChat.this, "채팅방 검색에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         binding.subjectInformationProfessor.setOnClickListener(v -> {
@@ -136,6 +156,32 @@ public class ProfessorPreChat extends AppCompatActivity {
 
     }
 
+    private void enterChatRoom(String chatroomId, String chatroomTitle) {
+        // 채팅방으로 이동하는 로직
+        Intent intent = new Intent(ProfessorPreChat.this, SsuchatChatting.class);
+        intent.putExtra("classNumber", chatroomId);
+        intent.putExtra("chatRoomTitle", chatroomTitle);
+        startActivity(intent);
+    }
+
+    private void createNewChatRoom(String chatroomId) {
+        // 새로운 채팅방 생성 로직
+        Map<String, Object> chatroomData = new HashMap<>();
+        chatroomData.put("title", chatroomId); // 이 예시에서는 chatroomId를 제목으로 사용
+        // 다른 필요한 데이터 설정
+
+        db.collection("chatrooms").document(chatroomId)
+                .set(chatroomData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ProfessorPreChat.this, "채팅방이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+                    enterChatRoom(chatroomId, chatroomId); // 생성된 채팅방으로 이동
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(ProfessorPreChat.this, "채팅방 생성 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
     private void switchToOtherActivity(Class<?> destinationActivity) {
         // 현재 액티비티의 컨텍스트를 가져옵니다.
         Context context = this;
@@ -146,6 +192,8 @@ public class ProfessorPreChat extends AppCompatActivity {
         // 다른 액티비티로 전환합니다.
         startActivity(intent);
     }
+
+
 
     private void logoutDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

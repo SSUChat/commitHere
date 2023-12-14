@@ -1,6 +1,7 @@
 package com.example.ssuchat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,41 +12,72 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivitySsuchatChattingBinding;
 import com.example.ssuchat.databinding.SsuchatChattingItemBinding;
+import com.example.ssuchat.model.ChatMessageModel;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SsuchatChatting extends AppCompatActivity {
     private DrawerLayout drawer;
+    private String chatroomId;
+    private String name;
+    private String UID;
     String userRole;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private List<ChatMessageModel> messageList = new ArrayList<>();
+    private MyAdapter adapter;
+    private ActivitySsuchatChattingBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivitySsuchatChattingBinding binding = ActivitySsuchatChattingBinding.inflate(getLayoutInflater());
+        binding = ActivitySsuchatChattingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         drawer = findViewById(R.id.drawerLayout);
+        Intent intent = getIntent();
+        chatroomId = intent.getStringExtra("classNumber");
+        name = intent.getStringExtra("name");
+        UID = intent.getStringExtra("UID");
+        adapter = new MyAdapter(messageList, UID);
+        binding.chattingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.chattingRecyclerView.setAdapter(adapter);
 
         binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
 
         if (user != null) {
+            UID = user.getUid();
+            setupRecyclerView();
+            binding.chattingRecyclerView.setAdapter(adapter);
             //Firestore에 저장된 유저 정보 가져오기
             DocumentReference userRef = db.collection("users").document(user.getUid());
             userRef.get().addOnCompleteListener(task -> {
@@ -102,7 +134,7 @@ public class SsuchatChatting extends AppCompatActivity {
         }
 
         binding.chattingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.chattingRecyclerView.setAdapter(new MyAdapter(list));
+        binding.chattingRecyclerView.setAdapter(new MyAdapter(messageList, UID));
 
         binding.goBackPreChatButton.setOnClickListener(v -> {
             finish();
@@ -113,47 +145,67 @@ public class SsuchatChatting extends AppCompatActivity {
 //            }
         });
 
+        binding.transmitMessageButton.setOnClickListener(v -> {
+            String messageText = binding.messageEditText.getText().toString();
+            sendMessage(messageText);
+            binding.messageEditText.setText(""); // 입력창 초기화
+        });
+        setupMessageListener();
     }
 
-    private static class MyViewHolder extends RecyclerView.ViewHolder {
-        private final SsuchatChattingItemBinding binding;
-
-        private MyViewHolder(SsuchatChattingItemBinding binding) {
+    private class MyViewHolder extends RecyclerView.ViewHolder {
+        private SsuchatChattingItemBinding binding;
+        // 레이아웃의 참조를 가져옵니다.
+        public MyViewHolder(SsuchatChattingItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
         }
 
-        private void bind(String text) {
-            binding.chattingTime.setText(text);
+        public void bind(ChatMessageModel message, String currentUserId) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            String formattedDate = dateFormat.format(message.getTimestamp().toDate());
+            if (message.getSenderId() != null && message.getSenderId().equals(currentUserId)) {
+                // 현재 사용자의 메시지일 경우 오른쪽에 표시
+                binding.rightChatLayout.setVisibility(View.VISIBLE);
+                binding.leftChatLayout.setVisibility(View.GONE);
+                binding.rightChatTextview.setText(message.getMessage());
+                binding.rightChatName.setText(message.getSenderName()); // 사용자 이름 설정
+                binding.rightChatTime.setText(formattedDate); // 시간 설정
+            } else {
+                // 다른 사용자의 메시지일 경우 왼쪽에 표시
+                binding.rightChatLayout.setVisibility(View.GONE);
+                binding.leftChatLayout.setVisibility(View.VISIBLE);
+                binding.leftChatTextview.setText(message.getMessage());
+                binding.leftChatName.setText(message.getSenderName()); // 사용자 이름 설정
+                binding.leftChatTime.setText(formattedDate); // 시간 설정
+            }
         }
     }
 
-    private static class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-
-        private final List<String> list;
-
-        private MyAdapter(List<String> list) {
-            this.list = list;
+    private class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+        private List<ChatMessageModel> messageList;
+        private String currentUserId;
+        private MyAdapter(List<ChatMessageModel> messageList, String currentUserId) {
+            this.messageList = messageList;
+            this.currentUserId = currentUserId;
         }
 
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             SsuchatChattingItemBinding binding = SsuchatChattingItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-
             return new MyViewHolder(binding);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            String text = list.get(position);
-            holder.bind(text);
+            ChatMessageModel message = messageList.get(position);
+            holder.bind(message, currentUserId);
         }
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return messageList.size();
         }
 
         @Override
@@ -195,4 +247,81 @@ public class SsuchatChatting extends AppCompatActivity {
         });
         builder.show();
     }
+
+    private void setupMessageListener() {
+        db.collection("chatrooms").document(chatroomId)
+                .collection("messages")
+                .orderBy("timestamp")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("Chat", "Listen failed.", e);
+                            return;
+                        }
+
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                // 새 메시지를 리스트에 추가
+                                ChatMessageModel message = dc.getDocument().toObject(ChatMessageModel.class);
+                                messageList.add(message);
+                            }
+                        }
+
+                        // 데이터가 변경되었음을 어댑터에 알리고, 리스트를 스크롤하여 최신 메시지 표시
+                        adapter.notifyDataSetChanged();
+
+                        // 메시지 리스트가 비어있지 않은 경우에만 스크롤
+                        if (!messageList.isEmpty()) {
+                            binding.chattingRecyclerView.smoothScrollToPosition(messageList.size() - 1);
+                        }
+                    }
+                });
+    }
+
+    private void setupRecyclerView() {
+        // 현재 사용자 ID를 가져옵니다.
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // 어댑터에 현재 사용자 ID를 전달합니다.
+        adapter = new MyAdapter(messageList, currentUserId);
+        binding.chattingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.chattingRecyclerView.setAdapter(adapter);
+    }
+
+    private void sendMessage(String messageText){
+        if (user != null && !messageText.isEmpty()) {
+            // Firestore에서 현재 사용자의 이름을 가져옵니다.
+            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    String senderName = task.getResult().getString("name");
+                    String senderId = user.getUid(); // 현재 사용자의 UID를 가져옵니다.
+
+                    if (senderName != null) {
+                        // 메시지 모델 생성 및 전송
+                        ChatMessageModel chatMessage = new ChatMessageModel(messageText, senderId, senderName, Timestamp.now());
+                        db.collection("chatrooms").document(chatroomId)
+                                .collection("messages")
+                                .add(chatMessage)
+                                .addOnSuccessListener(documentReference -> {
+                                    // 메시지 전송 성공 처리
+                                    Toast.makeText(this, "메시지가 전송되었습니다.", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    // 메시지 전송 실패 처리
+                                    Toast.makeText(this, "메시지 전송 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        // 사용자 이름이 Firestore에 없는 경우
+                        Toast.makeText(this, "사용자 이름을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Firestore에서 사용자 정보를 가져오는 데 실패한 경우
+                    Toast.makeText(this, "사용자 정보를 가져오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
 }

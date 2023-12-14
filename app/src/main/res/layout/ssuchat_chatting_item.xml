@@ -1,39 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
-
+        android:background="@drawable/edit_text_rounded_corner"
+        android:backgroundTint="@color/chat_color_sender"
+        android:padding="8dp"
+        android:layout_marginEnd="80dp"
+        android:id="@+id/left_chat_layout"
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/chatting_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15:17"
-            android:textStyle="bold"
-            android:textSize="16dp"/>
-
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:text="이름"
+            android:id="@+id/left_chat_name"/>
         <TextView
-            android:id="@+id/chatting_member_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20203086 김도윤"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:layout_alignParentRight="true"/>
-
-        <LinearLayout
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="Hello"
+            android:id="@+id/left_chat_textview"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:text="10:20"
+            android:id="@+id/left_chat_time"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_rounded_corner"
+        android:backgroundTint="@color/chat_color_receiver"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp"
+        android:layout_marginStart="80dp"
+        android:orientation="vertical"
+        android:id="@+id/right_chat_layout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:text=""
+            android:id="@+id/right_chat_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:id="@+id/right_chat_textview"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:text=""
+            android:id="@+id/right_chat_time"/>
+    </LinearLayout>
 
-        </LinearLayout>
+</RelativeLayout>
+<!--    <?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:orientation="vertical">-->
 
-    </RelativeLayout>
+<!--    <RelativeLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp">-->
 
-</LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/chatting_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="15:17"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="16dp"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/chatting_member_name"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="20203086 김도윤"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="16dp"-->
+<!--            android:layout_alignParentRight="true"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_below="@id/chatting_member_name"-->
+<!--            android:id="@+id/chatting_message"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="20203086 김도윤"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="16dp"-->
+<!--            android:layout_alignParentRight="true"/>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--        </LinearLayout>-->
+
+<!--    </RelativeLayout>-->
+
+<!--</LinearLayout>-->
