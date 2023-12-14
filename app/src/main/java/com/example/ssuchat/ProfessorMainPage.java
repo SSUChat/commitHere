@@ -249,12 +249,32 @@ public class ProfessorMainPage extends AppCompatActivity {
                                 String classNumber = task1.getResult().getDocuments().get(pos).getString("classNumber");
                                 String classBuilding = task1.getResult().getDocuments().get(pos).getString("classBuilding");
                                 String classAddress = task1.getResult().getDocuments().get(pos).getString("classAddress");
+                                String classWeek1 = task1.getResult().getDocuments().get(pos).getString("classWeek1");
+                                String classStartHour1 = task1.getResult().getDocuments().get(pos).getString("classStartHour1");
+                                String classStartMinute1 = task1.getResult().getDocuments().get(pos).getString("classStartMinute1");
+                                String classEndHour1 = task1.getResult().getDocuments().get(pos).getString("classEndHour1");
+                                String classEndMinute1 = task1.getResult().getDocuments().get(pos).getString("classEndMinute1");
+                                String classWeek2 = task1.getResult().getDocuments().get(pos).getString("classWeek2");
+                                String classStartHour2 = task1.getResult().getDocuments().get(pos).getString("classStartHour2");
+                                String classStartMinute2 = task1.getResult().getDocuments().get(pos).getString("classStartMinute2");
+                                String classEndHour2 = task1.getResult().getDocuments().get(pos).getString("classEndHour2");
+                                String classEndMinute2 = task1.getResult().getDocuments().get(pos).getString("classEndMinute2");
 
                                 intent.putExtra("className", className);
                                 intent.putExtra("classClass", classClass);
                                 intent.putExtra("classNumber", classNumber);
                                 intent.putExtra("classBuilding", classBuilding);
                                 intent.putExtra("classAddress", classAddress);
+                                intent.putExtra("classWeek1", classWeek1);
+                                intent.putExtra("classStartHour1", classStartHour1);
+                                intent.putExtra("classStartMinute1", classStartMinute1);
+                                intent.putExtra("classEndHour1", classEndHour1);
+                                intent.putExtra("classEndMinute1", classEndMinute1);
+                                intent.putExtra("classWeek2", classWeek2);
+                                intent.putExtra("classStartHour2", classStartHour2);
+                                intent.putExtra("classStartMinute2", classStartMinute2);
+                                intent.putExtra("classEndHour2", classEndHour2);
+                                intent.putExtra("classEndMinute2", classEndMinute2);
 
                                 startActivity(intent);
                             });
