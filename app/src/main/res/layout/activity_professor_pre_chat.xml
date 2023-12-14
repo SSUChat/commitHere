@@ -35,7 +35,6 @@
                 android:layout_gravity="center"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:text="사용자인터페이스및실습(나)"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />

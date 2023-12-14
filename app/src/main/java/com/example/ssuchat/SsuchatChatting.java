@@ -52,6 +52,8 @@ public class SsuchatChatting extends AppCompatActivity {
     private List<ChatMessageModel> messageList = new ArrayList<>();
     private MyAdapter adapter;
     private ActivitySsuchatChattingBinding binding;
+    private String className;
+    private String classClass;
 
 
     @Override
@@ -73,6 +75,14 @@ public class SsuchatChatting extends AppCompatActivity {
         binding.chattingRecyclerView.setAdapter(adapter);
 
         binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
+
+        Intent getIntent = getIntent();
+        if (getIntent != null) {
+            className = getIntent.getStringExtra("className");
+            classClass = getIntent.getStringExtra("classClass");
+
+            binding.className.setText(className);
+        }
 
         if (user != null) {
             UID = user.getUid();
@@ -138,11 +148,6 @@ public class SsuchatChatting extends AppCompatActivity {
 
         binding.goBackPreChatButton.setOnClickListener(v -> {
             finish();
-//            if ("prof".equals(userRole)) { // 교수로 로그인 했으면 교수 프리챗 화면으로
-//                switchToOtherActivity(ProfessorPreChat.class);
-//            } else { // 학생으로 로그인 했으면 학생 프리챗 화면으로
-//                switchToOtherActivity(SsuchatPreChat.class);
-//            }
         });
 
         binding.transmitMessageButton.setOnClickListener(v -> {
