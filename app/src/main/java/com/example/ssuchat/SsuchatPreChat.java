@@ -33,8 +33,8 @@ import java.util.List;
 
 public class SsuchatPreChat extends AppCompatActivity {
     private DrawerLayout drawer;
-    String className;
-    String classClass;
+    private String className;
+    private String classClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,8 @@ public class SsuchatPreChat extends AppCompatActivity {
         if (getIntent != null) {
             className = getIntent.getStringExtra("className");
             classClass = getIntent.getStringExtra("classClass");
+
+            binding.className.setText(className);
         }
 
         binding.menuBtn.setOnClickListener(v -> drawer.openDrawer(GravityCompat.END));
@@ -126,6 +128,9 @@ public class SsuchatPreChat extends AppCompatActivity {
 
         binding.buttonEnterChatting.setOnClickListener(v -> {
             Intent intent = new Intent(SsuchatPreChat.this, SsuchatChatting.class);
+            intent.putExtra("classNumber", className + classClass);
+            intent.putExtra("name", "user_name"); // replace with the actual user name
+            intent.putExtra("UID", "user_uid"); // replace with the actual user UID
             startActivity(intent);
         });
     }
