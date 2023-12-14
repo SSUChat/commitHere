@@ -174,7 +174,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -182,12 +182,13 @@
                             android:layout_height="wrap_content"
                             android:text="강의 요일 : " />
 
-                        <Spinner
-                            android:id="@+id/select_week1"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/selectWeek1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/week"
-                            android:prompt="@string/week_setting" />
+                            android:background="@drawable/edittext_shape"
+                            android:hint="요일 입력 ex) 월"
+                            android:padding="10dp" />
 
                     </LinearLayout>
 
@@ -203,19 +204,28 @@
                             android:layout_height="wrap_content"
                             android:text="강의 시작 : " />
 
-                        <Spinner
-                            android:id="@+id/select_start_hour1"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/hours"
-                            android:prompt="@string/start_hour" />
+                            android:orientation="vertical">
 
-                        <Spinner
-                            android:id="@+id/select_start_minute1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/minutes"
-                            android:prompt="@string/start_minute" />
+                            <EditText
+                                android:id="@+id/selectStartHour1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 시간 입력 ex) 9"
+                                android:padding="10dp" />
+
+                            <EditText
+                                android:id="@+id/selectStartMinute1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 분 입력 ex) 30"
+                                android:padding="10dp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -229,35 +239,52 @@
                             android:layout_height="wrap_content"
                             android:text="강의 종료 : " />
 
-                        <Spinner
-                            android:id="@+id/select_end_hour1"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/hours"
-                            android:prompt="@string/start_hour" />
+                            android:orientation="vertical">
 
-                        <Spinner
-                            android:id="@+id/select_end_minute1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/minutes"
-                            android:prompt="@string/start_minute" />
+                            <EditText
+                                android:id="@+id/selectEndHour1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 시간 입력 ex) 9"
+                                android:padding="10dp" />
+
+                            <EditText
+                                android:id="@+id/selectEndMinute1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 분 입력 ex) 30"
+                                android:padding="10dp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/select_class_time2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="12dp"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:visibility="gone">-->
+
                 <LinearLayout
                     android:id="@+id/select_class_time2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:orientation="vertical"
+                    android:layout_marginTop="12dp"
                     android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -265,14 +292,35 @@
                             android:layout_height="wrap_content"
                             android:text="강의 요일 : " />
 
-                        <Spinner
-                            android:id="@+id/select_week2"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/selectWeek2"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/week"
-                            android:prompt="@string/week_setting" />
+                            android:background="@drawable/edittext_shape"
+                            android:hint="요일 입력 ex) 월"
+                            android:padding="10dp" />
 
                     </LinearLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="강의 요일 : " />-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/selectWeek2"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@drawable/edittext_shape"-->
+<!--                            android:hint="요일 입력 ex) 월"-->
+<!--                            android:padding="10dp" />-->
+
+<!--                    </LinearLayout>-->
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -286,19 +334,28 @@
                             android:layout_height="wrap_content"
                             android:text="강의 시작 : " />
 
-                        <Spinner
-                            android:id="@+id/select_start_hour2"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/hours"
-                            android:prompt="@string/start_hour" />
+                            android:orientation="vertical">
 
-                        <Spinner
-                            android:id="@+id/select_start_minute2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/minutes"
-                            android:prompt="@string/start_minute" />
+                            <EditText
+                                android:id="@+id/selectStartHour2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 시간 입력 ex) 9"
+                                android:padding="10dp" />
+
+                            <EditText
+                                android:id="@+id/selectStartMinute2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 분 입력 ex) 30"
+                                android:padding="10dp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -312,19 +369,28 @@
                             android:layout_height="wrap_content"
                             android:text="강의 종료 : " />
 
-                        <Spinner
-                            android:id="@+id/select_end_hour2"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/hours"
-                            android:prompt="@string/start_hour" />
+                            android:orientation="vertical">
 
-                        <Spinner
-                            android:id="@+id/select_end_minute2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/minutes"
-                            android:prompt="@string/start_minute" />
+                            <EditText
+                                android:id="@+id/selectEndHour2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 시간 입력 ex) 9"
+                                android:padding="10dp" />
+
+                            <EditText
+                                android:id="@+id/selectEndMinute2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_shape"
+                                android:hint="강의 시작 분 입력 ex) 30"
+                                android:padding="10dp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -341,19 +407,20 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="강의 요일 : " />
 
-                        <Spinner
-                            android:id="@+id/select_week3"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/selectWeek3"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/week"
-                            android:prompt="@string/week_setting" />
+                            android:background="@drawable/edittext_shape"
+                            android:hint="요일 입력 ex) 월"
+                            android:padding="10dp" />
 
                     </LinearLayout>
 
@@ -369,19 +436,21 @@
                             android:layout_height="wrap_content"
                             android:text="강의 시작 : " />
 
-                        <Spinner
-                            android:id="@+id/select_start_hour3"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/selectStartHour3"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/hours"
-                            android:prompt="@string/start_hour" />
+                            android:background="@drawable/edittext_shape"
+                            android:hint="강의 시작 시간 입력 ex) 9"
+                            android:padding="10dp" />
 
-                        <Spinner
-                            android:id="@+id/select_start_minute3"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/selectStartMinute3"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/minutes"
-                            android:prompt="@string/start_minute" />
+                            android:background="@drawable/edittext_shape"
+                            android:hint="강의 시작 분 입력 ex) 30"
+                            android:padding="10dp" />
 
                     </LinearLayout>
 
@@ -395,19 +464,21 @@
                             android:layout_height="wrap_content"
                             android:text="강의 종료 : " />
 
-                        <Spinner
-                            android:id="@+id/select_end_hour3"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/selectEndHour3"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/hours"
-                            android:prompt="@string/start_hour" />
+                            android:background="@drawable/edittext_shape"
+                            android:hint="강의 시작 시간 입력 ex) 9"
+                            android:padding="10dp" />
 
-                        <Spinner
-                            android:id="@+id/select_end_minute3"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/selectEndMinute3"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:entries="@array/minutes"
-                            android:prompt="@string/start_minute" />
+                            android:background="@drawable/edittext_shape"
+                            android:hint="강의 시작 분 입력 ex) 30"
+                            android:padding="10dp" />
 
                     </LinearLayout>
 
