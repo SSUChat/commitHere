@@ -355,12 +355,12 @@ public class ProfessorMainPage extends AppCompatActivity {
             binding.classStartMinute2.setText(myModel.getClassStartMinute2());
             binding.classEndHour2.setText(myModel.getClassEndHour2());
             binding.classEndMinute2.setText(myModel.getClassEndMinute2());
-            if (myModel.getClassWeek1() == "") {
+            if (myModel.getClassWeek1() == null) {
                 binding.timeB1.setVisibility(View.GONE);
                 binding.timeStart1.setVisibility(View.GONE);
                 binding.timeStart11.setVisibility(View.GONE);
             }
-            if (myModel.getClassWeek2() == "") {
+            if (myModel.getClassWeek2() == null) {
                 binding.timeB2.setVisibility(View.GONE);
                 binding.timeStart2.setVisibility(View.GONE);
                 binding.timeStart22.setVisibility(View.GONE);
