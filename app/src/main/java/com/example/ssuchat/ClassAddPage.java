@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -242,7 +243,7 @@ public class ClassAddPage extends AppCompatActivity {
         userData.put("selectStartMinute3", selectStartMinute3);
         userData.put("selectEndHour3", selectEndHour3);
         userData.put("selectEndMinute3", selectEndMinute3);
-        userData.put("enrolledStudents", null);
+        userData.put("enrolledStudents", new ArrayList<String>());
         userData.put("createdAt", FieldValue.serverTimestamp());
 
         userRef.set(userData)

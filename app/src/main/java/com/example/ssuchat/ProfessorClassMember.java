@@ -299,7 +299,7 @@ public class ProfessorClassMember extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return list != null ? list.size() : 0;
         }
 
         @Override
