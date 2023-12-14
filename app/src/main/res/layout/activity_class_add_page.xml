@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="25dp"
                     android:background="@drawable/edittext_shape"
                     android:hint="강의명 입력"
                     android:padding="10dp" />
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="분반"
-                    android:textSize="20dp"
+                    android:textSize="22dp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="25dp"
                     android:background="@drawable/edittext_shape"
                     android:hint="분반명 입력"
                     android:padding="10dp" />
@@ -103,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="25dp"
                     android:background="@drawable/edittext_shape"
                     android:hint="강의번호 입력"
                     android:padding="10dp" />
@@ -120,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="25dp"
                     android:background="@drawable/edittext_shape"
                     android:hint="건물명 입력"
                     android:padding="10dp" />
@@ -137,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="25dp"
                     android:background="@drawable/edittext_shape"
                     android:hint="강의실 입력"
                     android:padding="10dp" />
@@ -416,10 +416,13 @@
                 <Button
                     android:id="@+id/add_class_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:layout_gravity="bottom"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/button_shape_color"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@drawable/button_shape"
                     android:text="강의 추가"
                     android:textColor="@color/white"
                     android:textSize="18dp"

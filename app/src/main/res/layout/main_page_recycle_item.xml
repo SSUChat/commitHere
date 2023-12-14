@@ -73,7 +73,7 @@
             android:textSize="14dp"
             android:layout_toRightOf="@id/class_address"
             android:layout_alignBottom="@id/class_building"
-            android:text="  "/>
+            android:text="   "/>
 
         <TextView
             android:id="@+id/class_professor"
@@ -90,7 +90,7 @@
             android:textSize="14dp"
             android:layout_toRightOf="@id/class_professor"
             android:layout_alignBottom="@id/class_building"
-            android:text=" 교수님"/>
+            android:text="교수님"/>
 
         <TextView
             android:id="@+id/class_time"
