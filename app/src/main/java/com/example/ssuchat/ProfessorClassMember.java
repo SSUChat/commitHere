@@ -2,19 +2,25 @@ package com.example.ssuchat;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ssuchat.databinding.ActivityProfessorClassMemberBinding;
+import com.example.ssuchat.databinding.SsuchatLiveMemberItemBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +39,7 @@ public class ProfessorClassMember extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private DrawerLayout drawer;
+    private ActivityProfessorClassMemberBinding binding;
 
     private void initFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance();
@@ -47,7 +54,7 @@ public class ProfessorClassMember extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityProfessorClassMemberBinding binding = ActivityProfessorClassMemberBinding.inflate(getLayoutInflater());
+        binding = ActivityProfessorClassMemberBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         initFirebaseAuth();
@@ -57,7 +64,7 @@ public class ProfessorClassMember extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
         DocumentReference userRef = db.collection("users").document(userId);
-        ArrayList<String> enrolledStudentsList = new ArrayList<>();
+
 
         Intent getIntent = getIntent();
         if (getIntent != null) {
@@ -106,11 +113,7 @@ public class ProfessorClassMember extends AppCompatActivity {
                 Toast.makeText(ProfessorClassMember.this, "Failed to retrieve user information", Toast.LENGTH_SHORT).show();
             }
         });
-        binding.backPreChatProfessor.setOnClickListener(v -> {
-//            Intent intent = new Intent(ProfessorClassMember.this, ProfessorPreChat.class);
-//            startActivity(intent);
-            finish();
-        });
+        binding.backPreChatProfessor.setOnClickListener(v -> finish());
 
         binding.addClassMemberProfessor.setOnClickListener(v -> {
             String addClassMember = binding.addClassMember.getText().toString();
@@ -118,42 +121,48 @@ public class ProfessorClassMember extends AppCompatActivity {
                 Toast.makeText(ProfessorClassMember.this, "필드를 채워주세요", Toast.LENGTH_SHORT).show();
                 return;
             } else {
-                userRef.get().addOnCompleteListener(task -> {
+                DocumentReference classRef = db.collection("class").document(className + classClass);
+
+                // Check if the student is already enrolled
+                classRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            // 사용자 문서가 존재할 경우
-                            String name = document.getString("name");
+                            List<String> enrolledStudentsList = (List<String>) document.get("enrolledStudents");
 
-                            DocumentReference updateRef = db.collection(name).document(className + classClass);
-                            Log.d(TAG, "Name + Class : " + className + classClass);
-                            DocumentReference classRef = db.collection("class").document(className + classClass);
+                            if (enrolledStudentsList == null || enrolledStudentsList.contains(addClassMember)) {
+                                Toast.makeText(ProfessorClassMember.this, "이미 등록된 학생입니다.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            // Update the enrolled students list
                             enrolledStudentsList.add(addClassMember);
 
                             Map<String, Object> updateData = new HashMap<>();
-                            updateData.put("enrolledStudents", FieldValue.arrayUnion(addClassMember));
+                            updateData.put("enrolledStudents", enrolledStudentsList);
 
-                            updateRef.update(updateData)
-                                    .addOnSuccessListener(aVoid -> Log.d("TAG", "Enrolled students list updated successfully"))
-                                    .addOnFailureListener(e -> Log.w("TAG", "Error updating enrolled students list", e));
-
+                            // Update Firestore with the new enrolled students list
                             classRef.update(updateData)
-                                    .addOnSuccessListener(unused -> Log.d("TAG", "Enrolled students list updated successfully"))
-                                    .addOnFailureListener(e -> Log.w("TAG", "Error updating enrolled students list", e));
-
-                            Log.d(TAG, "getDocument : " + document.getString("enrolledStudents"));
-
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("TAG", "Enrolled students list updated successfully");
+                                        // Update RecyclerView with the new list
+                                        updateRecyclerView(enrolledStudentsList);
+                                        Toast.makeText(ProfessorClassMember.this, "성공적으로 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.w("TAG", "Error updating enrolled students list", e);
+                                        Toast.makeText(ProfessorClassMember.this, "추가에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                    });
                         } else {
-                            // 사용자 문서가 존재하지 않을 경우
                             Log.d(TAG, "No such document");
                         }
                     } else {
-                        // 작업이 실패한 경우
                         Log.d(TAG, "get failed with ", task.getException());
                     }
                 });
             }
         });
+
 
         binding.removeClassMemberProfessor.setOnClickListener(v -> {
             String removeClassMember = binding.removeClassMember.getText().toString();
@@ -161,49 +170,121 @@ public class ProfessorClassMember extends AppCompatActivity {
                 Toast.makeText(ProfessorClassMember.this, "필드를 채워주세요", Toast.LENGTH_SHORT).show();
                 return;
             } else {
-                userRef.get().addOnCompleteListener(task -> {
+                DocumentReference classRef = db.collection("class").document(className + classClass);
+
+                // Get the current enrolled students list
+                classRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            // 사용자 문서가 존재할 경우
-                            String name = document.getString("name");
+                            List<String> enrolledStudentsList = (List<String>) document.get("enrolledStudents");
 
-                            DocumentReference updateRef = db.collection(name).document(className + classClass);
-                            Log.d(TAG, "Name + Class : " + className + classClass);
+                            if (enrolledStudentsList == null || !enrolledStudentsList.contains(removeClassMember)) {
+                                Toast.makeText(ProfessorClassMember.this, "해당 학생은 등록되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                            updateRef.get().addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
-                                    DocumentSnapshot document1 = task1.getResult();
-                                    if (document1.exists()) {
-                                        List<String> updatedEnrolledStudentsList = new ArrayList<>();
+                            // Remove the student from the enrolled students list
+                            enrolledStudentsList.remove(removeClassMember);
 
-                                        updatedEnrolledStudentsList = (List<String>) document1.get("enrolledStudents");
-                                        updatedEnrolledStudentsList.remove(removeClassMember);
-                                        Log.d(TAG, "okkkkkk");
-                                        Map<String, Object> updateData = new HashMap<>();
-                                        updateData.put("enrolledStudents", updatedEnrolledStudentsList);
+                            Map<String, Object> updateData = new HashMap<>();
+                            updateData.put("enrolledStudents", enrolledStudentsList);
 
-                                        updateRef.set(updateData, SetOptions.merge()) // 새로운 배열로 업데이트
-                                                .addOnSuccessListener(aVoid -> Log.d("TAG", "Enrolled students list updated successfully"))
-                                                .addOnFailureListener(e -> Log.w("TAG", "Error updating enrolled students list", e));
-
-                                        Log.d(TAG, "getDocument : " + document1.getString("enrolledStudents"));
-                                    }
-                                }
-                            });
-
+                            // Update Firestore with the updated enrolled students list
+                            classRef.update(updateData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Log.d("TAG", "Enrolled students list updated successfully");
+                                        // Update RecyclerView with the updated list
+                                        updateRecyclerView(enrolledStudentsList);
+                                        Toast.makeText(ProfessorClassMember.this, "성공적으로 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.w("TAG", "Error updating enrolled students list", e);
+                                        Toast.makeText(ProfessorClassMember.this, "삭제에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                                    });
                         } else {
-                            // 사용자 문서가 존재하지 않을 경우
                             Log.d(TAG, "No such document");
                         }
                     } else {
-                        // 작업이 실패한 경우
                         Log.d(TAG, "get failed with ", task.getException());
                     }
                 });
             }
         });
 
+
+        String documentId = className + classClass;
+
+        DocumentReference classRef = db.collection("class").document(documentId);
+
+        classRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    List<String> enrolledStudents = (List<String>) document.get("enrolledStudents");
+
+                    // Set enrolled students in RecyclerView
+                    binding.classMemberRecyclerViewProfessor.setLayoutManager(new LinearLayoutManager(this));
+                    binding.classMemberRecyclerViewProfessor.setAdapter(new ProfessorClassMember.MyAdapter(enrolledStudents));
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        });
+    }
+
+    private void updateRecyclerView(List<String> enrolledStudentsList) {
+        ProfessorClassMember.MyAdapter adapter = new ProfessorClassMember.MyAdapter(enrolledStudentsList);
+        binding.classMemberRecyclerViewProfessor.setAdapter(adapter);
+    }
+
+    private static class MyViewHolder extends RecyclerView.ViewHolder {
+        private final SsuchatLiveMemberItemBinding binding;
+
+        private MyViewHolder(SsuchatLiveMemberItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+
+        }
+
+        private void bind(String text) {
+            binding.memberName.setText(text);
+        }
+    }
+
+    private static class MyAdapter extends RecyclerView.Adapter<ProfessorClassMember.MyViewHolder> {
+
+        private final List<String> list;
+
+        private MyAdapter(List<String> list) {
+            this.list = list;
+        }
+
+        @NonNull
+        @Override
+        public ProfessorClassMember.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            SsuchatLiveMemberItemBinding binding = SsuchatLiveMemberItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+            return new ProfessorClassMember.MyViewHolder(binding);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ProfessorClassMember.MyViewHolder holder, int position) {
+            String text = list.get(position);
+            holder.bind(text);
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return super.getItemViewType(position);
+        }
     }
 
     private void switchToOtherActivity(Class<?> destinationActivity) {
